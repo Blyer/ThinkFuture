@@ -1,4 +1,4 @@
-package com.ysy.thinkfuture.activity;
+package com.ysy.thinkfuture.application;
 
 import com.ysy.thinkfuture.BuildConfig;
 
