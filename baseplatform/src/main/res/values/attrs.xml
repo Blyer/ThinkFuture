@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="UnifyButton">
+        <attr name="cornerSize" format="dimension" /> <!--Button的圆角弧度-->
+        <attr name="bgNormalColor" format="color|reference" /><!--正常状态下的Button背景色-->
+        <attr name="bgPressedColor" format="color|reference" /><!--Button按下时的背景色-->
+        <attr name="bgUnEnableColor" format="color|reference" /><!--Button状态为Enabled时的背景色-->
+        <attr name="normalTextColor" format="color|reference" /><!--正常状态下的Button文字颜色-->
+        <attr name="unEnableTextColor" format="color|reference" /><!--Button状态为Enabled时的文字颜色-->
+    </declare-styleable>
+</resources>

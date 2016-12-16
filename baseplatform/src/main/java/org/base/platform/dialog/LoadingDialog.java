@@ -1,0 +1,71 @@
+package org.base.platform.dialog;
+
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.app.Dialog;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import org.base.platform.R;
+import org.base.platform.utils.StringUtils;
+
+/**
+ * Created by YinShengyi on 2016/11/29.
+ */
+public class LoadingDialog {
+    private Context mContext;
+    private Dialog mLoadingDialog;
+
+    public LoadingDialog(Context context, String message) {
+        mContext = context;
+        createLoadingDialog(message);
+    }
+
+    public void show() {
+        if (mLoadingDialog != null && !mLoadingDialog.isShowing()) {
+            mLoadingDialog.show();
+        }
+    }
+
+    public void close() {
+        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+            mLoadingDialog.dismiss();
+        }
+    }
+
+    private void createLoadingDialog(String message) {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View view = inflater.inflate(R.layout.dialog_loading, null);
+        LinearLayout ll_loading = (LinearLayout) view.findViewById(R.id.ll_loading);// 加载布局
+        ImageView img_loading = (ImageView) view.findViewById(R.id.img_loading);
+        TextView tv_loading_text = (TextView) view.findViewById(R.id.tv_loading_text);// 提示文字
+
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(img_loading, "rotation", 360);
+        objectAnimator.setInterpolator(new LinearInterpolator());
+        objectAnimator.setDuration(2000);
+        objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        objectAnimator.setRepeatMode(ValueAnimator.RESTART);
+        objectAnimator.start();
+
+        if (StringUtils.isNull(message)) {// 设置加载信息 没有则隐藏
+            tv_loading_text.setVisibility(View.GONE);
+        } else {
+            tv_loading_text.setVisibility(View.VISIBLE);
+            tv_loading_text.setText(message);
+        }
+
+        mLoadingDialog = new Dialog(mContext, R.style.LoadingDialog);
+        mLoadingDialog.setCanceledOnTouchOutside(false);
+        mLoadingDialog.setCancelable(true);
+        mLoadingDialog.addContentView(ll_loading, new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mLoadingDialog.setContentView(ll_loading);
+    }
+}

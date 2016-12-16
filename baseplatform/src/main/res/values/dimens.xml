@@ -1,0 +1,15 @@
+<resources>
+
+    <dimen name="huge_font_size">18sp</dimen><!--对应标注为36px-->
+    <dimen name="large_font_size">16sp</dimen><!--对应标注为32px-->
+    <dimen name="big_font_size">15sp</dimen><!--对应标注为30px-->
+    <dimen name="normal_font_size">14sp</dimen><!--对应标注为28px-->
+    <dimen name="small_font_size">13sp</dimen><!--对应标注为26px-->
+    <dimen name="tiny_font_size">12sp</dimen><!--对应标注为24px-->
+    <dimen name="micro_font_size">11sp</dimen><!--对应标注为22px-->
+
+    <dimen name="large_corner_size">8dp</dimen><!--大圆角-->
+    <dimen name="normal_corner_size">6dp</dimen><!--普通圆角-->
+    <dimen name="small_corner_size">4dp</dimen><!--小圆角-->
+
+</resources>

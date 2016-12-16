@@ -1,0 +1,126 @@
+package com.ysy.thinkfuture.activity;
+
+import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
+import android.view.View;
+
+import com.ysy.thinkfuture.R;
+import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
+
+import org.base.platform.bean.ResponseResult;
+import org.base.platform.callback.PermissionsResultListener;
+import org.base.platform.utils.JumpUtils;
+import org.base.platform.utils.ToastUtils;
+import org.base.platform.utils.photoselect.PhotoMultiSelectActivity;
+import org.base.platform.view.UnifyButton;
+
+public class MainActivity extends FutureBaseActivity {
+    private UnifyButton btn_1;
+    private UnifyButton btn_2;
+    private UnifyButton btn_3;
+    private UnifyButton btn_4;
+
+    @Override
+    protected int getContentViewId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void resolveIntent(Intent intent) {
+
+    }
+
+    @Override
+    protected void initView() {
+        btn_1 = (UnifyButton) findViewById(R.id.btn_1);
+        btn_2 = (UnifyButton) findViewById(R.id.btn_2);
+        btn_3 = (UnifyButton) findViewById(R.id.btn_3);
+        btn_4 = (UnifyButton) findViewById(R.id.btn_4);
+    }
+
+    @Override
+    protected void setListener() {
+        btn_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, SecondActivity.class);
+                JumpUtils.jump(mActivity, intent);
+            }
+        });
+        btn_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requestPermissions("获取图片需要这个权限", new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1, new PermissionsResultListener() {
+                    @Override
+                    public void onPermissionGranted() {
+                        PhotoMultiSelectActivity.startForResult(mActivity, 1, 0, 9);
+//                        PhotoSingleSelectActivity.startForResult(mActivity, 1, true);
+                    }
+
+                    @Override
+                    public void onPermissionDenied() {
+                        ToastUtils.show("您拒绝了读取图片的权限");
+                    }
+                });
+            }
+        });
+        btn_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requestPermissions("没这个权限没法拨打电话哦~", new String[]{Manifest.permission.CALL_PHONE}, 2, new PermissionsResultListener() {
+                    @Override
+                    public void onPermissionGranted() {
+                        callPhone();
+                    }
+
+                    @Override
+                    public void onPermissionDenied() {
+                        ToastUtils.show("您拒绝了拨打电话的权限");
+                    }
+                });
+            }
+        });
+        btn_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, ThirdActivity.class);
+                JumpUtils.jump(mActivity, intent);
+            }
+        });
+    }
+
+    public void callPhone() {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + "10086");
+        intent.setData(data);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void initData() {
+        forbidSwipeFinishActivity();
+        setFinishAnim(0, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK)
+//                    ToastUtils.show(data.getStringArrayListExtra(PhotoMultiSelectActivity.SELECT_RESULT).get(0));
+//                ToastUtils.show(data.getStringExtra(PhotoSingleSelectActivity.SELECT_RESULT));
+                    break;
+        }
+    }
+
+    @Override
+    public int getStatusBarColor() {
+        return getResources().getColor(R.color.blue_1);
+    }
+
+    @Override
+    public void processNetRequest(int id, ResponseResult result, boolean isCache) {
+
+    }
+}

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <org.base.platform.view.UnifyButton
+        android:id="@+id/btn_1"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:text="测试单个网络请求"
+        android:textColor="@color/white"
+        app:bgNormalColor="@color/orange_1"
+        app:bgPressedColor="@color/orange_2"
+        app:bgUnEnableColor="@color/grey_2"
+        app:normalTextColor="@color/white"
+        app:unEnableTextColor="@color/white" />
+
+    <org.base.platform.view.UnifyButton
+        android:id="@+id/btn_2"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:text="测试多个网络请求"
+        android:textColor="@color/white"
+        app:bgNormalColor="@color/orange_1"
+        app:bgPressedColor="@color/orange_2"
+        app:bgUnEnableColor="@color/black_2" />
+
+    <org.base.platform.view.UnifyButton
+        android:id="@+id/btn_3"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:text="测试串联网络请求"
+        android:textColor="@color/white"
+        app:bgNormalColor="@color/orange_1"
+        app:bgPressedColor="@color/orange_2"
+        app:bgUnEnableColor="@color/black_2" />
+
+    <org.base.platform.view.UnifyButton
+        android:id="@+id/btn_4"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:text="测试文件缓存写入"
+        android:textColor="@color/white"
+        app:bgNormalColor="@color/orange_1"
+        app:bgPressedColor="@color/orange_2"
+        app:bgUnEnableColor="@color/black_2" />
+
+    <org.base.platform.view.UnifyButton
+        android:id="@+id/btn_5"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:text="测试文件缓存读取"
+        android:textColor="@color/white"
+        app:bgNormalColor="@color/orange_1"
+        app:bgPressedColor="@color/orange_2"
+        app:bgUnEnableColor="@color/black_2" />
+
+    <org.base.platform.view.UnifyButton
+        android:id="@+id/btn_6"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:text="测试数据库缓存写入"
+        android:textColor="@color/white"
+        app:bgNormalColor="@color/orange_1"
+        app:bgPressedColor="@color/orange_2"
+        app:bgUnEnableColor="@color/black_2" />
+
+    <org.base.platform.view.UnifyButton
+        android:id="@+id/btn_7"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:text="测试数据库缓存读取"
+        android:textColor="@color/white"
+        app:bgNormalColor="@color/orange_1"
+        app:bgPressedColor="@color/orange_2"
+        app:bgUnEnableColor="@color/black_2" />
+
+</LinearLayout>

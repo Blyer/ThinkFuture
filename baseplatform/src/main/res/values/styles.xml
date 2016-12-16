@@ -1,0 +1,169 @@
+<resources>
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+    </style>
+
+    <style name="ActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@null</item>
+        <item name="android:activityCloseEnterAnimation">@null</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+        <item name="android:taskOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:taskOpenExitAnimation">@null</item>
+        <item name="android:taskCloseEnterAnimation">@null</item>
+        <item name="android:taskCloseExitAnimation">@anim/slide_out_right</item>
+        <item name="android:taskToFrontEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:taskToFrontExitAnimation">@null</item>
+        <item name="android:taskToBackEnterAnimation">@null</item>
+        <item name="android:taskToBackExitAnimation">@anim/slide_out_right</item>
+    </style>
+
+    <style name="UnifyDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/bg_circle_white_fill_no_stroke</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="LoadingDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="popwin_anim_style" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/albumlist_pop_in</item>
+        <item name="android:windowExitAnimation">@anim/albumlist_pop_out</item>
+    </style>
+
+    <!--标签样式开始，主要应用与TextView-->
+    <style name="HugeFontLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_1</item>
+        <item name="android:textSize">@dimen/huge_font_size</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="LargeFontLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_1</item>
+        <item name="android:textSize">@dimen/large_font_size</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="BigFontLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_1</item>
+        <item name="android:textSize">@dimen/big_font_size</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="NormalFontLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_1</item>
+        <item name="android:textSize">@dimen/normal_font_size</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="SmallFontLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_1</item>
+        <item name="android:textSize">@dimen/small_font_size</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="TinyFontLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_1</item>
+        <item name="android:textSize">@dimen/tiny_font_size</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="MicroFontLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_1</item>
+        <item name="android:textSize">@dimen/micro_font_size</item>
+        <item name="android:background">@null</item>
+    </style>
+    <!--标签样式结束-->
+
+    <!--内容样式开始，主要应用于TextView和EditText-->
+    <style name="HugeFontContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_2</item>
+        <item name="android:textSize">@dimen/huge_font_size</item>
+        <item name="android:textColorHint">@color/black_3</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="LargeFontContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_2</item>
+        <item name="android:textSize">@dimen/large_font_size</item>
+        <item name="android:textColorHint">@color/black_3</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="BigFontContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_2</item>
+        <item name="android:textSize">@dimen/big_font_size</item>
+        <item name="android:textColorHint">@color/black_3</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="NormalFontContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_2</item>
+        <item name="android:textSize">@dimen/normal_font_size</item>
+        <item name="android:textColorHint">@color/black_3</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="SmallFontContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_2</item>
+        <item name="android:textSize">@dimen/small_font_size</item>
+        <item name="android:textColorHint">@color/black_3</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="TinyFontContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_2</item>
+        <item name="android:textSize">@dimen/tiny_font_size</item>
+        <item name="android:textColorHint">@color/black_3</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="MicroFontContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_2</item>
+        <item name="android:textSize">@dimen/micro_font_size</item>
+        <item name="android:textColorHint">@color/black_3</item>
+        <item name="android:background">@null</item>
+    </style>
+    <!--内容样式结束-->
+
+</resources>
