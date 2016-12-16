@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import org.base.platform.activity.BaseActivity;
 import org.base.platform.callback.NetRequestProcessCallback;
 import org.base.platform.callback.PermissionsResultListener;
+import org.base.platform.utils.FileCacheUtils;
 import org.base.platform.utils.HttpUtils;
 import org.base.platform.utils.PermissionUtils;
 
@@ -23,6 +24,7 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
     protected BaseActivity mActivity; // 本Fragment依附的Activity
     protected View mFragmentView; // 本Fragment对应的View
     protected HttpUtils mHttpUtils; // 网络请求工具
+    protected FileCacheUtils mFileCacheUtils; // 文件存储工具
 
     private PermissionsResultListener mPermissionListener;  // 权限申请之后的监听
     private int mPermissionRequestCode; // 权限申请时的标识码
@@ -39,6 +41,10 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
         super.onActivityCreated(savedInstanceState);
         mActivity = (BaseActivity) getActivity();
         mHttpUtils = new HttpUtils(this);
+        mFileCacheUtils = mActivity.getFileCacheUtils();
+        if (mFileCacheUtils == null) {
+            throw new RuntimeException("请在Fragment所属Activity中初始化文件工具类");
+        }
 
         Bundle bundle = getArguments();
         if (bundle == null) {
@@ -146,4 +152,5 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
             }
         }
     }
+
 }

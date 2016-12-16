@@ -13,6 +13,7 @@ import org.base.platform.callback.NetRequestProcessCallback;
 import org.base.platform.callback.PermissionsResultListener;
 import org.base.platform.dialog.LoadingDialog;
 import org.base.platform.utils.ActivityCollector;
+import org.base.platform.utils.FileCacheUtils;
 import org.base.platform.utils.HttpUtils;
 import org.base.platform.utils.PermissionUtils;
 import org.base.platform.utils.StatusBarCompat;
@@ -26,6 +27,7 @@ public abstract class BaseActivity extends Activity implements NetRequestProcess
     protected Activity mActivity; // 标识自己
     private LoadingDialog mLoadingDialog; // 显示加载中弹框
     protected HttpUtils mHttpUtils; // 网络请求工具
+    protected FileCacheUtils mFileCacheUtils; // 文件存储工具
     private boolean mIsDestroyed = false; // 当前activity是否被销毁
     private boolean mInBackground = false; // 是否处于后台
 
@@ -79,6 +81,14 @@ public abstract class BaseActivity extends Activity implements NetRequestProcess
     }
 
     @Override
+    protected void onPause() {
+        if (mFileCacheUtils != null) {
+            mFileCacheUtils.flush();
+        }
+        super.onPause();
+    }
+
+    @Override
     protected void onStop() {
         mInBackground = true;
         super.onStop();
@@ -88,6 +98,9 @@ public abstract class BaseActivity extends Activity implements NetRequestProcess
     protected void onDestroy() {
         closeLoadingDialog();
         mHttpUtils.cancelAllRequests();
+        if (mFileCacheUtils != null) {
+            mFileCacheUtils.close();
+        }
         ActivityCollector.remove(this);
         SwipeBackHelper.onDestroy(this);
         mIsDestroyed = true;
@@ -236,6 +249,18 @@ public abstract class BaseActivity extends Activity implements NetRequestProcess
      */
     public boolean isDestroyed() {
         return mIsDestroyed;
+    }
+
+    /**
+     * 初始化文件缓存工具，在子类中使用前必须先调用此方法
+     */
+    protected void initFileCacheUtils() {
+        mFileCacheUtils = new FileCacheUtils();
+        mFileCacheUtils.open();
+    }
+
+    public FileCacheUtils getFileCacheUtils() {
+        return mFileCacheUtils;
     }
 
 }

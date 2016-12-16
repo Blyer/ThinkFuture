@@ -11,7 +11,6 @@ import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.DbCacheUtils;
-import org.base.platform.utils.FileCacheUtils;
 import org.base.platform.utils.ToastUtils;
 import org.base.platform.view.UnifyButton;
 
@@ -25,7 +24,6 @@ public class FirstFragment extends FutureBaseFragment {
     private UnifyButton btn_6;
     private UnifyButton btn_7;
 
-    private FileCacheUtils mFileCacheUtils;
     private DbCacheUtils mDbCacheUtils;
 
     public static Fragment get() {
@@ -34,18 +32,6 @@ public class FirstFragment extends FutureBaseFragment {
         bundle.putString("he", "Hello world");
         fragment.setArguments(bundle);
         return fragment;
-    }
-
-    @Override
-    public void onPause() {
-        mFileCacheUtils.flush();
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        mFileCacheUtils.close();
-        super.onDestroy();
     }
 
     @Override
@@ -125,8 +111,6 @@ public class FirstFragment extends FutureBaseFragment {
 
     @Override
     protected void initData() {
-        mFileCacheUtils = new FileCacheUtils();
-        mFileCacheUtils.open();
         mDbCacheUtils = new DbCacheUtils(mActivity, "db_cache", null, 1);
     }
 

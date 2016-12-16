@@ -33,6 +33,7 @@ public class ThirdActivity extends FutureBaseActivity {
 
     @Override
     protected void initData() {
+        initFileCacheUtils();
         FirstFragment fragment = (FirstFragment) FirstFragment.get();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(R.id.rl_container, fragment);
