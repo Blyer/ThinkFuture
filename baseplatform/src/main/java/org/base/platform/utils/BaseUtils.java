@@ -4,9 +4,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 
+import com.apkfuns.logutils.LogUtils;
+
 import org.base.platform.application.BaseApplication;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * Created by YinShengyi on 2016/11/25.
@@ -106,5 +112,25 @@ public class BaseUtils {
             e.printStackTrace();
         }
         return "";
+    }
+
+    /**
+     * List深拷贝
+     * 注意：如果拷贝单个对象，则该对象必须实现Serialable接口，否则序列化失败
+     * 同理，如果拷贝List集合，则集合中的对象必须实现了Serialable接口，否则序列化失败
+     */
+    public static Object deepCopy(Object src) {
+        try {
+            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(byteOut);
+            out.writeObject(src);
+
+            ByteArrayInputStream byteIn = new ByteArrayInputStream(byteOut.toByteArray());
+            ObjectInputStream in = new ObjectInputStream(byteIn);
+            return in.readObject();
+        } catch (Exception e) {
+            LogUtils.e(e);
+        }
+        return null;
     }
 }

@@ -2,13 +2,14 @@ package org.base.platform.bean;
 
 import org.base.platform.enums.HttpMethod;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Created by YinShengyi on 2016/11/29.
  */
-public class HttpRequestPackage {
+public class HttpRequestPackage implements Serializable {
     /**
      * 本次请求的标识ID
      */
