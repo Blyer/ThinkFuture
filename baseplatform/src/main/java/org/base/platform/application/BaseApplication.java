@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.apkfuns.logutils.LogUtils;
 
+import org.base.platform.utils.CrashLogUtils;
 import org.xutils.x;
 
 /**
@@ -19,6 +20,7 @@ public abstract class BaseApplication extends Application {
         super.onCreate();
 
         context = getApplicationContext();
+        CrashLogUtils.init();
 
         initXUtils();
         initLogUtils();

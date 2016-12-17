@@ -15,6 +15,9 @@ import java.io.OutputStream;
  */
 public class FileCacheUtils {
 
+    public static final String FILE_CACHE = "cache_files";
+    public static final String ERROR_LOG = "error_log";
+
     private DiskLruCache mDiskLruCache;
 
     public FileCacheUtils() {
@@ -23,9 +26,9 @@ public class FileCacheUtils {
     /**
      * 开启DiskLruCache工具
      */
-    public void open() {
+    public void open(String cacheDirectory) {
         try {
-            String cacheDir = BaseUtils.getCachePath() + File.separator + "cachefiles";
+            String cacheDir = BaseUtils.getCachePath() + File.separator + "lru_cache" + File.separator + cacheDirectory;
             File cacheFile = new File(cacheDir);
             if (!cacheFile.exists()) {
                 cacheFile.mkdirs();

@@ -256,7 +256,7 @@ public abstract class BaseActivity extends Activity implements NetRequestProcess
      */
     protected void initFileCacheUtils() {
         mFileCacheUtils = new FileCacheUtils();
-        mFileCacheUtils.open();
+        mFileCacheUtils.open(FileCacheUtils.FILE_CACHE);
     }
 
     public FileCacheUtils getFileCacheUtils() {
