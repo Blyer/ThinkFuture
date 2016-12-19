@@ -210,7 +210,7 @@ public class PhotoMultiSelectActivity extends BaseActivity implements View.OnCli
 
     private class MyAdapter extends BaseAdapter {
 
-        ImageUtils imageUtil = new ImageUtils(mActivity);
+        ImageUtils imageUtil = new ImageUtils();
 
         @Override
         public int getCount() {

@@ -69,7 +69,7 @@ public class AlbumListWindow {
 
     private class MyAdapter extends BaseAdapter {
 
-        ImageUtils imageUtil = new ImageUtils(mActivity);
+        ImageUtils imageUtil = new ImageUtils();
 
         @Override
         public int getCount() {

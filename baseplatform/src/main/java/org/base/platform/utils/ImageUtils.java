@@ -1,6 +1,5 @@
 package org.base.platform.utils;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
@@ -12,7 +11,6 @@ import org.xutils.x;
  * Created by YinShengyi on 2016/11/29.
  */
 public class ImageUtils {
-    private Context mContext;
     private ImageOptions imageOptions;
 
     private int mWidth = 300; // 加载图片时的宽
@@ -21,8 +19,9 @@ public class ImageUtils {
     private int mLoadingRes = 0; // 加载过程中显示的图片资源ID
     private int mLoadingFailedRes = 0; // 加载失败时显示的图片资源ID
 
-    public ImageUtils(Context context) {
-        mContext = context;
+    private ImageView.ScaleType mScaleType = ImageView.ScaleType.CENTER_CROP; // 加载图片的缩放方式
+
+    public ImageUtils() {
         imageOptions = new ImageOptions.Builder()
                 .setAutoRotate(true)
                 .build();
@@ -35,7 +34,6 @@ public class ImageUtils {
      */
     public ImageUtils configLoadingImage(int resId) {
         mLoadingRes = resId;
-        buildImageOptions();
         return this;
     }
 
@@ -46,7 +44,6 @@ public class ImageUtils {
      */
     public ImageUtils configFailedImage(int resId) {
         mLoadingFailedRes = resId;
-        buildImageOptions();
         return this;
     }
 
@@ -59,16 +56,18 @@ public class ImageUtils {
     public ImageUtils configImageSize(int width, int height) {
         mWidth = width;
         mHeight = height;
-        buildImageOptions();
         return this;
     }
 
-    private void buildImageOptions() {
+    public ImageUtils configScaleType(ImageView.ScaleType scaleType) {
+        mScaleType = scaleType;
+        return this;
+    }
+
+    public void configFinish() {
         imageOptions = new ImageOptions.Builder()
                 .setSize(mWidth, mHeight)
-                // 加载中或错误图片的ScaleType
-                //.setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
-//                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setImageScaleType(mScaleType)
                 .setLoadingDrawableId(mLoadingRes)
                 .setFailureDrawableId(mLoadingFailedRes)
                 .setAutoRotate(true)

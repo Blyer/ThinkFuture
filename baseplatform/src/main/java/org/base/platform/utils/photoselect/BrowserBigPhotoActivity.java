@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -107,11 +108,11 @@ public class BrowserBigPhotoActivity extends BaseActivity {
 
     private class MyAdapter extends PagerAdapter {
 
-        private ImageUtils imageUtil = new ImageUtils(mActivity);
+        private ImageUtils imageUtil = new ImageUtils();
         private LayoutInflater mInflater = LayoutInflater.from(mActivity);
 
         {
-            imageUtil.configImageSize(720, 1280);
+            imageUtil.configImageSize(720, 1280).configScaleType(ImageView.ScaleType.FIT_CENTER).configFinish();
         }
 
         @Override
