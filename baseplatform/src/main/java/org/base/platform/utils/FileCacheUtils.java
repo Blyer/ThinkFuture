@@ -31,7 +31,7 @@ public class FileCacheUtils {
             if (!cacheFile.exists()) {
                 cacheFile.mkdirs();
             }
-            mDiskLruCache = DiskLruCache.open(cacheFile, BaseUtils.getAppVersionCode(), 1, 50 * 1024 * 1024);
+            mDiskLruCache = DiskLruCache.open(cacheFile, BaseUtils.getAppVersionCode(), 1, cacheType.getCacheSize());
         } catch (Exception e) {
             LogUtils.e(e);
         }
