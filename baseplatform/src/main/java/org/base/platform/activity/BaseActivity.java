@@ -12,6 +12,7 @@ import org.base.platform.R;
 import org.base.platform.callback.NetRequestProcessCallback;
 import org.base.platform.callback.PermissionsResultListener;
 import org.base.platform.dialog.LoadingDialog;
+import org.base.platform.enums.CacheType;
 import org.base.platform.utils.ActivityCollector;
 import org.base.platform.utils.FileCacheUtils;
 import org.base.platform.utils.HttpUtils;
@@ -256,7 +257,7 @@ public abstract class BaseActivity extends Activity implements NetRequestProcess
      */
     protected void initFileCacheUtils() {
         mFileCacheUtils = new FileCacheUtils();
-        mFileCacheUtils.open(FileCacheUtils.FILE_CACHE);
+        mFileCacheUtils.open(CacheType.FILE);
     }
 
     public FileCacheUtils getFileCacheUtils() {

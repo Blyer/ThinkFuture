@@ -2,6 +2,7 @@ package org.base.platform.utils;
 
 import com.apkfuns.logutils.LogUtils;
 
+import org.base.platform.enums.CacheType;
 import org.base.platform.utils.cachehelper.DiskLruCache;
 
 import java.io.ByteArrayOutputStream;
@@ -15,9 +16,6 @@ import java.io.OutputStream;
  */
 public class FileCacheUtils {
 
-    public static final String FILE_CACHE = "cache_files";
-    public static final String ERROR_LOG = "error_log";
-
     private DiskLruCache mDiskLruCache;
 
     public FileCacheUtils() {
@@ -26,9 +24,9 @@ public class FileCacheUtils {
     /**
      * 开启DiskLruCache工具
      */
-    public void open(String cacheDirectory) {
+    public void open(CacheType cacheType) {
         try {
-            String cacheDir = BaseUtils.getCachePath() + File.separator + "lru_cache" + File.separator + cacheDirectory;
+            String cacheDir = BaseUtils.getCachePath() + File.separator + "lru_cache" + File.separator + cacheType.getCacheDirectory();
             File cacheFile = new File(cacheDir);
             if (!cacheFile.exists()) {
                 cacheFile.mkdirs();

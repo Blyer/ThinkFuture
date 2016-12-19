@@ -1,5 +1,7 @@
 package org.base.platform.utils;
 
+import org.base.platform.enums.CacheType;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -55,7 +57,7 @@ public class CrashLogUtils {
         String currentTimeStamp = format.format(new Date());
         String filename = currentTimeStamp + ".txt";
         FileCacheUtils fileCacheUtils = new FileCacheUtils();
-        fileCacheUtils.open(FileCacheUtils.ERROR_LOG);
+        fileCacheUtils.open(CacheType.ERROR_LOG);
         fileCacheUtils.write(filename, stackTrace);
         fileCacheUtils.flush();
         fileCacheUtils.close();
