@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 
 import com.jude.swipbackhelper.SwipeBackHelper;
 
@@ -23,7 +24,7 @@ import org.base.platform.utils.StatusBarCompat;
  * Created by YinShengyi on 2016/11/18.
  * 基础Activity，所有Activity必须继承此Activity
  */
-public abstract class BaseActivity extends Activity implements NetRequestProcessCallback {
+public abstract class BaseActivity extends AppCompatActivity implements NetRequestProcessCallback {
 
     protected Activity mActivity; // 标识自己
     private LoadingDialog mLoadingDialog; // 显示加载中弹框
