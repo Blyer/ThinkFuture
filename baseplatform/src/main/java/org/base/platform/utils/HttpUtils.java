@@ -163,7 +163,9 @@ public class HttpUtils {
                 }
             }
         });
-        mProcessingRequests.put(httpRequestPackage.uniKey, cancelable);
+        if (httpRequestPackage.isLimit) {
+            mProcessingRequests.put(httpRequestPackage.uniKey, cancelable);
+        }
     }
 
     public void cancelAllRequests() {

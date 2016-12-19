@@ -45,6 +45,11 @@ public class HttpRequestPackage implements Serializable {
      */
     public int uniKey;
 
+    /**
+     * 此请求是否有限制，默认没有
+     */
+    public boolean isLimit = true;
+
     public void calculateUnikey() {
         int result = id;
         result = 31 * result + url.hashCode();
