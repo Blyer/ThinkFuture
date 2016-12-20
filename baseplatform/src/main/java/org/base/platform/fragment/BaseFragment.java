@@ -23,6 +23,7 @@ import org.base.platform.utils.PermissionUtils;
  * 基础Fragment，所有Fragment必须继承此Fragment
  */
 public abstract class BaseFragment extends Fragment implements NetRequestProcessCallback {
+
     protected BaseActivity mActivity; // 本Fragment依附的Activity
     protected View mFragmentView; // 本Fragment对应的View
     protected HttpUtils mHttpUtils; // 网络请求工具
@@ -30,7 +31,6 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
     private MessageEventUtils mMessageEventUtils; // 总线消息工具
 
     private PermissionsResultListener mPermissionListener;  // 权限申请之后的监听
-    private int mPermissionRequestCode; // 权限申请时的标识码
 
     @Nullable
     @Override
@@ -42,8 +42,10 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         mActivity = (BaseActivity) getActivity();
         mHttpUtils = new HttpUtils(this);
+
         mMessageEventUtils = new MessageEventUtils(new MessageEventUtils.OnProcessMessageEvent() {
             @Override
             public void onProcessMessageEvent(MessageEvent event) {
@@ -51,6 +53,7 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
             }
         });
         mMessageEventUtils.register();
+
         mFileCacheUtils = mActivity.getFileCacheUtils();
         if (mFileCacheUtils == null) {
             throw new RuntimeException("请在Fragment所属Activity中初始化文件工具类");
@@ -76,15 +79,13 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == mPermissionRequestCode) {
-            if (PermissionUtils.checkEachPermissionsGranted(grantResults)) {
-                if (mPermissionListener != null) {
-                    mPermissionListener.onPermissionGranted();
-                }
-            } else {
-                if (mPermissionListener != null) {
-                    mPermissionListener.onPermissionDenied();
-                }
+        if (PermissionUtils.checkEachPermissionsGranted(grantResults)) {
+            if (mPermissionListener != null) {
+                mPermissionListener.onPermissionGranted();
+            }
+        } else {
+            if (mPermissionListener != null) {
+                mPermissionListener.onPermissionDenied();
             }
         }
     }
@@ -147,18 +148,16 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
     /**
      * @param desc        首次申请权限被拒绝后再次申请给用户的描述提示
      * @param permissions 要申请的权限数组
-     * @param requestCode 申请标记值，例如R.id.xxx
      * @param listener    实现的接口
      */
-    protected void requestPermissions(String desc, String[] permissions, int requestCode, PermissionsResultListener listener) {
+    protected void requestPermissions(String desc, String[] permissions, PermissionsResultListener listener) {
         if (permissions == null || permissions.length == 0) {
             return;
         }
-        mPermissionRequestCode = requestCode;
         mPermissionListener = listener;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (PermissionUtils.checkEachSelfPermission(mActivity, permissions)) {// 检查是否声明了权限
-                PermissionUtils.requestEachPermissions(mActivity, desc, permissions, requestCode);
+                PermissionUtils.requestEachPermissions(mActivity, desc, permissions, 2);
             } else {// 已经申请权限
                 if (mPermissionListener != null) {
                     mPermissionListener.onPermissionGranted();

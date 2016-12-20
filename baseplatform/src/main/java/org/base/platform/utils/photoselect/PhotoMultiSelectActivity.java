@@ -36,7 +36,7 @@ import java.util.List;
  * 图片多选功能
  */
 public class PhotoMultiSelectActivity extends BaseActivity implements View.OnClickListener {
-    public static String SELECT_RESULT = "select_result";
+    public static final String SELECT_RESULT = "select_result";
     private static final String CURRENT_SELECT_NUM = "currentSelectNum";
     private static final String TOTAL_NUM = "totalNum";
 

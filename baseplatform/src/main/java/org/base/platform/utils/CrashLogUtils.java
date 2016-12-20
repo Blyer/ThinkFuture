@@ -25,6 +25,9 @@ public class CrashLogUtils {
         });
     }
 
+    /**
+     * 保存异常信息到本地
+     */
     private static final void saveException(Throwable ex) {
         Writer writer = null;
         PrintWriter printWriter = null;

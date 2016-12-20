@@ -45,11 +45,13 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewId());
+
         StatusBarCompat.compat(this, getStatusBarColor());
 
         mActivity = this;
         mHttpUtils = new HttpUtils(this);
         ActivityCollector.put(this);
+
         mMessageEventUtils = new MessageEventUtils(new MessageEventUtils.OnProcessMessageEvent() {
             @Override
             public void onProcessMessageEvent(MessageEvent event) {
@@ -122,15 +124,15 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            if (PermissionUtils.checkEachPermissionsGranted(grantResults)) {
-                if (mPermissionListener != null) {
-                    mPermissionListener.onPermissionGranted();
-                }
-            } else {
-                if (mPermissionListener != null) {
-                    mPermissionListener.onPermissionDenied();
-                }
+        if (PermissionUtils.checkEachPermissionsGranted(grantResults)) {
+            if (mPermissionListener != null) {
+                mPermissionListener.onPermissionGranted();
             }
+        } else {
+            if (mPermissionListener != null) {
+                mPermissionListener.onPermissionDenied();
+            }
+        }
     }
 
     @Override
