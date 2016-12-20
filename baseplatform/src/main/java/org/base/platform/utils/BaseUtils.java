@@ -66,8 +66,6 @@ public class BaseUtils {
 
     /**
      * 获取缓存路径
-     *
-     * @return
      */
     public static String getCachePath() {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
