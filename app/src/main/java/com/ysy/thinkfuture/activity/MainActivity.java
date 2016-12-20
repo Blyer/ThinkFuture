@@ -114,7 +114,7 @@ public class MainActivity extends FutureBaseActivity implements ViewUtils.OnClic
             }
             break;
             case R.id.btn_2: {
-                requestPermissions("获取图片需要这个权限", new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1, new PermissionsResultListener() {
+                requestPermissions("获取图片需要这个权限", new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, new PermissionsResultListener() {
                     @Override
                     public void onPermissionGranted() {
                         PhotoMultiSelectActivity.startForResult(mActivity, 1, 0, 9);
@@ -129,7 +129,7 @@ public class MainActivity extends FutureBaseActivity implements ViewUtils.OnClic
             }
             break;
             case R.id.btn_3: {
-                requestPermissions("没这个权限没法拨打电话哦~", new String[]{Manifest.permission.CALL_PHONE}, 2, new PermissionsResultListener() {
+                requestPermissions("没这个权限没法拨打电话哦~", new String[]{Manifest.permission.CALL_PHONE}, new PermissionsResultListener() {
                     @Override
                     public void onPermissionGranted() {
                         callPhone();

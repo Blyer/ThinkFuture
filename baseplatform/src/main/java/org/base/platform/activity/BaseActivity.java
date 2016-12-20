@@ -38,7 +38,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
     private boolean mInBackground = false; // 是否处于后台
 
     private PermissionsResultListener mPermissionListener;  // 权限申请之后的监听
-    private int mPermissionRequestCode; // 权限申请时的标识码
 
     private int mFinishOldInAnimId = 0; // 结束activity时，老activity出现时的动画
     private int mFinishNewOutAnimId = 0; // 结束activity时，当前activity结束时的动画
@@ -118,7 +117,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == mPermissionRequestCode) {
             if (PermissionUtils.checkEachPermissionsGranted(grantResults)) {
                 if (mPermissionListener != null) {
                     mPermissionListener.onPermissionGranted();
@@ -128,7 +126,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
                     mPermissionListener.onPermissionDenied();
                 }
             }
-        }
     }
 
     @Override
@@ -217,18 +214,16 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
     /**
      * @param desc        首次申请权限被拒绝后再次申请给用户的描述提示
      * @param permissions 要申请的权限数组
-     * @param requestCode 申请标记值，例如R.id.xxx
      * @param listener    实现的接口
      */
-    protected void requestPermissions(String desc, String[] permissions, int requestCode, PermissionsResultListener listener) {
+    protected void requestPermissions(String desc, String[] permissions, PermissionsResultListener listener) {
         if (permissions == null || permissions.length == 0) {
             return;
         }
-        mPermissionRequestCode = requestCode;
         mPermissionListener = listener;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (PermissionUtils.checkEachSelfPermission(mActivity, permissions)) {// 检查是否声明了权限
-                PermissionUtils.requestEachPermissions(mActivity, desc, permissions, requestCode);
+                PermissionUtils.requestEachPermissions(mActivity, desc, permissions, 1);
             } else {// 已经申请权限
                 if (mPermissionListener != null) {
                     mPermissionListener.onPermissionGranted();
