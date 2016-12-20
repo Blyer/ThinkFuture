@@ -1,7 +1,7 @@
 package com.ysy.thinkfuture.activity;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
@@ -35,7 +35,7 @@ public class ThirdActivity extends FutureBaseActivity {
     protected void initData() {
         initFileCacheUtils();
         FirstFragment fragment = (FirstFragment) FirstFragment.get();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.rl_container, fragment);
         transaction.commit();
     }

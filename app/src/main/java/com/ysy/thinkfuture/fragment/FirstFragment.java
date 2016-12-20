@@ -1,6 +1,5 @@
 package com.ysy.thinkfuture.fragment;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
 
@@ -26,7 +25,7 @@ public class FirstFragment extends FutureBaseFragment {
 
     private DbCacheUtils mDbCacheUtils;
 
-    public static Fragment get() {
+    public static FutureBaseFragment get() {
         FirstFragment fragment = new FirstFragment();
         Bundle bundle = new Bundle();
         bundle.putString("he", "Hello world");
