@@ -1,7 +1,6 @@
 package org.base.platform.utils.photoselect.inner;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +12,11 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import org.base.platform.Constants.MsgEventConstants;
 import org.base.platform.R;
+import org.base.platform.bean.MessageEvent;
 import org.base.platform.utils.ImageUtils;
+import org.base.platform.utils.MessageEventUtils;
 
 import java.util.List;
 
@@ -23,8 +25,6 @@ import java.util.List;
  * 选择相册
  */
 public class AlbumListWindow {
-
-    public static final String CHANGE_ALBUM = "change_album";
 
     private Activity mActivity;
     private PopupWindow mWindow;
@@ -108,7 +108,9 @@ public class AlbumListWindow {
                 @Override
                 public void onClick(View v) {
                     AlbumData.setCurrentSelectedAlbum(bean);
-                    mActivity.sendBroadcast(new Intent(CHANGE_ALBUM));
+                    MessageEvent event = new MessageEvent();
+                    event.id = MsgEventConstants.CHANGE_ALBUM;
+                    MessageEventUtils.post(event);
                     if (mWindow != null && mWindow.isShowing())
                         mWindow.dismiss();
                 }

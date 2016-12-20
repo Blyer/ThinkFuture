@@ -3,6 +3,7 @@ package com.ysy.thinkfuture.fragment;
 import android.os.Bundle;
 import android.view.View;
 
+import com.apkfuns.logutils.LogUtils;
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.fragment.base.FutureBaseFragment;
 
@@ -11,6 +12,7 @@ import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.DbCacheUtils;
+import org.base.platform.utils.MessageEventUtils;
 import org.base.platform.utils.ToastUtils;
 import org.base.platform.utils.ViewUtils;
 import org.base.platform.view.UnifyButton;
@@ -71,7 +73,7 @@ public class FirstFragment extends FutureBaseFragment implements ViewUtils.OnCli
         mDbCacheUtils = new DbCacheUtils(mActivity, "db_cache", null, 1);
         MessageEvent event = new MessageEvent();
         event.data = "Get event bus";
-        postMessage(event);
+        MessageEventUtils.post(event);
     }
 
     @Override
@@ -90,6 +92,12 @@ public class FirstFragment extends FutureBaseFragment implements ViewUtils.OnCli
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void processMessageEvent(MessageEvent event) {
+        super.processMessageEvent(event);
+        LogUtils.e(event.data);
     }
 
     private HttpRequestPackage net1() {

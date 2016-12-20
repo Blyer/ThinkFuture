@@ -55,7 +55,7 @@ public class SecondActivity extends FutureBaseActivity implements ViewUtils.OnCl
     }
 
     @Override
-    protected void receivedMessage(MessageEvent event) {
+    protected void processMessageEvent(MessageEvent event) {
         LogUtils.e(event.data.toString());
     }
 

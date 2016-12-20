@@ -18,11 +18,9 @@ import org.base.platform.enums.CacheType;
 import org.base.platform.utils.ActivityCollector;
 import org.base.platform.utils.FileCacheUtils;
 import org.base.platform.utils.HttpUtils;
+import org.base.platform.utils.MessageEventUtils;
 import org.base.platform.utils.PermissionUtils;
 import org.base.platform.utils.StatusBarCompat;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by YinShengyi on 2016/11/18.
@@ -34,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
     private LoadingDialog mLoadingDialog; // 显示加载中弹框
     protected HttpUtils mHttpUtils; // 网络请求工具
     protected FileCacheUtils mFileCacheUtils; // 文件存储工具
+    private MessageEventUtils mMessageEventUtils; // 总线消息工具
     private boolean mIsDestroyed = false; // 当前activity是否被销毁
     private boolean mInBackground = false; // 是否处于后台
 
@@ -51,7 +50,13 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
         mActivity = this;
         mHttpUtils = new HttpUtils(this);
         ActivityCollector.put(this);
-        EventBus.getDefault().register(this);
+        mMessageEventUtils = new MessageEventUtils(new MessageEventUtils.OnProcessMessageEvent() {
+            @Override
+            public void onProcessMessageEvent(MessageEvent event) {
+                processMessageEvent(event);
+            }
+        });
+        mMessageEventUtils.register();
 
         SwipeBackHelper.onCreate(this);
         SwipeBackHelper.getCurrentPage(this)
@@ -109,7 +114,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
         }
         ActivityCollector.remove(this);
         SwipeBackHelper.onDestroy(this);
-        EventBus.getDefault().unregister(this);
+        mMessageEventUtils.unregister();
         mIsDestroyed = true;
         super.onDestroy();
     }
@@ -144,14 +149,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
     }
 
     /**
-     * 接收总线消息
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageReceived(MessageEvent event) {
-        receivedMessage(event);
-    }
-
-    /**
      * 获取本activity的布局文件
      */
     protected abstract int getContentViewId();
@@ -179,7 +176,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
     /**
      * 总线消息处理
      */
-    protected void receivedMessage(MessageEvent event) {
+    protected void processMessageEvent(MessageEvent event) {
 
     }
 
@@ -280,13 +277,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
      */
     public FileCacheUtils getFileCacheUtils() {
         return mFileCacheUtils;
-    }
-
-    /**
-     * 投递总线消息
-     */
-    public void postMessage(MessageEvent event) {
-        EventBus.getDefault().post(event);
     }
 
 }

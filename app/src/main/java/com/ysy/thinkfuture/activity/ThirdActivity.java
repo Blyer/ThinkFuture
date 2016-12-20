@@ -43,7 +43,7 @@ public class ThirdActivity extends FutureBaseActivity {
     }
 
     @Override
-    protected void receivedMessage(MessageEvent event) {
+    protected void processMessageEvent(MessageEvent event) {
         LogUtils.e(event.data.toString());
     }
 

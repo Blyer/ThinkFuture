@@ -1,10 +1,7 @@
 package org.base.platform.utils.photoselect;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +12,10 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.base.platform.Constants.MsgEventConstants;
 import org.base.platform.R;
 import org.base.platform.activity.BaseActivity;
+import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.utils.BaseUtils;
 import org.base.platform.utils.ImageUtils;
@@ -49,8 +48,6 @@ public class PhotoSingleSelectActivity extends BaseActivity implements View.OnCl
     private MyAdapter mAdapter;
     private boolean mIsClip = false; // 是否需要裁剪
 
-    private BroadcastReceiver mBroadcast;
-
     /**
      * @param activity
      * @param requestCode 请求码
@@ -72,8 +69,6 @@ public class PhotoSingleSelectActivity extends BaseActivity implements View.OnCl
 
     @Override
     protected void onDestroy() {
-        if (mBroadcast != null)
-            unregisterReceiver(mBroadcast);
         super.onDestroy();
     }
 
@@ -109,27 +104,25 @@ public class PhotoSingleSelectActivity extends BaseActivity implements View.OnCl
         mData.addAll(mCurrentAlbum.getPhotoList());
         mAdapter = new MyAdapter();
         gv_photo.setAdapter(mAdapter);
-
-        mBroadcast = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (AlbumListWindow.CHANGE_ALBUM.equals(intent.getAction())) {
-                    mCurrentAlbum = AlbumData.getCurrentSelectedAlbum();
-                    tv_title.setText(mCurrentAlbum.getName());
-                    mData.clear();
-                    mData.addAll(mCurrentAlbum.getPhotoList());
-                    mAdapter.notifyDataSetChanged();
-                }
-            }
-        };
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(AlbumListWindow.CHANGE_ALBUM);
-        registerReceiver(mBroadcast, filter);
     }
 
     @Override
     public void processNetRequest(int id, ResponseResult result, boolean isCache) {
 
+    }
+
+    @Override
+    protected void processMessageEvent(MessageEvent event) {
+        super.processMessageEvent(event);
+        switch (event.id) {
+            case MsgEventConstants.CHANGE_ALBUM:
+                mCurrentAlbum = AlbumData.getCurrentSelectedAlbum();
+                tv_title.setText(mCurrentAlbum.getName());
+                mData.clear();
+                mData.addAll(mCurrentAlbum.getPhotoList());
+                mAdapter.notifyDataSetChanged();
+                break;
+        }
     }
 
     @Override

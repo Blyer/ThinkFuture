@@ -80,7 +80,7 @@ public class MainActivity extends FutureBaseActivity implements ViewUtils.OnClic
     }
 
     @Override
-    protected void receivedMessage(MessageEvent event) {
+    protected void processMessageEvent(MessageEvent event) {
         LogUtils.e(event.data.toString());
     }
 

@@ -1,10 +1,7 @@
 package org.base.platform.utils.photoselect;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +15,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.base.platform.Constants.MsgEventConstants;
 import org.base.platform.R;
 import org.base.platform.activity.BaseActivity;
+import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.utils.BaseUtils;
 import org.base.platform.utils.ImageUtils;
@@ -56,8 +55,6 @@ public class PhotoMultiSelectActivity extends BaseActivity implements View.OnCli
     private int mCurrentSelectNum; // 当前已选择数量
     private int mTotalNum; // 可以选择的图片数量
 
-    private BroadcastReceiver mBroadcast;
-
     /**
      * @param activity
      * @param requestCode
@@ -81,8 +78,6 @@ public class PhotoMultiSelectActivity extends BaseActivity implements View.OnCli
 
     @Override
     protected void onDestroy() {
-        if (mBroadcast != null)
-            unregisterReceiver(mBroadcast);
         if (mSelectedPhotos != null) {
             for (PhotoBean bean : mSelectedPhotos) {
                 bean.setSelect(false);
@@ -135,37 +130,35 @@ public class PhotoMultiSelectActivity extends BaseActivity implements View.OnCli
         mAdapter = new MyAdapter();
         gv_photo.setAdapter(mAdapter);
         mSelectedPhotos = new ArrayList<>();
-
-        mBroadcast = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (AlbumListWindow.CHANGE_ALBUM.equals(intent.getAction())) {
-                    for (PhotoBean bean : mSelectedPhotos) {
-                        bean.setSelect(false);
-                    }
-                    mSelectedPhotos.clear();
-                    btn_ok.setText("确定");
-                    btn_ok.setEnabled(false);
-                    btn_ok.setTextColor(Color.parseColor("#999999"));
-                    btn_look.setText("预览");
-                    btn_look.setEnabled(false);
-                    btn_look.setTextColor(Color.parseColor("#999999"));
-                    mCurrentSelectNum = getIntent().getIntExtra(CURRENT_SELECT_NUM, 0);
-                    mCurrentAlbum = AlbumData.getCurrentSelectedAlbum();
-                    tv_title.setText(mCurrentAlbum.getName());
-                    mData.clear();
-                    mData.addAll(mCurrentAlbum.getPhotoList());
-                    mAdapter.notifyDataSetChanged();
-                }
-            }
-        };
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(AlbumListWindow.CHANGE_ALBUM);
-        registerReceiver(mBroadcast, filter);
     }
 
     @Override
     public void processNetRequest(int id, ResponseResult result, boolean isCache) {
+    }
+
+    @Override
+    protected void processMessageEvent(MessageEvent event) {
+        super.processMessageEvent(event);
+        switch (event.id) {
+            case MsgEventConstants.CHANGE_ALBUM:
+                for (PhotoBean bean : mSelectedPhotos) {
+                    bean.setSelect(false);
+                }
+                mSelectedPhotos.clear();
+                btn_ok.setText("确定");
+                btn_ok.setEnabled(false);
+                btn_ok.setTextColor(Color.parseColor("#999999"));
+                btn_look.setText("预览");
+                btn_look.setEnabled(false);
+                btn_look.setTextColor(Color.parseColor("#999999"));
+                mCurrentSelectNum = getIntent().getIntExtra(CURRENT_SELECT_NUM, 0);
+                mCurrentAlbum = AlbumData.getCurrentSelectedAlbum();
+                tv_title.setText(mCurrentAlbum.getName());
+                mData.clear();
+                mData.addAll(mCurrentAlbum.getPhotoList());
+                mAdapter.notifyDataSetChanged();
+                break;
+        }
     }
 
     private void back() {
