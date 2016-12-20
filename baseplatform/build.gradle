@@ -33,4 +33,5 @@ dependencies {
     compile 'org.xutils:xutils:3.3.40' // 网络、图片库
     compile 'com.alibaba:fastjson:1.1.55.android' // json解析库
     compile 'com.apkfuns.logutils:library:1.4.2.2' // 日志工具库
+    compile 'org.greenrobot:eventbus:3.0.0' // 消息总线库
 }

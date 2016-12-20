@@ -3,10 +3,12 @@ package com.ysy.thinkfuture.activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 
+import com.apkfuns.logutils.LogUtils;
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.fragment.FirstFragment;
 
+import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
 
 public class ThirdActivity extends FutureBaseActivity {
@@ -38,6 +40,11 @@ public class ThirdActivity extends FutureBaseActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.rl_container, fragment);
         transaction.commit();
+    }
+
+    @Override
+    protected void receivedMessage(MessageEvent event) {
+        LogUtils.e(event.data.toString());
     }
 
     @Override

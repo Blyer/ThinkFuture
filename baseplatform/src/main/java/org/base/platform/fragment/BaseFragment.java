@@ -10,11 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.base.platform.activity.BaseActivity;
+import org.base.platform.bean.MessageEvent;
 import org.base.platform.callback.NetRequestProcessCallback;
 import org.base.platform.callback.PermissionsResultListener;
 import org.base.platform.utils.FileCacheUtils;
 import org.base.platform.utils.HttpUtils;
 import org.base.platform.utils.PermissionUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by YinShengyi on 2016/12/9.
@@ -41,6 +45,7 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
         super.onActivityCreated(savedInstanceState);
         mActivity = (BaseActivity) getActivity();
         mHttpUtils = new HttpUtils(this);
+        EventBus.getDefault().register(this);
         mFileCacheUtils = mActivity.getFileCacheUtils();
         if (mFileCacheUtils == null) {
             throw new RuntimeException("请在Fragment所属Activity中初始化文件工具类");
@@ -59,6 +64,7 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
     @Override
     public void onDestroy() {
         mHttpUtils.cancelAllRequests();
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -76,6 +82,14 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
                 }
             }
         }
+    }
+
+    /**
+     * 接收总线消息
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageReceived(MessageEvent event) {
+        receivedMessage(event);
     }
 
     /**
@@ -120,6 +134,13 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
     protected abstract void initData();
 
     /**
+     * 总线消息处理
+     */
+    protected void receivedMessage(MessageEvent event) {
+
+    }
+
+    /**
      * 根据控件ID获取控件对应的View对象
      */
     protected View findViewById(int id) {
@@ -151,6 +172,13 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
                 mPermissionListener.onPermissionGranted();
             }
         }
+    }
+
+    /**
+     * 投递总线消息
+     */
+    public void postMessage(MessageEvent event) {
+        EventBus.getDefault().post(event);
     }
 
 }

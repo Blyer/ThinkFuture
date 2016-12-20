@@ -7,13 +7,15 @@ import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.fragment.base.FutureBaseFragment;
 
 import org.base.platform.bean.HttpRequestPackage;
+import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.DbCacheUtils;
 import org.base.platform.utils.ToastUtils;
+import org.base.platform.utils.ViewUtils;
 import org.base.platform.view.UnifyButton;
 
-public class FirstFragment extends FutureBaseFragment {
+public class FirstFragment extends FutureBaseFragment implements ViewUtils.OnClickListener {
 
     private UnifyButton btn_1;
     private UnifyButton btn_2;
@@ -55,62 +57,21 @@ public class FirstFragment extends FutureBaseFragment {
 
     @Override
     protected void setListener() {
-        btn_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                net1().isSilentRequest = true;
-                mHttpUtils.request();
-            }
-        });
-        btn_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                net1();
-                net1();
-                net1();
-                net2();
-                net2();
-                mHttpUtils.request();
-            }
-        });
-        btn_3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                net3();
-                mHttpUtils.request();
-            }
-        });
-        btn_4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mFileCacheUtils.write("cache", "Hello world from filecache");
-            }
-        });
-        btn_5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String cache = mFileCacheUtils.read("cache");
-                ToastUtils.show(cache);
-            }
-        });
-        btn_6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDbCacheUtils.putString("cache", "Hello world from dbcache");
-            }
-        });
-        btn_7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String cache = mDbCacheUtils.getString("cache", "default");
-                ToastUtils.show(cache);
-            }
-        });
+        ViewUtils.setOnClickListener(btn_1, this);
+        ViewUtils.setOnClickListener(btn_2, this);
+        ViewUtils.setOnClickListener(btn_3, this);
+        ViewUtils.setOnClickListener(btn_4, this);
+        ViewUtils.setOnClickListener(btn_5, this);
+        ViewUtils.setOnClickListener(btn_6, this);
+        ViewUtils.setOnClickListener(btn_7, this);
     }
 
     @Override
     protected void initData() {
         mDbCacheUtils = new DbCacheUtils(mActivity, "db_cache", null, 1);
+        MessageEvent event = new MessageEvent();
+        event.data = "Get event bus";
+        postMessage(event);
     }
 
     @Override
@@ -159,5 +120,43 @@ public class FirstFragment extends FutureBaseFragment {
         request.url = "http://192.168.2.79/r.txt";
         request.params.put("id", "133");
         mHttpUtils.addRequest(request);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_1:
+                net1().isSilentRequest = true;
+                mHttpUtils.request();
+                break;
+            case R.id.btn_2:
+                net1();
+                net1();
+                net1();
+                net2();
+                net2();
+                mHttpUtils.request();
+                break;
+            case R.id.btn_3:
+                net3();
+                mHttpUtils.request();
+                break;
+            case R.id.btn_4:
+                mFileCacheUtils.write("cache", "Hello world from filecache");
+                break;
+            case R.id.btn_5: {
+                String cache = mFileCacheUtils.read("cache");
+                ToastUtils.show(cache);
+            }
+            break;
+            case R.id.btn_6:
+                mDbCacheUtils.putString("cache", "Hello world from dbcache");
+                break;
+            case R.id.btn_7: {
+                String cache = mDbCacheUtils.getString("cache", "default");
+                ToastUtils.show(cache);
+            }
+            break;
+        }
     }
 }
