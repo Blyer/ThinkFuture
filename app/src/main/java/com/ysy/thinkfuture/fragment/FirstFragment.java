@@ -76,6 +76,7 @@ public class FirstFragment extends FutureBaseFragment implements ViewUtils.OnCli
 
     @Override
     public void processNetRequest(int id, ResponseResult result, boolean isCache) {
+        super.processNetRequest(id, result, isCache);
         switch (id) {
             case 111:
                 if (result.getCode() == 0) {

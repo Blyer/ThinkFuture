@@ -102,7 +102,7 @@ public class MainActivity extends FutureBaseActivity implements ViewUtils.OnClic
 
     @Override
     public void processNetRequest(int id, ResponseResult result, boolean isCache) {
-
+        super.processNetRequest(id, result, isCache);
     }
 
     @Override

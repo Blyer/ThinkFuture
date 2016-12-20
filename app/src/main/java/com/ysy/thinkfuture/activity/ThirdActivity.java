@@ -49,7 +49,7 @@ public class ThirdActivity extends FutureBaseActivity {
 
     @Override
     public void processNetRequest(int id, ResponseResult result, boolean isCache) {
-
+        super.processNetRequest(id, result, isCache);
     }
 
     @Override
