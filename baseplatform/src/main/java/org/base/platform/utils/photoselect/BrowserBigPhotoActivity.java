@@ -102,6 +102,11 @@ public class BrowserBigPhotoActivity extends BaseActivity {
     }
 
     @Override
+    protected int getStatusBarColor() {
+        return getResources().getColor(R.color.black);
+    }
+
+    @Override
     public void processNetRequest(int id, ResponseResult result, boolean isCache) {
 
     }
