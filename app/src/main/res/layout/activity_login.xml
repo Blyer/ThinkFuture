@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/blue_1">
+
+        <TextView
+            style="@style/LargeFontLabel"
+            android:layout_centerInParent="true"
+            android:text="用户登录"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <include
+        layout="@layout/horizontal_line"
+        android:layout_width="match_parent"
+        android:layout_marginTop="120dp"
+        android:layout_height="1px" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp">
+
+        <TextView
+            style="@style/NormalFontContent"
+            android:layout_marginLeft="15dp"
+            android:minWidth="60dp"
+            android:text="用户名：" />
+
+        <EditText
+            android:id="@+id/et_user_name"
+            style="@style/NormalFontContent"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:hint="请输入你的登录用户名" />
+    </LinearLayout>
+
+    <include layout="@layout/horizontal_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp">
+
+        <TextView
+            style="@style/NormalFontContent"
+            android:layout_marginLeft="15dp"
+            android:minWidth="60dp"
+            android:text="密码：" />
+
+        <EditText
+            android:id="@+id/et_password"
+            style="@style/NormalFontContent"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:hint="请输入你的登录密码" />
+    </LinearLayout>
+
+    <include layout="@layout/horizontal_line" />
+
+    <org.base.platform.view.UnifyButton
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="15dp"
+        android:text="登录"
+        android:textColor="@color/white"
+        android:textSize="16dp" />
+
+</LinearLayout>

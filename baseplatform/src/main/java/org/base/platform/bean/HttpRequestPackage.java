@@ -13,7 +13,7 @@ public class HttpRequestPackage implements Serializable {
     /**
      * 本次请求的标识ID
      */
-    public int id;
+    public int id = 0;
     /**
      * 本次请求的地址
      */
