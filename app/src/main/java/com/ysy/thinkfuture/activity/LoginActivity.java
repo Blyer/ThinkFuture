@@ -48,6 +48,11 @@ public class LoginActivity extends FutureBaseActivity implements ViewUtils.OnCli
     }
 
     @Override
+    protected int getStatusBarColor() {
+        return getResources().getColor(R.color.blue_1);
+    }
+
+    @Override
     public void processNetRequest(int id, ResponseResult result, boolean isCache) {
         super.processNetRequest(id, result, isCache);
         switch (id) {
