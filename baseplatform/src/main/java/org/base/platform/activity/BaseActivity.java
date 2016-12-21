@@ -1,6 +1,5 @@
 package org.base.platform.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,7 +27,7 @@ import org.base.platform.utils.StatusBarCompat;
  */
 public abstract class BaseActivity extends AppCompatActivity implements NetRequestProcessCallback {
 
-    protected Activity mActivity; // 标识自己
+    protected BaseActivity mActivity; // 标识自己
     private LoadingDialog mLoadingDialog; // 显示加载中弹框
     protected HttpUtils mHttpUtils; // 网络请求工具
     protected FileCacheUtils mFileCacheUtils; // 文件存储工具

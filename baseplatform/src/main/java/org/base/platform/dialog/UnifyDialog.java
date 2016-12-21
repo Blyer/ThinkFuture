@@ -1,6 +1,5 @@
 package org.base.platform.dialog;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.base.platform.R;
+import org.base.platform.activity.BaseActivity;
 import org.base.platform.utils.StringUtils;
 import org.base.platform.view.AlignTextView;
 
@@ -20,7 +20,9 @@ import org.base.platform.view.AlignTextView;
  */
 public class UnifyDialog {
 
-    private Activity mActivity;
+    private static int sCount = 0; // 当前已显示的对话框数量，最多只能显示一个
+
+    private BaseActivity mActivity;
     private Dialog mDialog;
     private String mTitle; // 对话框标题
     private String mContent; // 对话框内容
@@ -41,7 +43,7 @@ public class UnifyDialog {
      * @param title    对话框的标题
      * @param content  对话框中的内容
      */
-    public UnifyDialog(Activity activity, String title, String content) {
+    public UnifyDialog(BaseActivity activity, String title, String content) {
         this(activity, title, content, "取消", "确定");
     }
 
@@ -53,7 +55,7 @@ public class UnifyDialog {
      * @param content  对话框中的内容
      * @param btnTxt   按钮的内容
      */
-    public UnifyDialog(Activity activity, String title, String content, String btnTxt) {
+    public UnifyDialog(BaseActivity activity, String title, String content, String btnTxt) {
         this(activity, title, content, "", btnTxt);
         mHasLeftBtn = false;
     }
@@ -65,7 +67,7 @@ public class UnifyDialog {
      * @param leftBtnTxt  左边按钮的文字
      * @param rightBtnTxt 右边按钮的文字
      */
-    public UnifyDialog(Activity activity, String title, String content, String leftBtnTxt, String rightBtnTxt) {
+    public UnifyDialog(BaseActivity activity, String title, String content, String leftBtnTxt, String rightBtnTxt) {
         mActivity = activity;
         mTitle = title;
         mContent = content;
@@ -107,7 +109,9 @@ public class UnifyDialog {
      * 显示对话框
      */
     public void show() {
-        if (mActivity != null) {
+        if (!mActivity.isDestroyed() && sCount == 0) {
+            sCount = 1;
+
             View view = LayoutInflater.from(mActivity).inflate(R.layout.unify_dialog, null);// 得到加载view
 
             LinearLayout linear_title = (LinearLayout) view.findViewById(R.id.linear_title);
@@ -130,7 +134,7 @@ public class UnifyDialog {
             tv_right.setOnClickListener(new Button.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    hide();
+                    close();
                     if (mRightBtnClickListener != null) {
                         mRightBtnClickListener.onRightBtnClick();
                     }
@@ -145,7 +149,7 @@ public class UnifyDialog {
             tv_left.setOnClickListener(new Button.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    hide();
+                    close();
                     if (mLeftBtnClickListener != null) {
                         mLeftBtnClickListener.onLeftBtnClick();
                     }
@@ -162,8 +166,9 @@ public class UnifyDialog {
     /**
      * 隐藏对话框
      */
-    private void hide() {
-        if (mDialog != null && mDialog.isShowing()) {
+    private void close() {
+        if (!mActivity.isDestroyed() && mDialog != null && mDialog.isShowing()) {
+            sCount = 0;
             mDialog.dismiss();
         }
     }

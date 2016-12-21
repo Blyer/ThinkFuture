@@ -1,10 +1,10 @@
 package org.base.platform.utils;
 
-import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
+import org.base.platform.activity.BaseActivity;
 import org.base.platform.dialog.UnifyDialog;
 
 /**
@@ -15,7 +15,7 @@ public class PermissionUtils {
     /**
      * 申请权限前判断是否需要声明
      */
-    public static void requestEachPermissions(final Activity activity, String desc, final String[] permissions, final int requestCode) {
+    public static void requestEachPermissions(final BaseActivity activity, String desc, final String[] permissions, final int requestCode) {
         if (shouldShowRequestPermissionRationale(activity, permissions)) {// 需要再次声明
             UnifyDialog dialog = new UnifyDialog(activity, "", desc, "知道了");
             dialog.setOnRightBtnClickListener(new UnifyDialog.OnRightBtnClickListener() {
@@ -33,7 +33,7 @@ public class PermissionUtils {
     /**
      * 再次申请权限时，是否需要声明
      */
-    private static boolean shouldShowRequestPermissionRationale(Activity activity, String[] permissions) {
+    private static boolean shouldShowRequestPermissionRationale(BaseActivity activity, String[] permissions) {
         for (String permission : permissions) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
                 return true;
@@ -47,7 +47,7 @@ public class PermissionUtils {
      *
      * @return true 需要申请权限,false 已申请权限
      */
-    public static boolean checkEachSelfPermission(Activity activity, String[] permissions) {
+    public static boolean checkEachSelfPermission(BaseActivity activity, String[] permissions) {
         for (String permission : permissions) {
             if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
                 return true;
