@@ -86,7 +86,7 @@ public class FirstFragment extends FutureBaseFragment implements ViewUtils.OnCli
                 }
                 break;
             case 133:
-                if (!isCache) {
+                if (result.getCode() == 0 && !isCache) {
                     net1();
                     mHttpUtils.request();
                 }

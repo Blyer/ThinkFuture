@@ -69,7 +69,7 @@ public class SecondActivity extends FutureBaseActivity implements ViewUtils.OnCl
                 }
                 break;
             case 133:
-                if (!isCache) {
+                if (result.getCode() == 0 && !isCache) {
                     net1();
                     mHttpUtils.request();
                 }
