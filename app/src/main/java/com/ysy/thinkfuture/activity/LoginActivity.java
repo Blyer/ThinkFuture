@@ -12,10 +12,9 @@ import org.base.platform.bean.ResponseResult;
 import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.JumpUtils;
 import org.base.platform.utils.ToastUtils;
-import org.base.platform.utils.ViewUtils;
 import org.base.platform.view.UnifyButton;
 
-public class LoginActivity extends FutureBaseActivity implements ViewUtils.OnClickListener {
+public class LoginActivity extends FutureBaseActivity implements View.OnClickListener {
 
     private EditText et_user_name;
     private EditText et_password;
@@ -39,7 +38,7 @@ public class LoginActivity extends FutureBaseActivity implements ViewUtils.OnCli
 
     @Override
     protected void setListener() {
-        ViewUtils.setOnClickListener(btn_login, this);
+        btn_login.setOnClickListener(this);
     }
 
     @Override
@@ -60,8 +59,6 @@ public class LoginActivity extends FutureBaseActivity implements ViewUtils.OnCli
                 if (result.getCode() == 0) {
                     ToastUtils.show("登录成功");
                     loginSucess();
-                } else {
-                    ToastUtils.show(result.getMessage());
                 }
                 break;
         }

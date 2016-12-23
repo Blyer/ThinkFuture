@@ -14,10 +14,9 @@ import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.DbCacheUtils;
 import org.base.platform.utils.MessageEventUtils;
 import org.base.platform.utils.ToastUtils;
-import org.base.platform.utils.ViewUtils;
 import org.base.platform.view.UnifyButton;
 
-public class FirstFragment extends FutureBaseFragment implements ViewUtils.OnClickListener {
+public class FirstFragment extends FutureBaseFragment implements View.OnClickListener {
 
     private UnifyButton btn_1;
     private UnifyButton btn_2;
@@ -59,13 +58,13 @@ public class FirstFragment extends FutureBaseFragment implements ViewUtils.OnCli
 
     @Override
     protected void setListener() {
-        ViewUtils.setOnClickListener(btn_1, this);
-        ViewUtils.setOnClickListener(btn_2, this);
-        ViewUtils.setOnClickListener(btn_3, this);
-        ViewUtils.setOnClickListener(btn_4, this);
-        ViewUtils.setOnClickListener(btn_5, this);
-        ViewUtils.setOnClickListener(btn_6, this);
-        ViewUtils.setOnClickListener(btn_7, this);
+        btn_1.setOnClickListener(this);
+        btn_2.setOnClickListener(this);
+        btn_3.setOnClickListener(this);
+        btn_4.setOnClickListener(this);
+        btn_5.setOnClickListener(this);
+        btn_6.setOnClickListener(this);
+        btn_7.setOnClickListener(this);
     }
 
     @Override

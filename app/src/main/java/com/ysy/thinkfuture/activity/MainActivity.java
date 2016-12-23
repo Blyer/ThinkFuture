@@ -15,11 +15,10 @@ import org.base.platform.callback.PermissionsResultListener;
 import org.base.platform.utils.ActivityCollector;
 import org.base.platform.utils.JumpUtils;
 import org.base.platform.utils.ToastUtils;
-import org.base.platform.utils.ViewUtils;
 import org.base.platform.utils.photoselect.PhotoMultiSelectActivity;
 import org.base.platform.view.UnifyButton;
 
-public class MainActivity extends FutureBaseActivity implements ViewUtils.OnClickListener {
+public class MainActivity extends FutureBaseActivity implements View.OnClickListener {
     private UnifyButton btn_1;
     private UnifyButton btn_2;
     private UnifyButton btn_3;
@@ -47,10 +46,10 @@ public class MainActivity extends FutureBaseActivity implements ViewUtils.OnClic
 
     @Override
     protected void setListener() {
-        ViewUtils.setOnClickListener(btn_1, this);
-        ViewUtils.setOnClickListener(btn_2, this);
-        ViewUtils.setOnClickListener(btn_3, this);
-        ViewUtils.setOnClickListener(btn_4, this);
+        btn_1.setOnClickListener(this);
+        btn_2.setOnClickListener(this);
+        btn_3.setOnClickListener(this);
+        btn_4.setOnClickListener(this);
     }
 
     @Override

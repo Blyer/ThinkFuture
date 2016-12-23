@@ -24,6 +24,8 @@ public class UnifyButton extends TextView {
     private int mNormalTextColor;
     private int mUnEnableTextColor;
 
+    private long mLastClickTime = 0;
+
     public UnifyButton(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -67,6 +69,17 @@ public class UnifyButton extends TextView {
             setTextColor(mNormalTextColor);
         } else {
             setTextColor(mUnEnableTextColor);
+        }
+    }
+
+    @Override
+    public boolean performClick() {
+        long currentClickTime = System.currentTimeMillis();
+        if (currentClickTime - mLastClickTime > 500) {
+            mLastClickTime = currentClickTime;
+            return super.performClick();
+        } else {
+            return true;
         }
     }
 }
