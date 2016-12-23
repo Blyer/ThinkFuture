@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 两端对齐的textview，可以设置最后一行靠左，靠右，居中对齐
  */
-public class AlignTextView extends TextView {
+public class UnifyTextView extends TextView {
     private float textHeight; // 单行文字高度
     private int width; // textview宽度
     private List<String> lines = new ArrayList<String>(); // 分割后的行
@@ -22,16 +22,18 @@ public class AlignTextView extends TextView {
     private Align align = Align.ALIGN_LEFT; // 默认最后一行左对齐
     private boolean firstCalc = true;  // 初始化计算
 
+    private long mLastClickTime = 0;
+
     // 尾行对齐方式
     public enum Align {
         ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT  // 居中，居左，居右,针对段落最后一行
     }
 
-    public AlignTextView(Context context) {
+    public UnifyTextView(Context context) {
         super(context);
     }
 
-    public AlignTextView(Context context, AttributeSet attrs) {
+    public UnifyTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -148,5 +150,16 @@ public class AlignTextView extends TextView {
         }
 
         tailLines.add(lines.size() - 1);
+    }
+
+    @Override
+    public boolean performClick() {
+        long currentClickTime = System.currentTimeMillis();
+        if (currentClickTime - mLastClickTime > 500) {
+            mLastClickTime = currentClickTime;
+            return super.performClick();
+        } else {
+            return true;
+        }
     }
 }

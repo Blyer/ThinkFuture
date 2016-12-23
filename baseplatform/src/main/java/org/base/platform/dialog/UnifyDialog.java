@@ -12,7 +12,7 @@ import android.widget.TextView;
 import org.base.platform.R;
 import org.base.platform.activity.BaseActivity;
 import org.base.platform.utils.StringUtils;
-import org.base.platform.view.AlignTextView;
+import org.base.platform.view.UnifyTextView;
 
 /**
  * Created by YinShengyi on 2016/5/20.
@@ -117,7 +117,7 @@ public class UnifyDialog {
             LinearLayout linear_title = (LinearLayout) view.findViewById(R.id.linear_title);
             TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
             RelativeLayout relative_content = (RelativeLayout) view.findViewById(R.id.relative_content);
-            AlignTextView tv_content = (AlignTextView) view.findViewById(R.id.tv_content);
+            UnifyTextView tv_content = (UnifyTextView) view.findViewById(R.id.tv_content);
             TextView tv_left = (TextView) view.findViewById(R.id.tv_left);
             View view_divider_line = view.findViewById(R.id.view_divider_line);
             TextView tv_right = (TextView) view.findViewById(R.id.tv_right);
