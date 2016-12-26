@@ -157,8 +157,11 @@ public class MainActivity extends FutureBaseActivity implements View.OnClickList
                 JumpUtils.jump(mActivity, intent);
             }
             break;
-            case R.id.btn_6:
-                break;
+            case R.id.btn_6: {
+                Intent intent = new Intent(mActivity, MultiTypeListActivity.class);
+                JumpUtils.jump(mActivity, intent);
+            }
+            break;
         }
     }
 }

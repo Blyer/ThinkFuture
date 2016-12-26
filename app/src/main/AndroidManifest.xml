@@ -31,6 +31,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SingleTypeListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MultiTypeListActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 

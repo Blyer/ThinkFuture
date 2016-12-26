@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
-import com.ysy.thinkfuture.adapter.SingleTypeAdapter;
+import com.ysy.thinkfuture.adapter.MultiTypeAdapter;
 import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;
 
 import org.base.platform.adapter.UnifyAdapter;
@@ -17,18 +17,17 @@ import org.base.platform.view.UnifyButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SingleTypeListActivity extends FutureBaseActivity {
-
+public class MultiTypeListActivity extends FutureBaseActivity {
     private UnifyButton btn_load;
     private UnifyButton btn_copy;
     private RecyclerView rv_data;
 
     private List<String> mData;
-    private SingleTypeAdapter mAdapter;
+    private MultiTypeAdapter mAdapter;
 
     @Override
     protected int getContentViewId() {
-        return R.layout.activity_single_type_list;
+        return R.layout.activity_multi_type_list;
     }
 
     @Override
@@ -79,11 +78,12 @@ public class SingleTypeListActivity extends FutureBaseActivity {
         mData = new ArrayList<>();
         mData.add("1");
         mData.add("2");
-        mAdapter = new SingleTypeAdapter(this, R.layout.item_data_1);
+        mAdapter = new MultiTypeAdapter(this);
+        mAdapter.addItemLayoutId(MultiTypeAdapter.TYPE_1, R.layout.item_data_1);
+        mAdapter.addItemLayoutId(MultiTypeAdapter.TYPE_2, R.layout.item_data_2);
 
         rv_data.setLayoutManager(new LinearLayoutManager(this));
         rv_data.setAdapter(mAdapter);
         rv_data.addItemDecoration(new HorizontalLineItemDivider(this, R.color.red_1, 1));
     }
-
 }
