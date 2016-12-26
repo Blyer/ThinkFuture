@@ -12,9 +12,9 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import org.base.platform.Constants.MsgEventConstants;
 import org.base.platform.R;
 import org.base.platform.bean.MessageEvent;
+import org.base.platform.constants.MsgEventConstants;
 import org.base.platform.utils.ImageUtils;
 import org.base.platform.utils.MessageEventUtils;
 

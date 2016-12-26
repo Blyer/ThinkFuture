@@ -15,11 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.base.platform.Constants.MsgEventConstants;
 import org.base.platform.R;
 import org.base.platform.activity.BaseActivity;
 import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
+import org.base.platform.constants.MsgEventConstants;
 import org.base.platform.utils.BaseUtils;
 import org.base.platform.utils.ImageUtils;
 import org.base.platform.utils.JumpUtils;

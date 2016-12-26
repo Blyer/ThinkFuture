@@ -1,4 +1,4 @@
-package org.base.platform.Constants;
+package org.base.platform.constants;
 
 /**
  * Created by YinShengyi on 2016/12/20.
