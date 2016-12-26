@@ -73,8 +73,8 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
         }
         resolveIntent(intent);
         initView();
-        setListener();
         initData();
+        setListener();
     }
 
     @Override

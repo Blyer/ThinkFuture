@@ -23,6 +23,8 @@ public class MainActivity extends FutureBaseActivity implements View.OnClickList
     private UnifyButton btn_2;
     private UnifyButton btn_3;
     private UnifyButton btn_4;
+    private UnifyButton btn_5;
+    private UnifyButton btn_6;
 
     private long mFirstTime = 0; // 第一次点击返回键记录的时间
 
@@ -42,6 +44,8 @@ public class MainActivity extends FutureBaseActivity implements View.OnClickList
         btn_2 = (UnifyButton) findViewById(R.id.btn_2);
         btn_3 = (UnifyButton) findViewById(R.id.btn_3);
         btn_4 = (UnifyButton) findViewById(R.id.btn_4);
+        btn_5 = (UnifyButton) findViewById(R.id.btn_5);
+        btn_6 = (UnifyButton) findViewById(R.id.btn_6);
     }
 
     @Override
@@ -50,6 +54,8 @@ public class MainActivity extends FutureBaseActivity implements View.OnClickList
         btn_2.setOnClickListener(this);
         btn_3.setOnClickListener(this);
         btn_4.setOnClickListener(this);
+        btn_5.setOnClickListener(this);
+        btn_6.setOnClickListener(this);
     }
 
     @Override
@@ -146,6 +152,13 @@ public class MainActivity extends FutureBaseActivity implements View.OnClickList
                 JumpUtils.jump(mActivity, intent);
             }
             break;
+            case R.id.btn_5: {
+                Intent intent = new Intent(mActivity, SingleTypeListActivity.class);
+                JumpUtils.jump(mActivity, intent);
+            }
+            break;
+            case R.id.btn_6:
+                break;
         }
     }
 }

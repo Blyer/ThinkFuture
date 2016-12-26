@@ -22,12 +22,15 @@
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MainActivityTheme"></activity>
+            android:theme="@style/MainActivityTheme" />
         <activity
             android:name=".activity.SecondActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ThirdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SingleTypeListActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 
