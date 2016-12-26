@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
@@ -12,6 +11,7 @@ import com.ysy.thinkfuture.adapter.MultiTypeAdapter;
 import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;
 
 import org.base.platform.adapter.UnifyAdapter;
+import org.base.platform.utils.ToastUtils;
 import org.base.platform.view.UnifyButton;
 
 import java.util.ArrayList;
@@ -48,14 +48,14 @@ public class MultiTypeListActivity extends FutureBaseActivity {
             @Override
             public void onClickListener(View view, int position) {
                 String item = mAdapter.getItem(position);
-                Toast.makeText(mActivity, "Click:" + item, Toast.LENGTH_SHORT).show();
+                ToastUtils.show("Click:" + item);
             }
         });
         mAdapter.setOnLongClickListener(new UnifyAdapter.OnLongClickListener() {
             @Override
             public void onLongClickListener(View view, int position) {
                 String item = mAdapter.getItem(position);
-                Toast.makeText(mActivity, "Long Click:" + item, Toast.LENGTH_SHORT).show();
+                ToastUtils.show("Long Click:" + item);
             }
         });
 
