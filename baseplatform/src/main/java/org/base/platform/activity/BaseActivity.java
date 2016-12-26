@@ -165,14 +165,14 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
     protected abstract void initView();
 
     /**
-     * 设置事件监听
-     */
-    protected abstract void setListener();
-
-    /**
      * 初始化数据
      */
     protected abstract void initData();
+
+    /**
+     * 设置事件监听
+     */
+    protected abstract void setListener();
 
     /**
      * 总线消息处理
