@@ -97,10 +97,9 @@ public class SingleTypeListActivity extends FutureBaseActivity {
 
         rv_data.setLayoutManager(new LinearLayoutManager(this));
         rv_data.setAdapter(mAdapter);
-//        mAdapter.clearTo(mData);
         rv_data.addItemDecoration(new HorizontalLineItemDivider(this, R.color.red_1, 1));
 
-//        container_refresh.autoRefresh();
+        container_refresh.autoRefresh();
     }
 
     @Override
