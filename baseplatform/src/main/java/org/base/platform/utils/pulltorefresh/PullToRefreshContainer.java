@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import org.base.platform.view.EmptyView;
+
 public class PullToRefreshContainer extends FrameLayout {
 
     private static final long ANIM_TIME = 250; // 动画执行的时间
@@ -18,6 +20,7 @@ public class PullToRefreshContainer extends FrameLayout {
     private static int footer_height; // 上拉加载的布局本身高度
     private static int current_footer_height; // 当前上拉加载的布局高度
 
+    private EmptyView mEmptyView; // 没有数据时的空View
     private View mChildView; // 核心组件，为ListView或RecycleView或其他控件
     private BaseView mHeaderView; // 下拉刷新的布局
     private BaseView mFooterView; // 上拉加载的布局
@@ -44,10 +47,6 @@ public class PullToRefreshContainer extends FrameLayout {
 
     public PullToRefreshContainer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    private void init() {
     }
 
     public void setHeaderView(BaseView view) {
@@ -72,8 +71,23 @@ public class PullToRefreshContainer extends FrameLayout {
                 }
             }
         });
+        mEmptyView = (EmptyView) getChildAt(1);
         addHeaderView();
         addFooterView();
+    }
+
+    public void showEmptyView() {
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(VISIBLE);
+            mChildView.setVisibility(GONE);
+        }
+    }
+
+    public void showDataView() {
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(GONE);
+            mChildView.setVisibility(VISIBLE);
+        }
     }
 
     private void addFooterView() {

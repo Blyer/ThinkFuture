@@ -18,6 +18,7 @@ import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.JsonUtils;
 import org.base.platform.utils.StatusBarCompat;
 import org.base.platform.utils.ToastUtils;
+import org.base.platform.view.EmptyView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ import static org.base.platform.constants.MsgEventConstants.NET_REQUEST_ERROR;
 public class SingleTypeListActivity extends FutureRefreshBaseActivity {
 
     private RecyclerView rv_data;
+    private EmptyView ev_no_data;
 
     private List<String> mData;
 
@@ -44,6 +46,7 @@ public class SingleTypeListActivity extends FutureRefreshBaseActivity {
     protected void initView() {
         super.initView();
         rv_data = (RecyclerView) findViewById(R.id.rv_data);
+        ev_no_data = (EmptyView) findViewById(R.id.ev_no_data);
     }
 
     @Override
@@ -61,6 +64,13 @@ public class SingleTypeListActivity extends FutureRefreshBaseActivity {
             public void onLongClickListener(View view, int position) {
                 String item = (String) mAdapter.getItem(position);
                 ToastUtils.show("Long Click:" + item);
+            }
+        });
+        ev_no_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                generateListRequest().isSilentRequest = false;
+                mHttpUtils.request();
             }
         });
     }
@@ -85,7 +95,7 @@ public class SingleTypeListActivity extends FutureRefreshBaseActivity {
         rv_data.setAdapter(mAdapter);
         rv_data.addItemDecoration(new HorizontalLineItemDivider(this, R.color.red_1, 1));
 
-        container_refresh.autoRefresh();
+        refresh_container.autoRefresh();
     }
 
     @Override
@@ -95,9 +105,9 @@ public class SingleTypeListActivity extends FutureRefreshBaseActivity {
             case 111:
                 if (result.getCode() == 0) {
                     List<String> list = JsonUtils.jsonToList(result.getData(), String.class);
-                    processListData(list);
+                    processListData(list, isCache);
                 } else {
-                    processListData(null);
+                    processEmpty();
                 }
                 break;
         }
@@ -108,12 +118,12 @@ public class SingleTypeListActivity extends FutureRefreshBaseActivity {
         super.processMessageEvent(event);
         switch (event.id) {
             case NET_REQUEST_ERROR:
-                processListData(null);
+                processEmpty();
                 break;
         }
     }
 
-    private void generateListRequest() {
+    private HttpRequestPackage generateListRequest() {
         HttpRequestPackage request = new HttpRequestPackage();
         request.id = 111;
         request.isSilentRequest = true;
@@ -122,6 +132,8 @@ public class SingleTypeListActivity extends FutureRefreshBaseActivity {
         request.params.put("id", "111");
         request.params.put("page", mPageIndex);
         request.params.put("pageCount", mPageCount);
+        request.params.put("time", System.currentTimeMillis());
         mHttpUtils.addRequest(request);
+        return request;
     }
 }

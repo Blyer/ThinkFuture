@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 
-import com.apkfuns.logutils.LogUtils;
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
 
@@ -88,7 +87,6 @@ public class MainActivity extends FutureBaseActivity implements View.OnClickList
 
     @Override
     protected void processMessageEvent(MessageEvent event) {
-        LogUtils.e(event.data.toString());
     }
 
     @Override

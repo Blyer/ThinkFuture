@@ -16,17 +16,17 @@ public abstract class FutureRefreshBaseActivity extends FutureBaseActivity {
     protected int mPageIndex;
     protected int mPageCount = 20;
 
-    protected PullToRefreshContainer container_refresh;
+    protected PullToRefreshContainer refresh_container;
     protected UnifyAdapter mAdapter;
 
     @Override
     protected void initView() {
-        container_refresh = (PullToRefreshContainer) findViewById(R.id.container_refresh);
+        refresh_container = (PullToRefreshContainer) findViewById(R.id.refresh_container);
     }
 
     @Override
     protected void setListener() {
-        container_refresh.setRefreshListener(new RefreshListener() {
+        refresh_container.setRefreshListener(new RefreshListener() {
             @Override
             public void refresh() {
                 mPageIndex = 1;
@@ -43,22 +43,28 @@ public abstract class FutureRefreshBaseActivity extends FutureBaseActivity {
 
     public abstract void requestListData();
 
-    public void processListData(List data) {
+    public void processListData(List data, boolean isCache) {
         if (mAdapter != null) {
             if (mPageIndex == 1) {
                 if (data != null && data.size() > 0) {
                     mAdapter.clearTo(data);
+                    refresh_container.showDataView();
                 } else if (mAdapter.getItemCount() == 0) {
                     // 没有数据显示缺省页面
+                    refresh_container.showEmptyView();
                 }
-                container_refresh.setFinish(State.REFRESH);
+                refresh_container.setFinish(State.REFRESH);
             } else {
-                if (data != null && data.size() > 0) {
+                if (data != null && data.size() > 0 && !isCache) {
                     mAdapter.append(data);
                 }
-                container_refresh.setFinish(State.LOADMORE);
+                refresh_container.setFinish(State.LOADMORE);
             }
         }
+    }
+
+    public void processEmpty() {
+        processListData(null, true);
     }
 
 }
