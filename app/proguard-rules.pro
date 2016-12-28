@@ -36,5 +36,13 @@
 }
 #################### end region for xUtils
 
+#################### region for EventBus
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+#################### end region for EventBus
+
 -keep class org.base.platform.bean.**{*;}
 -keep class org.base.platform.callback.**{*;}
