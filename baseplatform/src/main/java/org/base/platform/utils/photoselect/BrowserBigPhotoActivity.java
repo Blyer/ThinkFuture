@@ -17,6 +17,7 @@ import org.base.platform.activity.BaseActivity;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.utils.ImageUtils;
 import org.base.platform.utils.JumpUtils;
+import org.base.platform.utils.StatusBarCompat;
 import org.xutils.common.Callback;
 
 import java.util.ArrayList;
@@ -72,6 +73,7 @@ public class BrowserBigPhotoActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        StatusBarCompat.compat(this, getResources().getColor(R.color.black));
         setFinishAnim(R.anim.empty_anim, R.anim.anim_for_close_big_pic);
         forbidSwipeFinishActivity();
 
@@ -99,11 +101,6 @@ public class BrowserBigPhotoActivity extends BaseActivity {
             }
         });
 
-    }
-
-    @Override
-    protected int getStatusBarColor() {
-        return getResources().getColor(R.color.black);
     }
 
     @Override

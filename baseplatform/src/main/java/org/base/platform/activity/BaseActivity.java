@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.jude.swipbackhelper.SwipeBackHelper;
 
-import org.base.platform.R;
 import org.base.platform.bean.MessageEvent;
 import org.base.platform.callback.NetRequestProcessCallback;
 import org.base.platform.callback.PermissionsResultListener;
@@ -19,7 +18,6 @@ import org.base.platform.utils.FileCacheUtils;
 import org.base.platform.utils.HttpUtils;
 import org.base.platform.utils.MessageEventUtils;
 import org.base.platform.utils.PermissionUtils;
-import org.base.platform.utils.StatusBarCompat;
 
 /**
  * Created by YinShengyi on 2016/11/18.
@@ -44,8 +42,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewId());
-
-        StatusBarCompat.compat(this, getStatusBarColor());
 
         mActivity = this;
         mHttpUtils = new HttpUtils(this);
@@ -179,13 +175,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
      */
     protected void processMessageEvent(MessageEvent event) {
 
-    }
-
-    /**
-     * 获取状态栏待设置的颜色值
-     */
-    protected int getStatusBarColor() {
-        return getResources().getColor(R.color.grey_1);
     }
 
     /**

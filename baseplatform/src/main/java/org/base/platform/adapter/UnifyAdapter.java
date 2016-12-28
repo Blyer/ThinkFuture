@@ -59,7 +59,9 @@ public abstract class UnifyAdapter<T> extends RecyclerView.Adapter<UnifyHolder> 
      */
     public void clearTo(List<T> data) {
         mData.clear();
-        mData.addAll(data);
+        if (data != null && data.size() > 0) {
+            mData.addAll(data);
+        }
         notifyDataSetChanged();
     }
 
@@ -67,8 +69,10 @@ public abstract class UnifyAdapter<T> extends RecyclerView.Adapter<UnifyHolder> 
      * 添加数据至RecycleView的数据源中并绘制界面
      */
     public void append(List<T> data) {
-        mData.addAll(data);
-        notifyDataSetChanged();
+        if (data != null && data.size() > 0) {
+            mData.addAll(data);
+            notifyDataSetChanged();
+        }
     }
 
     @Override

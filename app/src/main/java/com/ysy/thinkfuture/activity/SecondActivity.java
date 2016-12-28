@@ -12,6 +12,7 @@ import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.JumpUtils;
+import org.base.platform.utils.StatusBarCompat;
 import org.base.platform.utils.ToastUtils;
 import org.base.platform.view.UnifyButton;
 
@@ -50,7 +51,7 @@ public class SecondActivity extends FutureBaseActivity implements View.OnClickLi
 
     @Override
     protected void initData() {
-
+        StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
     }
 
     @Override
@@ -74,11 +75,6 @@ public class SecondActivity extends FutureBaseActivity implements View.OnClickLi
                 }
                 break;
         }
-    }
-
-    @Override
-    public int getStatusBarColor() {
-        return getResources().getColor(R.color.blue_1);
     }
 
     private HttpRequestPackage net1() {

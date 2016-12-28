@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.apkfuns.logutils.LogUtils;
 
 import org.base.platform.bean.HttpRequestPackage;
+import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.callback.NetRequestProcessCallback;
 import org.base.platform.enums.HttpMethod;
@@ -18,6 +19,8 @@ import org.xutils.x;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static org.base.platform.constants.MsgEventConstants.NET_REQUEST_ERROR;
 
 /**
  * Created by YinShengyi on 2016/11/29.
@@ -133,6 +136,9 @@ public class HttpUtils {
                 } else {
                     ToastUtils.show("解析数据失败");
                 }
+                MessageEvent event = new MessageEvent();
+                event.id = NET_REQUEST_ERROR;
+                MessageEventUtils.post(event);
             }
 
             @Override

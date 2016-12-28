@@ -10,6 +10,7 @@ import com.ysy.thinkfuture.fragment.FirstFragment;
 
 import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
+import org.base.platform.utils.StatusBarCompat;
 
 public class ThirdActivity extends FutureBaseActivity {
 
@@ -35,6 +36,7 @@ public class ThirdActivity extends FutureBaseActivity {
 
     @Override
     protected void initData() {
+        StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
         initFileCacheUtils();
         FirstFragment fragment = (FirstFragment) FirstFragment.get();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -52,8 +54,4 @@ public class ThirdActivity extends FutureBaseActivity {
         super.processNetRequest(id, result, isCache);
     }
 
-    @Override
-    protected int getStatusBarColor() {
-        return getResources().getColor(R.color.blue_1);
-    }
 }

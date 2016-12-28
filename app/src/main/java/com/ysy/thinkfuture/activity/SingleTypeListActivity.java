@@ -1,32 +1,34 @@
 package com.ysy.thinkfuture.activity;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ysy.thinkfuture.R;
-import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
+import com.ysy.thinkfuture.activity.base.FutureRefreshBaseActivity;
 import com.ysy.thinkfuture.adapter.SingleTypeAdapter;
 import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;
 
 import org.base.platform.adapter.UnifyAdapter;
+import org.base.platform.bean.HttpRequestPackage;
+import org.base.platform.bean.MessageEvent;
+import org.base.platform.bean.ResponseResult;
+import org.base.platform.enums.HttpMethod;
+import org.base.platform.utils.JsonUtils;
+import org.base.platform.utils.StatusBarCompat;
 import org.base.platform.utils.ToastUtils;
-import org.base.platform.utils.pulltorefresh.PullToRefreshContainer;
-import org.base.platform.utils.pulltorefresh.RefreshListener;
-import org.base.platform.utils.pulltorefresh.State;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SingleTypeListActivity extends FutureBaseActivity {
+import static org.base.platform.constants.MsgEventConstants.NET_REQUEST_ERROR;
 
-    private PullToRefreshContainer container_refresh;
+public class SingleTypeListActivity extends FutureRefreshBaseActivity {
+
     private RecyclerView rv_data;
 
     private List<String> mData;
-    private SingleTypeAdapter mAdapter;
 
     @Override
     protected int getContentViewId() {
@@ -40,54 +42,38 @@ public class SingleTypeListActivity extends FutureBaseActivity {
 
     @Override
     protected void initView() {
-        container_refresh = (PullToRefreshContainer) findViewById(R.id.container_refresh);
+        super.initView();
         rv_data = (RecyclerView) findViewById(R.id.rv_data);
     }
 
     @Override
     protected void setListener() {
-        container_refresh.setRefreshListener(new RefreshListener() {
-            @Override
-            public void refresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.append(mData);
-                        container_refresh.setFinish(State.REFRESH);
-                    }
-                }, 1000);
-            }
-
-            @Override
-            public void loadMore() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.append(mData);
-                        container_refresh.setFinish(State.LOADMORE);
-                    }
-                }, 500);
-            }
-        });
+        super.setListener();
         mAdapter.setOnClickListener(new UnifyAdapter.OnClickListener() {
             @Override
             public void onClickListener(View view, int position) {
-                String item = mAdapter.getItem(position);
+                String item = (String) mAdapter.getItem(position);
                 ToastUtils.show("Click:" + item);
             }
         });
         mAdapter.setOnLongClickListener(new UnifyAdapter.OnLongClickListener() {
             @Override
             public void onLongClickListener(View view, int position) {
-                String item = mAdapter.getItem(position);
+                String item = (String) mAdapter.getItem(position);
                 ToastUtils.show("Long Click:" + item);
             }
         });
+    }
 
+    @Override
+    public void requestListData() {
+        generateListRequest();
+        mHttpUtils.request();
     }
 
     @Override
     protected void initData() {
+        StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
         mData = new ArrayList<>();
         for (int i = 0; i < 1; ++i) {
             mData.add("1");
@@ -103,7 +89,39 @@ public class SingleTypeListActivity extends FutureBaseActivity {
     }
 
     @Override
-    protected int getStatusBarColor() {
-        return getResources().getColor(R.color.blue_1);
+    public void processNetRequest(int id, ResponseResult result, boolean isCache) {
+        super.processNetRequest(id, result, isCache);
+        switch (id) {
+            case 111:
+                if (result.getCode() == 0) {
+                    List<String> list = JsonUtils.jsonToList(result.getData(), String.class);
+                    processListData(list);
+                } else {
+                    processListData(null);
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void processMessageEvent(MessageEvent event) {
+        super.processMessageEvent(event);
+        switch (event.id) {
+            case NET_REQUEST_ERROR:
+                processListData(null);
+                break;
+        }
+    }
+
+    private void generateListRequest() {
+        HttpRequestPackage request = new HttpRequestPackage();
+        request.id = 111;
+        request.isSilentRequest = true;
+        request.method = HttpMethod.GET;
+        request.url = "http://192.168.2.79/list.txt";
+        request.params.put("id", "111");
+        request.params.put("page", mPageIndex);
+        request.params.put("pageCount", mPageCount);
+        mHttpUtils.addRequest(request);
     }
 }
