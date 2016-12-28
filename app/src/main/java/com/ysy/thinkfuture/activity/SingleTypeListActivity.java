@@ -1,6 +1,7 @@
 package com.ysy.thinkfuture.activity;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,15 +13,16 @@ import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;
 
 import org.base.platform.adapter.UnifyAdapter;
 import org.base.platform.utils.ToastUtils;
-import org.base.platform.view.UnifyButton;
+import org.base.platform.utils.pulltorefresh.PullToRefreshContainer;
+import org.base.platform.utils.pulltorefresh.RefreshListener;
+import org.base.platform.utils.pulltorefresh.State;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SingleTypeListActivity extends FutureBaseActivity {
 
-    private UnifyButton btn_load;
-    private UnifyButton btn_copy;
+    private PullToRefreshContainer container_refresh;
     private RecyclerView rv_data;
 
     private List<String> mData;
@@ -38,13 +40,35 @@ public class SingleTypeListActivity extends FutureBaseActivity {
 
     @Override
     protected void initView() {
-        btn_load = (UnifyButton) findViewById(R.id.btn_load);
-        btn_copy = (UnifyButton) findViewById(R.id.btn_copy);
+        container_refresh = (PullToRefreshContainer) findViewById(R.id.container_refresh);
         rv_data = (RecyclerView) findViewById(R.id.rv_data);
     }
 
     @Override
     protected void setListener() {
+        container_refresh.setRefreshListener(new RefreshListener() {
+            @Override
+            public void refresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.append(mData);
+                        container_refresh.setFinish(State.REFRESH);
+                    }
+                }, 1000);
+            }
+
+            @Override
+            public void loadMore() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.append(mData);
+                        container_refresh.setFinish(State.LOADMORE);
+                    }
+                }, 500);
+            }
+        });
         mAdapter.setOnClickListener(new UnifyAdapter.OnClickListener() {
             @Override
             public void onClickListener(View view, int position) {
@@ -60,30 +84,27 @@ public class SingleTypeListActivity extends FutureBaseActivity {
             }
         });
 
-        btn_load.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAdapter.clearTo(mData);
-            }
-        });
-        btn_copy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAdapter.append(mData);
-            }
-        });
     }
 
     @Override
     protected void initData() {
         mData = new ArrayList<>();
-        mData.add("1");
-        mData.add("2");
+        for (int i = 0; i < 1; ++i) {
+            mData.add("1");
+            mData.add("2");
+        }
         mAdapter = new SingleTypeAdapter(this, R.layout.item_data_1);
 
         rv_data.setLayoutManager(new LinearLayoutManager(this));
         rv_data.setAdapter(mAdapter);
+//        mAdapter.clearTo(mData);
         rv_data.addItemDecoration(new HorizontalLineItemDivider(this, R.color.red_1, 1));
+
+//        container_refresh.autoRefresh();
     }
 
+    @Override
+    protected int getStatusBarColor() {
+        return getResources().getColor(R.color.blue_1);
+    }
 }
