@@ -6,6 +6,7 @@ import android.view.View;
 import com.apkfuns.logutils.LogUtils;
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
+import com.ysy.thinkfuture.constants.UrlConstants;
 
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.MessageEvent;
@@ -82,7 +83,7 @@ public class SecondActivity extends FutureBaseActivity implements View.OnClickLi
         request.id = 111;
         request.isSilentRequest = false;
         request.method = HttpMethod.GET;
-        request.url = "http://192.168.2.79/r.txt";
+        request.url = UrlConstants.host + "/r.txt";
         request.params.put("id", "111");
         mHttpUtils.addRequest(request);
         return request;
@@ -93,7 +94,7 @@ public class SecondActivity extends FutureBaseActivity implements View.OnClickLi
         request.id = 122;
         request.isSilentRequest = false;
         request.method = HttpMethod.GET;
-        request.url = "http://192.168.2.79/r.txt";
+        request.url = UrlConstants.host + "/r.txt";
         request.params.put("id", "122");
         mHttpUtils.addRequest(request);
     }
@@ -103,7 +104,7 @@ public class SecondActivity extends FutureBaseActivity implements View.OnClickLi
         request.id = 133;
         request.isSilentRequest = false;
         request.method = HttpMethod.GET;
-        request.url = "http://192.168.2.79/r.txt";
+        request.url = UrlConstants.host + "/r.txt";
         request.params.put("id", "133");
         mHttpUtils.addRequest(request);
     }

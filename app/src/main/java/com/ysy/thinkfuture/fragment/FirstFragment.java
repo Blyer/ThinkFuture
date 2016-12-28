@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.apkfuns.logutils.LogUtils;
 import com.ysy.thinkfuture.R;
+import com.ysy.thinkfuture.constants.UrlConstants;
 import com.ysy.thinkfuture.fragment.base.FutureBaseFragment;
 
 import org.base.platform.bean.HttpRequestPackage;
@@ -104,7 +105,7 @@ public class FirstFragment extends FutureBaseFragment implements View.OnClickLis
         request.id = 111;
         request.isSilentRequest = false;
         request.method = HttpMethod.GET;
-        request.url = "http://192.168.2.79/r.txt";
+        request.url = UrlConstants.host + "/r.txt";
         request.params.put("id", "111");
         mHttpUtils.addRequest(request);
         return request;
@@ -115,7 +116,7 @@ public class FirstFragment extends FutureBaseFragment implements View.OnClickLis
         request.id = 122;
         request.isSilentRequest = false;
         request.method = HttpMethod.GET;
-        request.url = "http://192.168.2.79/r.txt";
+        request.url = UrlConstants.host + "/r.txt";
         request.params.put("id", "122");
         mHttpUtils.addRequest(request);
     }
@@ -125,7 +126,7 @@ public class FirstFragment extends FutureBaseFragment implements View.OnClickLis
         request.id = 133;
         request.isSilentRequest = false;
         request.method = HttpMethod.GET;
-        request.url = "http://192.168.2.79/r.txt";
+        request.url = UrlConstants.host + "/r.txt";
         request.params.put("id", "133");
         mHttpUtils.addRequest(request);
     }

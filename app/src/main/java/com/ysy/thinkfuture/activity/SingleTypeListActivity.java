@@ -8,6 +8,7 @@ import android.view.View;
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.activity.base.FutureRefreshBaseActivity;
 import com.ysy.thinkfuture.adapter.SingleTypeAdapter;
+import com.ysy.thinkfuture.constants.UrlConstants;
 import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;
 
 import org.base.platform.adapter.UnifyAdapter;
@@ -23,7 +24,6 @@ import org.base.platform.view.EmptyView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.base.platform.constants.MsgEventConstants.NET_REQUEST_ERROR;
 
 public class SingleTypeListActivity extends FutureRefreshBaseActivity {
 
@@ -117,7 +117,7 @@ public class SingleTypeListActivity extends FutureRefreshBaseActivity {
     protected void processMessageEvent(MessageEvent event) {
         super.processMessageEvent(event);
         switch (event.id) {
-            case NET_REQUEST_ERROR:
+            case org.base.platform.constants.MsgEventConstants.NET_REQUEST_ERROR:
                 processEmpty();
                 break;
         }
@@ -128,7 +128,7 @@ public class SingleTypeListActivity extends FutureRefreshBaseActivity {
         request.id = 111;
         request.isSilentRequest = true;
         request.method = HttpMethod.GET;
-        request.url = "http://192.168.2.79/list.txt";
+        request.url = UrlConstants.host + "/list.txt";
         request.params.put("id", "111");
         request.params.put("page", mPageIndex);
         request.params.put("pageCount", mPageCount);

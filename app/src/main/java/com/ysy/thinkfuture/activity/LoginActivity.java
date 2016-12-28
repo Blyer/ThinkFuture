@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
+import com.ysy.thinkfuture.constants.UrlConstants;
 
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.ResponseResult;
@@ -73,7 +74,7 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
     private void generateLoginRequest() {
         HttpRequestPackage httpRequestPackage = new HttpRequestPackage();
         httpRequestPackage.id = R.id.btn_login;
-        httpRequestPackage.url = "http://192.168.2.79/login.txt";
+        httpRequestPackage.url = UrlConstants.host + "/login.txt";
         httpRequestPackage.method = HttpMethod.GET;
         httpRequestPackage.params.put("username", et_user_name.getText().toString().trim());
         httpRequestPackage.params.put("password", et_password.getText().toString().trim());
