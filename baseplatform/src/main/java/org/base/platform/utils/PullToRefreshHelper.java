@@ -67,7 +67,11 @@ public class PullToRefreshHelper {
     }
 
     public void processEmptyList() {
-        processListData(null, true);
+        if (mPageIndex == 1) {
+            mRefreshContainer.setFinish(State.REFRESH);
+        } else {
+            mRefreshContainer.setFinish(State.LOADMORE);
+        }
     }
 
     public void autoRefresh() {
