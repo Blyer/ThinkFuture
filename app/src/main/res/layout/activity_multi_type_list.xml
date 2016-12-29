@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:id="@+id/activity_single_type_list"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/grey_4"
+    android:orientation="vertical">
 
-    <org.base.platform.view.UnifyButton
-        android:id="@+id/btn_load"
-        android:padding="10dp"
-        android:layout_width="wrap_content"
-        android:text="加载数据"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
+    <TextView
+        style="@style/LargeFontLabel"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/blue_1"
+        android:gravity="center"
+        android:text="测试RecycleView"
+        android:textColor="@color/white" />
 
-    <org.base.platform.view.UnifyButton
-        android:id="@+id/btn_copy"
-        android:padding="10dp"
-        android:layout_width="wrap_content"
-        android:text="复制数据"
-        android:layout_height="wrap_content" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_data"
+    <org.base.platform.utils.pulltorefresh.PullToRefreshContainer
+        android:id="@+id/refresh_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:background="@android:color/white"
-        android:clipToPadding="false" />
+        android:layout_marginTop="10dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:clipToPadding="false" />
+
+        <org.base.platform.view.EmptyView
+            android:id="@+id/ev_no_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </org.base.platform.utils.pulltorefresh.PullToRefreshContainer>
 
 </LinearLayout>

@@ -138,6 +138,7 @@ public class HttpUtils {
                 }
                 MessageEvent event = new MessageEvent();
                 event.id = NET_REQUEST_ERROR;
+                event.extraData = httpRequestPackage.id;
                 MessageEventUtils.post(event);
             }
 

@@ -21,7 +21,6 @@ import org.base.platform.utils.StatusBarCompat;
 import org.base.platform.utils.ToastUtils;
 import org.base.platform.view.EmptyView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,8 +28,6 @@ public class SingleTypeListActivity extends FutureRefreshBaseActivity {
 
     private RecyclerView rv_data;
     private EmptyView ev_no_data;
-
-    private List<String> mData;
 
     @Override
     protected int getContentViewId() {
@@ -84,11 +81,6 @@ public class SingleTypeListActivity extends FutureRefreshBaseActivity {
     @Override
     protected void initData() {
         StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
-        mData = new ArrayList<>();
-        for (int i = 0; i < 1; ++i) {
-            mData.add("1");
-            mData.add("2");
-        }
         mAdapter = new SingleTypeAdapter(this, R.layout.item_data_1);
 
         rv_data.setLayoutManager(new LinearLayoutManager(this));
@@ -107,7 +99,7 @@ public class SingleTypeListActivity extends FutureRefreshBaseActivity {
                     List<String> list = JsonUtils.jsonToList(result.getData(), String.class);
                     processListData(list, isCache);
                 } else {
-                    processEmpty();
+                    processEmptyList();
                 }
                 break;
         }
@@ -118,7 +110,8 @@ public class SingleTypeListActivity extends FutureRefreshBaseActivity {
         super.processMessageEvent(event);
         switch (event.id) {
             case org.base.platform.constants.MsgEventConstants.NET_REQUEST_ERROR:
-                processEmpty();
+                if ((int) event.extraData == 111)
+                    processEmptyList();
                 break;
         }
     }

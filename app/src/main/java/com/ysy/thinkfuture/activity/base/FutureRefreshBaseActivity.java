@@ -63,7 +63,7 @@ public abstract class FutureRefreshBaseActivity extends FutureBaseActivity {
         }
     }
 
-    public void processEmpty() {
+    public void processEmptyList() {
         processListData(null, true);
     }
 
