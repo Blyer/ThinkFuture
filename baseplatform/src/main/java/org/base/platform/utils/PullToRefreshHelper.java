@@ -16,18 +16,18 @@ public class PullToRefreshHelper {
     public int mPageIndex = 1;
     public int mPageCount = 20;
 
-    private PullToRefreshContainer refresh_container;
+    private PullToRefreshContainer mRefreshContainer;
     private BaseAdapterCallback mRefreshBaseAdapter;
     private OnRequestDataListener mOnRequestDataListener;
 
     public PullToRefreshHelper(View refreshContainerChild, BaseAdapterCallback refreshBaseAdapter) {
-        this.refresh_container = (PullToRefreshContainer) refreshContainerChild.getParent();
+        this.mRefreshContainer = (PullToRefreshContainer) refreshContainerChild.getParent();
         this.mRefreshBaseAdapter = refreshBaseAdapter;
         init();
     }
 
     private void init() {
-        refresh_container.setRefreshListener(new RefreshListener() {
+        mRefreshContainer.setRefreshListener(new RefreshListener() {
             @Override
             public void refresh() {
                 mPageIndex = 1;
@@ -51,17 +51,17 @@ public class PullToRefreshHelper {
             if (mPageIndex == 1) {
                 if (data != null && data.size() > 0) {
                     mRefreshBaseAdapter.clearTo(data);
-                    refresh_container.showDataView();
+                    mRefreshContainer.showDataView();
                 } else if (mRefreshBaseAdapter.getData().size() == 0) {
                     // 没有数据显示缺省页面
-                    refresh_container.showEmptyView();
+                    mRefreshContainer.showEmptyView();
                 }
-                refresh_container.setFinish(State.REFRESH);
+                mRefreshContainer.setFinish(State.REFRESH);
             } else {
                 if (data != null && data.size() > 0 && !isCache) {
                     mRefreshBaseAdapter.append(data);
                 }
-                refresh_container.setFinish(State.LOADMORE);
+                mRefreshContainer.setFinish(State.LOADMORE);
             }
         }
     }
@@ -71,7 +71,11 @@ public class PullToRefreshHelper {
     }
 
     public void autoRefresh() {
-        refresh_container.autoRefresh();
+        mRefreshContainer.autoRefresh();
+    }
+
+    public PullToRefreshContainer getRefreshContainer() {
+        return mRefreshContainer;
     }
 
     public void setOnRequestDataListener(OnRequestDataListener listener) {
