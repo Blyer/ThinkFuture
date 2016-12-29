@@ -15,7 +15,6 @@
         android:textColor="@color/white" />
 
     <org.base.platform.utils.pulltorefresh.PullToRefreshContainer
-        android:id="@+id/rf_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp">
