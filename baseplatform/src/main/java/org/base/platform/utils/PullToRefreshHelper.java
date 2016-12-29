@@ -52,7 +52,7 @@ public class PullToRefreshHelper {
                 if (data != null && data.size() > 0) {
                     mRefreshBaseAdapter.clearTo(data);
                     mRefreshContainer.showDataView();
-                } else if (mRefreshBaseAdapter.getData().size() == 0) {
+                } else {
                     // 没有数据显示缺省页面
                     mRefreshContainer.showEmptyView();
                 }
