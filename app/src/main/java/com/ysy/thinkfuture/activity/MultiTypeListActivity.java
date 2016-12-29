@@ -20,6 +20,7 @@ import org.base.platform.utils.PullToRefreshHelper;
 import org.base.platform.utils.StatusBarCompat;
 import org.base.platform.utils.ToastUtils;
 import org.base.platform.utils.pulltorefresh.PullToRefreshContainer;
+import org.base.platform.view.EmptyView;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class MultiTypeListActivity extends FutureBaseActivity {
 
     private PullToRefreshContainer rf_container;
     private RecyclerView rv_data;
+    private EmptyView ev_no_data;
 
     private MultiTypeRecyclerAdapter mAdapter;
 
@@ -43,6 +45,7 @@ public class MultiTypeListActivity extends FutureBaseActivity {
     protected void initView() {
         rf_container = (PullToRefreshContainer) findViewById(R.id.rf_container);
         rv_data = (RecyclerView) findViewById(R.id.rv_data);
+        ev_no_data = (EmptyView) findViewById(R.id.ev_no_data);
     }
 
     @Override
@@ -65,6 +68,13 @@ public class MultiTypeListActivity extends FutureBaseActivity {
             @Override
             public void onRequestData() {
                 generateListRequest();
+                mHttpUtils.request();
+            }
+        });
+        ev_no_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                generateListRequest().isSilentRequest = false;
                 mHttpUtils.request();
             }
         });

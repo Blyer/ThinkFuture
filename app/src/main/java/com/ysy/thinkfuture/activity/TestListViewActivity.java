@@ -1,5 +1,6 @@
 package com.ysy.thinkfuture.activity;
 
+import android.view.View;
 import android.widget.ListView;
 
 import com.ysy.thinkfuture.R;
@@ -59,6 +60,13 @@ public class TestListViewActivity extends FutureBaseActivity {
             @Override
             public void onRequestData() {
                 generateListRequest();
+                mHttpUtils.request();
+            }
+        });
+        ev_no_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                generateListRequest().isSilentRequest = false;
                 mHttpUtils.request();
             }
         });
