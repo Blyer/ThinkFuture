@@ -6,10 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ysy.thinkfuture.R;
-import com.ysy.thinkfuture.activity.base.FutureRefreshBaseActivity;
+import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.adapter.MultiTypeRecyclerAdapter;
 import com.ysy.thinkfuture.constants.UrlConstants;
 import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;
+import com.ysy.thinkfuture.utils.PullToRefreshHelper;
 
 import org.base.platform.adapter.UnifyRecyclerAdapter;
 import org.base.platform.bean.HttpRequestPackage;
@@ -19,12 +20,18 @@ import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.JsonUtils;
 import org.base.platform.utils.StatusBarCompat;
 import org.base.platform.utils.ToastUtils;
+import org.base.platform.utils.pulltorefresh.PullToRefreshContainer;
 
 import java.util.List;
 
-public class MultiTypeListActivity extends FutureRefreshBaseActivity {
+public class MultiTypeListActivity extends FutureBaseActivity {
 
+    private PullToRefreshContainer rf_container;
     private RecyclerView rv_data;
+
+    private MultiTypeRecyclerAdapter mAdapter;
+
+    private PullToRefreshHelper mPullToRefreshHelper;
 
     @Override
     protected int getContentViewId() {
@@ -38,27 +45,8 @@ public class MultiTypeListActivity extends FutureRefreshBaseActivity {
 
     @Override
     protected void initView() {
-        super.initView();
+        rf_container = (PullToRefreshContainer) findViewById(R.id.rf_container);
         rv_data = (RecyclerView) findViewById(R.id.rv_data);
-    }
-
-    @Override
-    protected void setListener() {
-        super.setListener();
-        mAdapter.setOnClickListener(new UnifyRecyclerAdapter.OnClickListener() {
-            @Override
-            public void onClickListener(View view, int position) {
-                String item = (String) mAdapter.getItem(position);
-                ToastUtils.show("Click:" + item);
-            }
-        });
-        mAdapter.setOnLongClickListener(new UnifyRecyclerAdapter.OnLongClickListener() {
-            @Override
-            public void onLongClickListener(View view, int position) {
-                String item = (String) mAdapter.getItem(position);
-                ToastUtils.show("Long Click:" + item);
-            }
-        });
     }
 
     @Override
@@ -68,10 +56,37 @@ public class MultiTypeListActivity extends FutureRefreshBaseActivity {
         mAdapter.addItemLayoutId(MultiTypeRecyclerAdapter.TYPE_1, R.layout.item_data_1);
         mAdapter.addItemLayoutId(MultiTypeRecyclerAdapter.TYPE_2, R.layout.item_data_2);
 
+        mPullToRefreshHelper = new PullToRefreshHelper(rf_container, mAdapter);
+
         rv_data.setLayoutManager(new LinearLayoutManager(this));
         rv_data.setAdapter(mAdapter);
         rv_data.addItemDecoration(new HorizontalLineItemDivider(this, R.color.red_1, 1));
-        refresh_container.autoRefresh();
+        rf_container.autoRefresh();
+    }
+
+    @Override
+    protected void setListener() {
+        mPullToRefreshHelper.setOnRequestDataListener(new PullToRefreshHelper.OnRequestDataListener() {
+            @Override
+            public void onRequestData() {
+                generateListRequest();
+                mHttpUtils.request();
+            }
+        });
+        mAdapter.setOnClickListener(new UnifyRecyclerAdapter.OnClickListener() {
+            @Override
+            public void onClickListener(View view, int position) {
+                String item = mAdapter.getItem(position);
+                ToastUtils.show("Click:" + item);
+            }
+        });
+        mAdapter.setOnLongClickListener(new UnifyRecyclerAdapter.OnLongClickListener() {
+            @Override
+            public void onLongClickListener(View view, int position) {
+                String item = mAdapter.getItem(position);
+                ToastUtils.show("Long Click:" + item);
+            }
+        });
     }
 
     @Override
@@ -81,9 +96,9 @@ public class MultiTypeListActivity extends FutureRefreshBaseActivity {
             case 111:
                 if (result.getCode() == 0) {
                     List<String> list = JsonUtils.jsonToList(result.getData(), String.class);
-                    processListData(list, isCache);
+                    mPullToRefreshHelper.processListData(list, isCache);
                 } else {
-                    processEmptyList();
+                    mPullToRefreshHelper.processEmptyList();
                 }
                 break;
         }
@@ -95,15 +110,9 @@ public class MultiTypeListActivity extends FutureRefreshBaseActivity {
         switch (event.id) {
             case org.base.platform.constants.MsgEventConstants.NET_REQUEST_ERROR:
                 if ((int) event.extraData == 111)
-                    processEmptyList();
+                    mPullToRefreshHelper.processEmptyList();
                 break;
         }
-    }
-
-    @Override
-    public void requestListData() {
-        generateListRequest();
-        mHttpUtils.request();
     }
 
     private HttpRequestPackage generateListRequest() {
@@ -113,8 +122,8 @@ public class MultiTypeListActivity extends FutureRefreshBaseActivity {
         request.method = HttpMethod.GET;
         request.url = UrlConstants.host + "/list.txt";
         request.params.put("id", "111");
-        request.params.put("page", mPageIndex);
-        request.params.put("pageCount", mPageCount);
+        request.params.put("page", mPullToRefreshHelper.mPageIndex);
+        request.params.put("pageCount", mPullToRefreshHelper.mPageCount);
         request.params.put("time", System.currentTimeMillis());
         mHttpUtils.addRequest(request);
         return request;

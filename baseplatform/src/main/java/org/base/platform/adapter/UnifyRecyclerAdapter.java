@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.base.platform.callback.BaseAdapterCallback;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
  * Created by YinShengyi on 2016/12/26.
  * UnifyRecyclerAdapter For RecycleView
  */
-public abstract class UnifyRecyclerAdapter<T> extends RecyclerView.Adapter<UnifyRecyclerHolder> {
+public abstract class UnifyRecyclerAdapter<T> extends RecyclerView.Adapter<UnifyRecyclerHolder> implements BaseAdapterCallback<T> {
 
     private Context mContext;
     private HashMap<Integer, Integer> mLayoutIds;
@@ -54,9 +56,7 @@ public abstract class UnifyRecyclerAdapter<T> extends RecyclerView.Adapter<Unify
         mLayoutIds.put(type, layoutId);
     }
 
-    /**
-     * 将RecycleView的数据源改为data后绘制界面
-     */
+    @Override
     public void clearTo(List<T> data) {
         mData.clear();
         if (data != null && data.size() > 0) {
@@ -65,14 +65,17 @@ public abstract class UnifyRecyclerAdapter<T> extends RecyclerView.Adapter<Unify
         notifyDataSetChanged();
     }
 
-    /**
-     * 添加数据至RecycleView的数据源中并绘制界面
-     */
+    @Override
     public void append(List<T> data) {
         if (data != null && data.size() > 0) {
             mData.addAll(data);
             notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public List<T> getData() {
+        return mData;
     }
 
     @Override

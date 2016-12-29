@@ -6,11 +6,12 @@
     android:orientation="vertical">
 
     <TextView
+        style="@style/LargeFontLabel"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@color/blue_1"
         android:gravity="center"
-        android:text="测试RecycleView"
+        android:text="测试ListView"
         android:textColor="@color/white" />
 
     <org.base.platform.utils.pulltorefresh.PullToRefreshContainer
@@ -18,8 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_data"
+
+        <ListView
+            android:id="@+id/lv_data"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"

@@ -34,6 +34,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MultiTypeListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TestListViewActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 

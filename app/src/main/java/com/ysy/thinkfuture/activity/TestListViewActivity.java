@@ -1,44 +1,38 @@
 package com.ysy.thinkfuture.activity;
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.widget.ListView;
 
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
-import com.ysy.thinkfuture.adapter.SingleTypeRecyclerAdapter;
+import com.ysy.thinkfuture.adapter.ListViewTestAdapter;
 import com.ysy.thinkfuture.constants.UrlConstants;
-import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;
 import com.ysy.thinkfuture.utils.PullToRefreshHelper;
 
-import org.base.platform.adapter.UnifyRecyclerAdapter;
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.JsonUtils;
 import org.base.platform.utils.StatusBarCompat;
-import org.base.platform.utils.ToastUtils;
 import org.base.platform.utils.pulltorefresh.PullToRefreshContainer;
 import org.base.platform.view.EmptyView;
 
 import java.util.List;
 
-
-public class SingleTypeListActivity extends FutureBaseActivity {
+public class TestListViewActivity extends FutureBaseActivity {
 
     private PullToRefreshContainer rf_container;
-    private RecyclerView rv_data;
+    private ListView lv_data;
     private EmptyView ev_no_data;
 
-    private SingleTypeRecyclerAdapter mAdapter;
+    private ListViewTestAdapter mAdapter;
 
     private PullToRefreshHelper mPullToRefreshHelper;
 
     @Override
     protected int getContentViewId() {
-        return R.layout.activity_single_type_list;
+        return R.layout.activity_test_list_view;
     }
 
     @Override
@@ -49,20 +43,18 @@ public class SingleTypeListActivity extends FutureBaseActivity {
     @Override
     protected void initView() {
         rf_container = (PullToRefreshContainer) findViewById(R.id.rf_container);
-        rv_data = (RecyclerView) findViewById(R.id.rv_data);
+        lv_data = (ListView) findViewById(R.id.lv_data);
         ev_no_data = (EmptyView) findViewById(R.id.ev_no_data);
     }
 
     @Override
     protected void initData() {
         StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
-        mAdapter = new SingleTypeRecyclerAdapter(this, R.layout.item_data_1);
+
+        mAdapter = new ListViewTestAdapter(mActivity, R.layout.item_data_1);
         mPullToRefreshHelper = new PullToRefreshHelper(rf_container, mAdapter);
 
-        rv_data.setLayoutManager(new LinearLayoutManager(this));
-        rv_data.setAdapter(mAdapter);
-        rv_data.addItemDecoration(new HorizontalLineItemDivider(this, R.color.red_1, 1));
-
+        lv_data.setAdapter(mAdapter);
         rf_container.autoRefresh();
     }
 
@@ -72,27 +64,6 @@ public class SingleTypeListActivity extends FutureBaseActivity {
             @Override
             public void onRequestData() {
                 generateListRequest();
-                mHttpUtils.request();
-            }
-        });
-        mAdapter.setOnClickListener(new UnifyRecyclerAdapter.OnClickListener() {
-            @Override
-            public void onClickListener(View view, int position) {
-                String item = mAdapter.getItem(position);
-                ToastUtils.show("Click:" + item);
-            }
-        });
-        mAdapter.setOnLongClickListener(new UnifyRecyclerAdapter.OnLongClickListener() {
-            @Override
-            public void onLongClickListener(View view, int position) {
-                String item = mAdapter.getItem(position);
-                ToastUtils.show("Long Click:" + item);
-            }
-        });
-        ev_no_data.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                generateListRequest().isSilentRequest = false;
                 mHttpUtils.request();
             }
         });
@@ -137,4 +108,5 @@ public class SingleTypeListActivity extends FutureBaseActivity {
         mHttpUtils.addRequest(request);
         return request;
     }
+
 }

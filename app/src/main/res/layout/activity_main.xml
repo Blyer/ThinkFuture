@@ -77,4 +77,16 @@
         app:bgUnEnableColor="@color/grey_4"
         app:cornerSize="8dp" />
 
+    <org.base.platform.view.UnifyButton
+        android:id="@+id/btn_7"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="5dp"
+        android:text="测试ListView"
+        android:textColor="@color/white"
+        app:bgNormalColor="@color/orange_1"
+        app:bgPressedColor="@color/orange_2"
+        app:bgUnEnableColor="@color/grey_4"
+        app:cornerSize="8dp" />
+
 </LinearLayout>
