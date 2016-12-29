@@ -34,7 +34,9 @@ public class FooterView extends BaseView {
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.refresh_view, this, true);
         img_progress = (ImageView) findViewById(R.id.img_progress);
-        setPadding(0, BaseUtils.dp2px(10), 0, BaseUtils.dp2px(10));
+        if (!isInEditMode()) {
+            setPadding(0, BaseUtils.dp2px(10), 0, BaseUtils.dp2px(10));
+        }
         setGravity(Gravity.TOP);
     }
 

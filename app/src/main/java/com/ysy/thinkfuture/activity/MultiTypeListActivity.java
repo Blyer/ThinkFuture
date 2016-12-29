@@ -9,7 +9,6 @@ import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.adapter.MultiTypeRecyclerAdapter;
 import com.ysy.thinkfuture.constants.UrlConstants;
 import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;
-import com.ysy.thinkfuture.utils.PullToRefreshHelper;
 
 import org.base.platform.adapter.UnifyRecyclerAdapter;
 import org.base.platform.bean.HttpRequestPackage;
@@ -17,6 +16,7 @@ import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.JsonUtils;
+import org.base.platform.utils.PullToRefreshHelper;
 import org.base.platform.utils.StatusBarCompat;
 import org.base.platform.utils.ToastUtils;
 import org.base.platform.utils.pulltorefresh.PullToRefreshContainer;

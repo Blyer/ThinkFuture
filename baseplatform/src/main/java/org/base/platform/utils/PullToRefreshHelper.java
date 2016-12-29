@@ -1,4 +1,4 @@
-package com.ysy.thinkfuture.utils;
+package org.base.platform.utils;
 
 import org.base.platform.callback.BaseAdapterCallback;
 import org.base.platform.utils.pulltorefresh.PullToRefreshContainer;
