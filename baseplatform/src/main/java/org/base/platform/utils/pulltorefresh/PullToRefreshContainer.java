@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import org.base.platform.utils.ViewUtils;
 import org.base.platform.view.EmptyView;
 
 public class PullToRefreshContainer extends FrameLayout {
@@ -22,6 +23,7 @@ public class PullToRefreshContainer extends FrameLayout {
 
     private View mEmptyView; // 没有数据时的空View
     private View mChildView; // 核心组件，为ListView或RecycleView或其他控件
+    private View mCurrentView;
     private BaseView mHeaderView; // 下拉刷新的布局
     private BaseView mFooterView; // 上拉加载的布局
     private boolean isRefresh; // 是否正在刷新中
@@ -48,6 +50,12 @@ public class PullToRefreshContainer extends FrameLayout {
     public PullToRefreshContainer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mEmptyView = new EmptyView(getContext());
+        ViewUtils.setOnClickListener(mEmptyView, new ViewUtils.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                autoRefresh();
+            }
+        });
     }
 
     public void setHeaderView(BaseView view) {
@@ -62,6 +70,7 @@ public class PullToRefreshContainer extends FrameLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         mChildView = getChildAt(0);
+        mCurrentView = mChildView;
         mChildView.post(new Runnable() {
             @Override
             public void run() {
@@ -89,6 +98,8 @@ public class PullToRefreshContainer extends FrameLayout {
         if (mEmptyView != null) {
             mEmptyView.setVisibility(VISIBLE);
             mChildView.setVisibility(GONE);
+            mCurrentView = mEmptyView;
+            resetHeaderAndFooter();
         }
     }
 
@@ -96,6 +107,8 @@ public class PullToRefreshContainer extends FrameLayout {
         if (mEmptyView != null) {
             mEmptyView.setVisibility(GONE);
             mChildView.setVisibility(VISIBLE);
+            mCurrentView = mChildView;
+            resetHeaderAndFooter();
         }
     }
 
@@ -144,17 +157,26 @@ public class PullToRefreshContainer extends FrameLayout {
         canRefresh = enable;
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
+    private void resetHeaderAndFooter() {
+        boolean flag = false;
         if (mHeaderView.getVisibility() != VISIBLE) {
             mHeaderView.getLayoutParams().height = 0;
             mHeaderView.setVisibility(VISIBLE);
+            flag = true;
         }
         if (mFooterView.getVisibility() != VISIBLE) {
             mFooterView.getLayoutParams().height = 0;
             mFooterView.setVisibility(VISIBLE);
+            flag = true;
         }
-        requestLayout();
+        if (flag) {
+            requestLayout();
+        }
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        resetHeaderAndFooter();
         if (!canLoadMore && !canRefresh) return false;
         if (isRefresh || isLoadMore) return false;
         switch (ev.getAction()) {
@@ -189,21 +211,21 @@ public class PullToRefreshContainer extends FrameLayout {
                     mHeaderView.progress(0);
                     mFooterView.getLayoutParams().height = 0;
                     mFooterView.progress(0);
-                    ViewCompat.setTranslationY(mChildView, 0);
+                    ViewCompat.setTranslationY(mCurrentView, 0);
                     requestLayout();
                 } else if (dura > 0) {
                     if (canRefresh && !canChildScrollUp()) {
                         dura = dura * 0.5f;
                         mHeaderView.getLayoutParams().height = (int) dura;
                         mHeaderView.progress(dura);
-                        ViewCompat.setTranslationY(mChildView, dura);
+                        ViewCompat.setTranslationY(mCurrentView, dura);
                         requestLayout();
                     } else {
                         mHeaderView.getLayoutParams().height = 0;
                         mHeaderView.progress(0);
                         mFooterView.getLayoutParams().height = 0;
                         mFooterView.progress(0);
-                        ViewCompat.setTranslationY(mChildView, 0);
+                        ViewCompat.setTranslationY(mCurrentView, 0);
                         requestLayout();
                     }
                 } else {
@@ -211,14 +233,14 @@ public class PullToRefreshContainer extends FrameLayout {
                         dura = Math.abs(dura * 0.5f);
                         mFooterView.getLayoutParams().height = (int) dura;
                         mFooterView.progress(dura);
-                        ViewCompat.setTranslationY(mChildView, -dura);
+                        ViewCompat.setTranslationY(mCurrentView, -dura);
                         requestLayout();
                     } else {
                         mHeaderView.getLayoutParams().height = 0;
                         mHeaderView.progress(0);
                         mFooterView.getLayoutParams().height = 0;
                         mFooterView.progress(0);
-                        ViewCompat.setTranslationY(mChildView, 0);
+                        ViewCompat.setTranslationY(mCurrentView, 0);
                         requestLayout();
                     }
                 }
@@ -272,17 +294,17 @@ public class PullToRefreshContainer extends FrameLayout {
     }
 
     public boolean canChildScrollUp() {
-        if (mChildView == null) {
+        if (mCurrentView == null) {
             return false;
         }
-        return ViewCompat.canScrollVertically(mChildView, -1);
+        return ViewCompat.canScrollVertically(mCurrentView, -1);
     }
 
     public boolean canChildScrollDown() {
-        if (mChildView == null) {
+        if (mCurrentView == null) {
             return false;
         }
-        return ViewCompat.canScrollVertically(mChildView, 1);
+        return ViewCompat.canScrollVertically(mCurrentView, 1);
     }
 
     /**
@@ -299,13 +321,13 @@ public class PullToRefreshContainer extends FrameLayout {
 
                 if (state == State.REFRESH) {
                     mHeaderView.getLayoutParams().height = value;
-                    ViewCompat.setTranslationY(mChildView, value);
+                    ViewCompat.setTranslationY(mCurrentView, value);
                     if (purpose == 0) { //代表结束加载
                         mHeaderView.finishing(value);
                     }
                 } else {
                     mFooterView.getLayoutParams().height = value;
-                    ViewCompat.setTranslationY(mChildView, -value);
+                    ViewCompat.setTranslationY(mCurrentView, -value);
                     if (purpose == 0) { //代表结束加载
                         mFooterView.finishing(value);
                     }
@@ -332,7 +354,7 @@ public class PullToRefreshContainer extends FrameLayout {
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int value = (int) valueAnimator.getAnimatedValue();
                 v.getLayoutParams().height = value;
-                ViewCompat.setTranslationY(mChildView, value);
+                ViewCompat.setTranslationY(mCurrentView, value);
                 requestLayout();
                 if (value == 0) {
                     mHeaderView.begin();
@@ -356,15 +378,7 @@ public class PullToRefreshContainer extends FrameLayout {
             post(new Runnable() {
                 @Override
                 public void run() {
-                    if (mHeaderView.getVisibility() != VISIBLE) {
-                        mHeaderView.getLayoutParams().height = 0;
-                        mHeaderView.setVisibility(VISIBLE);
-                    }
-                    if (mFooterView.getVisibility() != VISIBLE) {
-                        mFooterView.getLayoutParams().height = 0;
-                        mFooterView.setVisibility(VISIBLE);
-                    }
-                    requestLayout();
+                    resetHeaderAndFooter();
                     mHeaderView.post(new Runnable() {
                         @Override
                         public void run() {

@@ -33,6 +33,7 @@ public class EmptyView extends RelativeLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.empty_view, this, true);
         img_no_data = (ImageView) findViewById(R.id.img_no_data);
         tv_no_data = (UnifyTextView) findViewById(R.id.tv_no_data);
+        setBackgroundColor(getResources().getColor(R.color.white));
     }
 
     public void setImageSrc(int resId) {
@@ -46,4 +47,5 @@ public class EmptyView extends RelativeLayout {
     public void setText(int resId) {
         tv_no_data.setText(resId);
     }
+
 }

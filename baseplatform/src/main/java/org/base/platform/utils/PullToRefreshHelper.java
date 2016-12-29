@@ -1,5 +1,7 @@
 package org.base.platform.utils;
 
+import android.view.View;
+
 import org.base.platform.callback.BaseAdapterCallback;
 import org.base.platform.utils.pulltorefresh.PullToRefreshContainer;
 import org.base.platform.utils.pulltorefresh.RefreshListener;
@@ -18,8 +20,8 @@ public class PullToRefreshHelper {
     private BaseAdapterCallback mRefreshBaseAdapter;
     private OnRequestDataListener mOnRequestDataListener;
 
-    public PullToRefreshHelper(PullToRefreshContainer refresh_container, BaseAdapterCallback refreshBaseAdapter) {
-        this.refresh_container = refresh_container;
+    public PullToRefreshHelper(View refreshContainerChild, BaseAdapterCallback refreshBaseAdapter) {
+        this.refresh_container = (PullToRefreshContainer) refreshContainerChild.getParent();
         this.mRefreshBaseAdapter = refreshBaseAdapter;
         init();
     }
@@ -66,6 +68,10 @@ public class PullToRefreshHelper {
 
     public void processEmptyList() {
         processListData(null, true);
+    }
+
+    public void autoRefresh() {
+        refresh_container.autoRefresh();
     }
 
     public void setOnRequestDataListener(OnRequestDataListener listener) {

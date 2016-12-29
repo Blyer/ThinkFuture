@@ -17,7 +17,6 @@ import org.base.platform.utils.JsonUtils;
 import org.base.platform.utils.PullToRefreshHelper;
 import org.base.platform.utils.StatusBarCompat;
 import org.base.platform.utils.ToastUtils;
-import org.base.platform.utils.pulltorefresh.PullToRefreshContainer;
 
 import java.util.List;
 
@@ -25,9 +24,7 @@ import static org.base.platform.constants.MsgEventConstants.NET_REQUEST_ERROR;
 
 public class TestListViewActivity extends FutureBaseActivity {
 
-    private PullToRefreshContainer rf_container;
     private ListView lv_data;
-    private View ev_no_data;
 
     private ListViewTestAdapter mAdapter;
 
@@ -40,9 +37,7 @@ public class TestListViewActivity extends FutureBaseActivity {
 
     @Override
     protected void initView() {
-        rf_container = (PullToRefreshContainer) findViewById(R.id.rf_container);
         lv_data = (ListView) findViewById(R.id.lv_data);
-        ev_no_data = rf_container.getEmptyView();
     }
 
     @Override
@@ -50,7 +45,7 @@ public class TestListViewActivity extends FutureBaseActivity {
         StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
 
         mAdapter = new ListViewTestAdapter(mActivity, R.layout.item_data_1);
-        mPullToRefreshHelper = new PullToRefreshHelper(rf_container, mAdapter);
+        mPullToRefreshHelper = new PullToRefreshHelper(lv_data, mAdapter);
 
         lv_data.setAdapter(mAdapter);
     }
@@ -61,13 +56,6 @@ public class TestListViewActivity extends FutureBaseActivity {
             @Override
             public void onRequestData() {
                 generateListRequest();
-                mHttpUtils.request();
-            }
-        });
-        ev_no_data.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                generateListRequest().isSilentRequest = false;
                 mHttpUtils.request();
             }
         });
@@ -87,7 +75,7 @@ public class TestListViewActivity extends FutureBaseActivity {
 
     @Override
     protected void begin() {
-        rf_container.autoRefresh();
+        mPullToRefreshHelper.autoRefresh();
     }
 
     @Override

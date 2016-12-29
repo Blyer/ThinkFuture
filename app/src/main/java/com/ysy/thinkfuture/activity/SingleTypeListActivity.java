@@ -19,7 +19,6 @@ import org.base.platform.utils.JsonUtils;
 import org.base.platform.utils.PullToRefreshHelper;
 import org.base.platform.utils.StatusBarCompat;
 import org.base.platform.utils.ToastUtils;
-import org.base.platform.utils.pulltorefresh.PullToRefreshContainer;
 
 import java.util.List;
 
@@ -28,9 +27,7 @@ import static org.base.platform.constants.MsgEventConstants.NET_REQUEST_ERROR;
 
 public class SingleTypeListActivity extends FutureBaseActivity {
 
-    private PullToRefreshContainer rf_container;
     private RecyclerView rv_data;
-    private View ev_no_data;
 
     private SingleTypeRecyclerAdapter mAdapter;
 
@@ -43,16 +40,14 @@ public class SingleTypeListActivity extends FutureBaseActivity {
 
     @Override
     protected void initView() {
-        rf_container = (PullToRefreshContainer) findViewById(R.id.rf_container);
         rv_data = (RecyclerView) findViewById(R.id.rv_data);
-        ev_no_data = rf_container.getEmptyView();
     }
 
     @Override
     protected void initData() {
         StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
         mAdapter = new SingleTypeRecyclerAdapter(this, R.layout.item_data_1);
-        mPullToRefreshHelper = new PullToRefreshHelper(rf_container, mAdapter);
+        mPullToRefreshHelper = new PullToRefreshHelper(rv_data, mAdapter);
 
         rv_data.setLayoutManager(new LinearLayoutManager(this));
         rv_data.setAdapter(mAdapter);
@@ -83,18 +78,11 @@ public class SingleTypeListActivity extends FutureBaseActivity {
                 ToastUtils.show("Long Click:" + item);
             }
         });
-        ev_no_data.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                generateListRequest().isSilentRequest = false;
-                mHttpUtils.request();
-            }
-        });
     }
 
     @Override
     protected void begin() {
-        rf_container.autoRefresh();
+        mPullToRefreshHelper.autoRefresh();
     }
 
     @Override
