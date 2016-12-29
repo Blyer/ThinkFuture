@@ -78,16 +78,16 @@ public class MultiTypeListActivity extends FutureBaseActivity {
                 mHttpUtils.request();
             }
         });
-        mAdapter.setOnClickListener(new UnifyRecyclerAdapter.OnClickListener() {
+        mAdapter.setOnItemClickListener(new UnifyRecyclerAdapter.OnItemClickListener() {
             @Override
-            public void onClickListener(View view, int position) {
+            public void onItemClick(View view, int position) {
                 String item = mAdapter.getItem(position);
                 ToastUtils.show("Click:" + item);
             }
         });
-        mAdapter.setOnLongClickListener(new UnifyRecyclerAdapter.OnLongClickListener() {
+        mAdapter.setOnItemLongClickListener(new UnifyRecyclerAdapter.OnItemLongClickListener() {
             @Override
-            public void onLongClickListener(View view, int position) {
+            public void onItemLongClick(View view, int position) {
                 String item = mAdapter.getItem(position);
                 ToastUtils.show("Long Click:" + item);
             }

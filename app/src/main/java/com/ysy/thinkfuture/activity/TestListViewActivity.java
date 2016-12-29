@@ -8,6 +8,7 @@ import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.adapter.ListViewTestAdapter;
 import com.ysy.thinkfuture.constants.UrlConstants;
 
+import org.base.platform.adapter.UnifyListAdapter;
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
@@ -15,6 +16,7 @@ import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.JsonUtils;
 import org.base.platform.utils.PullToRefreshHelper;
 import org.base.platform.utils.StatusBarCompat;
+import org.base.platform.utils.ToastUtils;
 import org.base.platform.utils.pulltorefresh.PullToRefreshContainer;
 import org.base.platform.view.EmptyView;
 
@@ -41,6 +43,9 @@ public class TestListViewActivity extends FutureBaseActivity {
     protected void initView() {
         rf_container = (PullToRefreshContainer) findViewById(R.id.rf_container);
         lv_data = (ListView) findViewById(R.id.lv_data);
+        EmptyView headerView = new EmptyView(this);
+        headerView.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, 300));
+        lv_data.addHeaderView(headerView);
         ev_no_data = (EmptyView) findViewById(R.id.ev_no_data);
     }
 
@@ -68,6 +73,18 @@ public class TestListViewActivity extends FutureBaseActivity {
             public void onClick(View v) {
                 generateListRequest().isSilentRequest = false;
                 mHttpUtils.request();
+            }
+        });
+        mAdapter.setOnItemClickListener(new UnifyListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                ToastUtils.show("Click: " + mAdapter.getItem(position));
+            }
+        });
+        mAdapter.setOnItemLongClickListener(new UnifyListAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View view, int position) {
+                ToastUtils.show("Long Click: " + mAdapter.getItem(position));
             }
         });
     }

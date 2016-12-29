@@ -22,8 +22,8 @@ public abstract class UnifyRecyclerAdapter<T> extends RecyclerView.Adapter<Unify
     private HashMap<Integer, Integer> mLayoutIds;
     private List<T> mData;
 
-    private OnClickListener mOnClickListener;
-    private OnLongClickListener mOnLongClickListener;
+    private OnItemClickListener mOnItemClickListener;
+    private OnItemLongClickListener mOnItemLongClickListener;
 
     /**
      * 多类型Item布局文件时，使用此构造方法生成Adapter对象
@@ -92,16 +92,16 @@ public abstract class UnifyRecyclerAdapter<T> extends RecyclerView.Adapter<Unify
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnClickListener != null) {
-                    mOnClickListener.onClickListener(v, position);
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(v, position);
                 }
             }
         });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (mOnLongClickListener != null) {
-                    mOnLongClickListener.onLongClickListener(v, position);
+                if (mOnItemLongClickListener != null) {
+                    mOnItemLongClickListener.onItemLongClick(v, position);
                     return true;
                 }
                 return false;
@@ -136,19 +136,19 @@ public abstract class UnifyRecyclerAdapter<T> extends RecyclerView.Adapter<Unify
         return 0;
     }
 
-    public interface OnClickListener {
-        void onClickListener(View view, int position);
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
     }
 
-    public interface OnLongClickListener {
-        void onLongClickListener(View view, int position);
+    public interface OnItemLongClickListener {
+        void onItemLongClick(View view, int position);
     }
 
-    public void setOnClickListener(OnClickListener listener) {
-        mOnClickListener = listener;
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mOnItemClickListener = listener;
     }
 
-    public void setOnLongClickListener(OnLongClickListener listener) {
-        mOnLongClickListener = listener;
+    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+        mOnItemLongClickListener = listener;
     }
 }
