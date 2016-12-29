@@ -23,21 +23,17 @@ public class PullToRefreshContainer extends FrameLayout {
 
     private View mEmptyView; // 没有数据时的空View
     private View mChildView; // 核心组件，为ListView或RecycleView或其他控件
-    private View mCurrentView;
+    private View mCurrentView; // 当前显示的是哪个View
     private BaseView mHeaderView; // 下拉刷新的布局
     private BaseView mFooterView; // 上拉加载的布局
-    private boolean isRefresh; // 是否正在刷新中
-    private boolean isLoadMore; // 是否正在加载更多种
     private float mTouchY; // 手指按下时的初始Y轴坐标
 
+    private boolean isRefresh; // 是否正在刷新中
+    private boolean isLoadMore; // 是否正在加载更多中
     private boolean canLoadMore = true; // 是否开启了加载更多
     private boolean canRefresh = true; // 是否开启了下拉刷新
 
     private BaseRefreshListener refreshListener;
-
-    public void setRefreshListener(BaseRefreshListener refreshListener) {
-        this.refreshListener = refreshListener;
-    }
 
     public PullToRefreshContainer(Context context) {
         this(context, null);
@@ -49,6 +45,7 @@ public class PullToRefreshContainer extends FrameLayout {
 
     public PullToRefreshContainer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
         mEmptyView = new EmptyView(getContext());
         ViewUtils.setOnClickListener(mEmptyView, new ViewUtils.OnClickListener() {
             @Override
@@ -56,14 +53,6 @@ public class PullToRefreshContainer extends FrameLayout {
                 autoRefresh();
             }
         });
-    }
-
-    public void setHeaderView(BaseView view) {
-        mHeaderView = view;
-    }
-
-    public void setFooterView(BaseView view) {
-        mFooterView = view;
     }
 
     @Override
@@ -186,13 +175,13 @@ public class PullToRefreshContainer extends FrameLayout {
             case MotionEvent.ACTION_MOVE:
                 float dy = ev.getY() - mTouchY;
                 if (canRefresh) {
-                    if (dy > 0 && !canChildScrollUp()) {
+                    if (dy > 20 && !canChildScrollUp()) {
                         mHeaderView.begin();
                         return true;
                     }
                 }
                 if (canLoadMore) {
-                    if (dy < 0 && !canChildScrollDown()) {
+                    if (dy < -20 && !canChildScrollDown()) {
                         mFooterView.begin();
                         return true;
                     }
@@ -207,6 +196,8 @@ public class PullToRefreshContainer extends FrameLayout {
             case MotionEvent.ACTION_MOVE:
                 float dura = event.getY() - mTouchY;
                 if (dura == 0) {
+                    current_header_height = 0;
+                    current_footer_height = 0;
                     mHeaderView.getLayoutParams().height = 0;
                     mHeaderView.progress(0);
                     mFooterView.getLayoutParams().height = 0;
@@ -219,6 +210,8 @@ public class PullToRefreshContainer extends FrameLayout {
                         mHeaderView.getLayoutParams().height = (int) dura;
                         mHeaderView.progress(dura);
                         ViewCompat.setTranslationY(mCurrentView, dura);
+                        current_header_height = (int) dura;
+                        current_footer_height = 0;
                         requestLayout();
                     } else {
                         mHeaderView.getLayoutParams().height = 0;
@@ -226,6 +219,8 @@ public class PullToRefreshContainer extends FrameLayout {
                         mFooterView.getLayoutParams().height = 0;
                         mFooterView.progress(0);
                         ViewCompat.setTranslationY(mCurrentView, 0);
+                        current_header_height = 0;
+                        current_footer_height = 0;
                         requestLayout();
                     }
                 } else {
@@ -234,6 +229,8 @@ public class PullToRefreshContainer extends FrameLayout {
                         mFooterView.getLayoutParams().height = (int) dura;
                         mFooterView.progress(dura);
                         ViewCompat.setTranslationY(mCurrentView, -dura);
+                        current_header_height = 0;
+                        current_footer_height = (int) dura;
                         requestLayout();
                     } else {
                         mHeaderView.getLayoutParams().height = 0;
@@ -241,11 +238,11 @@ public class PullToRefreshContainer extends FrameLayout {
                         mFooterView.getLayoutParams().height = 0;
                         mFooterView.progress(0);
                         ViewCompat.setTranslationY(mCurrentView, 0);
+                        current_header_height = 0;
+                        current_footer_height = 0;
                         requestLayout();
                     }
                 }
-                current_header_height = (int) dura;
-                current_footer_height = (int) dura;
                 return true;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -448,6 +445,18 @@ public class PullToRefreshContainer extends FrameLayout {
 
     public void setEmptyView(View view) {
         mEmptyView = view;
+    }
+
+    public void setRefreshListener(BaseRefreshListener refreshListener) {
+        this.refreshListener = refreshListener;
+    }
+
+    public void setHeaderView(BaseView view) {
+        mHeaderView = view;
+    }
+
+    public void setFooterView(BaseView view) {
+        mFooterView = view;
     }
 
     public interface CallBack {
