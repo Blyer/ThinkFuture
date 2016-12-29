@@ -17,11 +17,15 @@ public class EmptyView extends RelativeLayout {
     private UnifyTextView tv_no_data;
 
     public EmptyView(Context context) {
-        super(context, null);
+        this(context, null);
     }
 
     public EmptyView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
+    }
+
+    public EmptyView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         init();
     }
 

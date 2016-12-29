@@ -18,7 +18,6 @@ import org.base.platform.utils.PullToRefreshHelper;
 import org.base.platform.utils.StatusBarCompat;
 import org.base.platform.utils.ToastUtils;
 import org.base.platform.utils.pulltorefresh.PullToRefreshContainer;
-import org.base.platform.view.EmptyView;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class TestListViewActivity extends FutureBaseActivity {
 
     private PullToRefreshContainer rf_container;
     private ListView lv_data;
-    private EmptyView ev_no_data;
+    private View ev_no_data;
 
     private ListViewTestAdapter mAdapter;
 
@@ -43,10 +42,7 @@ public class TestListViewActivity extends FutureBaseActivity {
     protected void initView() {
         rf_container = (PullToRefreshContainer) findViewById(R.id.rf_container);
         lv_data = (ListView) findViewById(R.id.lv_data);
-        EmptyView headerView = new EmptyView(this);
-        headerView.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, 300));
-        lv_data.addHeaderView(headerView);
-        ev_no_data = (EmptyView) findViewById(R.id.ev_no_data);
+        ev_no_data = rf_container.getEmptyView();
     }
 
     @Override

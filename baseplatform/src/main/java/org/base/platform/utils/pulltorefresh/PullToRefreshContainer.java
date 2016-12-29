@@ -20,7 +20,7 @@ public class PullToRefreshContainer extends FrameLayout {
     private static int footer_height; // 上拉加载的布局本身高度
     private static int current_footer_height; // 当前上拉加载的布局高度
 
-    private EmptyView mEmptyView; // 没有数据时的空View
+    private View mEmptyView; // 没有数据时的空View
     private View mChildView; // 核心组件，为ListView或RecycleView或其他控件
     private BaseView mHeaderView; // 下拉刷新的布局
     private BaseView mFooterView; // 上拉加载的布局
@@ -47,6 +47,7 @@ public class PullToRefreshContainer extends FrameLayout {
 
     public PullToRefreshContainer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mEmptyView = new EmptyView(getContext());
     }
 
     public void setHeaderView(BaseView view) {
@@ -71,9 +72,17 @@ public class PullToRefreshContainer extends FrameLayout {
                 }
             }
         });
-        mEmptyView = (EmptyView) getChildAt(1);
+        addEmptyView();
         addHeaderView();
         addFooterView();
+    }
+
+    private void addEmptyView() {
+        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        layoutParams.gravity = Gravity.TOP;
+        mEmptyView.setLayoutParams(layoutParams);
+        mEmptyView.setVisibility(GONE);
+        addView(mEmptyView);
     }
 
     public void showEmptyView() {
@@ -417,6 +426,14 @@ public class PullToRefreshContainer extends FrameLayout {
                 }
             }
         });
+    }
+
+    public View getEmptyView() {
+        return mEmptyView;
+    }
+
+    public void setEmptyView(View view) {
+        mEmptyView = view;
     }
 
     public interface CallBack {
