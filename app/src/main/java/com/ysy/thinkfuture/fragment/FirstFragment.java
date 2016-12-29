@@ -43,10 +43,6 @@ public class FirstFragment extends FutureBaseFragment implements View.OnClickLis
     }
 
     @Override
-    protected void resolveBundle(Bundle bundle) {
-    }
-
-    @Override
     protected void initView() {
         btn_1 = (UnifyButton) findViewById(R.id.btn_1);
         btn_2 = (UnifyButton) findViewById(R.id.btn_2);
@@ -74,6 +70,11 @@ public class FirstFragment extends FutureBaseFragment implements View.OnClickLis
         MessageEvent event = new MessageEvent();
         event.data = "Get event bus";
         MessageEventUtils.post(event);
+    }
+
+    @Override
+    protected void begin() {
+
     }
 
     @Override

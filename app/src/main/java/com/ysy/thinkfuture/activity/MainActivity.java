@@ -35,11 +35,6 @@ public class MainActivity extends FutureBaseActivity implements View.OnClickList
     }
 
     @Override
-    protected void resolveIntent(Intent intent) {
-
-    }
-
-    @Override
     protected void initView() {
         btn_1 = (UnifyButton) findViewById(R.id.btn_1);
         btn_2 = (UnifyButton) findViewById(R.id.btn_2);
@@ -59,6 +54,11 @@ public class MainActivity extends FutureBaseActivity implements View.OnClickList
         btn_5.setOnClickListener(this);
         btn_6.setOnClickListener(this);
         btn_7.setOnClickListener(this);
+    }
+
+    @Override
+    protected void begin() {
+
     }
 
     @Override

@@ -1,6 +1,5 @@
 package org.base.platform.activity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -63,14 +62,10 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
                 .setSwipeRelateOffset(300)
                 .setSwipeEdgePercent(0.05f);
 
-        Intent intent = getIntent();
-        if (intent == null) {
-            intent = new Intent();
-        }
-        resolveIntent(intent);
         initView();
         initData();
         setListener();
+        begin();
     }
 
     @Override
@@ -151,11 +146,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
     protected abstract int getContentViewId();
 
     /**
-     * 解析start本activity时传入的intent数据
-     */
-    protected abstract void resolveIntent(Intent intent);
-
-    /**
      * 初始化控件
      */
     protected abstract void initView();
@@ -169,6 +159,11 @@ public abstract class BaseActivity extends AppCompatActivity implements NetReque
      * 设置事件监听
      */
     protected abstract void setListener();
+
+    /**
+     * 开始执行操作指令
+     */
+    protected abstract void begin();
 
     /**
      * 总线消息处理

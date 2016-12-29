@@ -59,14 +59,10 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
             throw new RuntimeException("请在Fragment所属Activity中初始化文件工具类");
         }
 
-        Bundle bundle = getArguments();
-        if (bundle == null) {
-            bundle = new Bundle();
-        }
-        resolveBundle(bundle);
         initView();
-        setListener();
         initData();
+        setListener();
+        begin();
     }
 
     @Override
@@ -112,14 +108,14 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
     protected abstract int getViewId();
 
     /**
-     * 解析new本Fragment时传递的参数Bundle对象
-     */
-    protected abstract void resolveBundle(Bundle bundle);
-
-    /**
      * 初始化控件，直接使用findViewById方法（已重写）即可
      */
     protected abstract void initView();
+
+    /**
+     * 初始化数据
+     */
+    protected abstract void initData();
 
     /**
      * 设置事件监听
@@ -127,9 +123,9 @@ public abstract class BaseFragment extends Fragment implements NetRequestProcess
     protected abstract void setListener();
 
     /**
-     * 初始化数据
+     * 开始执行操作指令
      */
-    protected abstract void initData();
+    protected abstract void begin();
 
     /**
      * 总线消息处理

@@ -78,11 +78,6 @@ public class PhotoSingleSelectActivity extends BaseActivity implements View.OnCl
     }
 
     @Override
-    protected void resolveIntent(Intent intent) {
-        mIsClip = intent.getBooleanExtra(IS_CLIP, false);
-    }
-
-    @Override
     protected void initView() {
         img_back = (ImageView) findViewById(R.id.img_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
@@ -98,12 +93,18 @@ public class PhotoSingleSelectActivity extends BaseActivity implements View.OnCl
 
     @Override
     protected void initData() {
+        mIsClip = getIntent().getBooleanExtra(IS_CLIP, false);
         mCurrentAlbum = AlbumData.getAlbumList(mActivity).get(0); // 默认显示全部图片
         tv_title.setText(mCurrentAlbum.getName());
         mData = new ArrayList<>();
         mData.addAll(mCurrentAlbum.getPhotoList());
         mAdapter = new MyAdapter();
         gv_photo.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void begin() {
+
     }
 
     @Override

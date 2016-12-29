@@ -98,12 +98,6 @@ public class PhotoMultiSelectActivity extends BaseActivity implements View.OnCli
     }
 
     @Override
-    protected void resolveIntent(Intent intent) {
-        mCurrentSelectNum = intent.getIntExtra(CURRENT_SELECT_NUM, 0);
-        mTotalNum = intent.getIntExtra(TOTAL_NUM, 0);
-    }
-
-    @Override
     protected void initView() {
         img_back = (ImageView) findViewById(R.id.img_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
@@ -123,6 +117,8 @@ public class PhotoMultiSelectActivity extends BaseActivity implements View.OnCli
 
     @Override
     protected void initData() {
+        mCurrentSelectNum = getIntent().getIntExtra(CURRENT_SELECT_NUM, 0);
+        mTotalNum = getIntent().getIntExtra(TOTAL_NUM, 0);
         mCurrentAlbum = AlbumData.getAlbumList(mActivity).get(0); // 默认显示全部图片
         tv_title.setText(mCurrentAlbum.getName());
         mData = new ArrayList<>();
@@ -130,6 +126,11 @@ public class PhotoMultiSelectActivity extends BaseActivity implements View.OnCli
         mAdapter = new MyAdapter();
         gv_photo.setAdapter(mAdapter);
         mSelectedPhotos = new ArrayList<>();
+    }
+
+    @Override
+    protected void begin() {
+
     }
 
     @Override

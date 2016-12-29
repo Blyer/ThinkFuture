@@ -28,10 +28,6 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
     }
 
     @Override
-    protected void resolveIntent(Intent intent) {
-    }
-
-    @Override
     protected void initView() {
         et_user_name = (EditText) findViewById(R.id.et_user_name);
         et_password = (EditText) findViewById(R.id.et_password);
@@ -46,6 +42,11 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
     @Override
     protected void initData() {
         StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
+    }
+
+    @Override
+    protected void begin() {
+
     }
 
     @Override

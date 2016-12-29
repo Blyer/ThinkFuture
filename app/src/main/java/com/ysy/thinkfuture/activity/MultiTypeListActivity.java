@@ -1,6 +1,5 @@
 package com.ysy.thinkfuture.activity;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -39,11 +38,6 @@ public class MultiTypeListActivity extends FutureBaseActivity {
     }
 
     @Override
-    protected void resolveIntent(Intent intent) {
-
-    }
-
-    @Override
     protected void initView() {
         rf_container = (PullToRefreshContainer) findViewById(R.id.rf_container);
         rv_data = (RecyclerView) findViewById(R.id.rv_data);
@@ -61,7 +55,6 @@ public class MultiTypeListActivity extends FutureBaseActivity {
         rv_data.setLayoutManager(new LinearLayoutManager(this));
         rv_data.setAdapter(mAdapter);
         rv_data.addItemDecoration(new HorizontalLineItemDivider(this, R.color.red_1, 1));
-        rf_container.autoRefresh();
     }
 
     @Override
@@ -87,6 +80,11 @@ public class MultiTypeListActivity extends FutureBaseActivity {
                 ToastUtils.show("Long Click:" + item);
             }
         });
+    }
+
+    @Override
+    protected void begin() {
+        rf_container.autoRefresh();
     }
 
     @Override

@@ -55,12 +55,6 @@ public class BrowserBigPhotoActivity extends BaseActivity {
     }
 
     @Override
-    protected void resolveIntent(Intent intent) {
-        mPosition = intent.getIntExtra("currentPosition", 0);
-        mData = intent.getStringArrayListExtra("picUrls");
-    }
-
-    @Override
     protected void initView() {
         vp_content = (ViewPager) findViewById(R.id.vp_content);
         tv_indicator = (TextView) findViewById(R.id.tv_indicator);
@@ -74,6 +68,8 @@ public class BrowserBigPhotoActivity extends BaseActivity {
     @Override
     protected void initData() {
         StatusBarCompat.compat(this, getResources().getColor(R.color.black));
+        mPosition = getIntent().getIntExtra("currentPosition", 0);
+        mData = getIntent().getStringArrayListExtra("picUrls");
         setFinishAnim(R.anim.empty_anim, R.anim.anim_for_close_big_pic);
         forbidSwipeFinishActivity();
 
@@ -100,6 +96,11 @@ public class BrowserBigPhotoActivity extends BaseActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+    }
+
+    @Override
+    protected void begin() {
 
     }
 

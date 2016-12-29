@@ -39,11 +39,6 @@ public class ClipImageActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
-    protected void resolveIntent(Intent intent) {
-        path = intent.getStringExtra(CLIP_SOURCE);
-    }
-
-    @Override
     protected void initView() {
         civ_photo = (ClipImageView) findViewById(R.id.civ_photo);
         btn_cancel = (TextView) findViewById(R.id.btn_cancel);
@@ -58,11 +53,17 @@ public class ClipImageActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initData() {
+        path = getIntent().getStringExtra(CLIP_SOURCE);
         forbidSwipeFinishActivity();
         if (path == null || "".equals(path.trim())) {
             finish();
         }
         civ_photo.setSrc(BitmapUtils.getBitmap(path, BaseUtils.getScreenWidth(), BaseUtils.getScreenHeight()));
+    }
+
+    @Override
+    protected void begin() {
+
     }
 
     @Override

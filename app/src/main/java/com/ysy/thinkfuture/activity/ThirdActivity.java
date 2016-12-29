@@ -1,6 +1,5 @@
 package com.ysy.thinkfuture.activity;
 
-import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 
 import com.apkfuns.logutils.LogUtils;
@@ -17,11 +16,6 @@ public class ThirdActivity extends FutureBaseActivity {
     @Override
     protected int getContentViewId() {
         return R.layout.activity_third;
-    }
-
-    @Override
-    protected void resolveIntent(Intent intent) {
-
     }
 
     @Override
@@ -42,6 +36,11 @@ public class ThirdActivity extends FutureBaseActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.rl_container, fragment);
         transaction.commit();
+    }
+
+    @Override
+    protected void begin() {
+
     }
 
     @Override

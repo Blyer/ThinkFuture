@@ -30,11 +30,6 @@ public class SecondActivity extends FutureBaseActivity implements View.OnClickLi
     }
 
     @Override
-    protected void resolveIntent(Intent intent) {
-
-    }
-
-    @Override
     protected void initView() {
         btn_1 = (UnifyButton) findViewById(R.id.btn_1);
         btn_2 = (UnifyButton) findViewById(R.id.btn_2);
@@ -53,6 +48,11 @@ public class SecondActivity extends FutureBaseActivity implements View.OnClickLi
     @Override
     protected void initData() {
         StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
+    }
+
+    @Override
+    protected void begin() {
+
     }
 
     @Override

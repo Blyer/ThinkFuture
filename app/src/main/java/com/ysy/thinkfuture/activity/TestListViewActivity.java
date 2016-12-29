@@ -1,6 +1,5 @@
 package com.ysy.thinkfuture.activity;
 
-import android.content.Intent;
 import android.widget.ListView;
 
 import com.ysy.thinkfuture.R;
@@ -36,11 +35,6 @@ public class TestListViewActivity extends FutureBaseActivity {
     }
 
     @Override
-    protected void resolveIntent(Intent intent) {
-
-    }
-
-    @Override
     protected void initView() {
         rf_container = (PullToRefreshContainer) findViewById(R.id.rf_container);
         lv_data = (ListView) findViewById(R.id.lv_data);
@@ -55,7 +49,6 @@ public class TestListViewActivity extends FutureBaseActivity {
         mPullToRefreshHelper = new PullToRefreshHelper(rf_container, mAdapter);
 
         lv_data.setAdapter(mAdapter);
-        rf_container.autoRefresh();
     }
 
     @Override
@@ -67,6 +60,11 @@ public class TestListViewActivity extends FutureBaseActivity {
                 mHttpUtils.request();
             }
         });
+    }
+
+    @Override
+    protected void begin() {
+        rf_container.autoRefresh();
     }
 
     @Override
