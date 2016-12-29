@@ -19,6 +19,8 @@ import org.base.platform.view.EmptyView;
 
 import java.util.List;
 
+import static org.base.platform.constants.MsgEventConstants.NET_REQUEST_ERROR;
+
 public class TestListViewActivity extends FutureBaseActivity {
 
     private PullToRefreshContainer rf_container;
@@ -86,9 +88,10 @@ public class TestListViewActivity extends FutureBaseActivity {
     protected void processMessageEvent(MessageEvent event) {
         super.processMessageEvent(event);
         switch (event.id) {
-            case org.base.platform.constants.MsgEventConstants.NET_REQUEST_ERROR:
-                if ((int) event.extraData == 111)
+            case NET_REQUEST_ERROR:
+                if ((int) event.extraData == 111) {
                     mPullToRefreshHelper.processEmptyList();
+                }
                 break;
         }
     }

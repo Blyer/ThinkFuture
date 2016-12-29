@@ -24,6 +24,8 @@ import org.base.platform.view.EmptyView;
 
 import java.util.List;
 
+import static org.base.platform.constants.MsgEventConstants.NET_REQUEST_ERROR;
+
 
 public class SingleTypeListActivity extends FutureBaseActivity {
 
@@ -115,9 +117,10 @@ public class SingleTypeListActivity extends FutureBaseActivity {
     protected void processMessageEvent(MessageEvent event) {
         super.processMessageEvent(event);
         switch (event.id) {
-            case org.base.platform.constants.MsgEventConstants.NET_REQUEST_ERROR:
-                if ((int) event.extraData == 111)
+            case NET_REQUEST_ERROR:
+                if ((int) event.extraData == 111) {
                     mPullToRefreshHelper.processEmptyList();
+                }
                 break;
         }
     }
