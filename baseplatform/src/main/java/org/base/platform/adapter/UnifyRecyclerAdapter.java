@@ -12,9 +12,9 @@ import java.util.List;
 
 /**
  * Created by YinShengyi on 2016/12/26.
- * UnifyAdapter For RecycleView
+ * UnifyRecyclerAdapter For RecycleView
  */
-public abstract class UnifyAdapter<T> extends RecyclerView.Adapter<UnifyHolder> {
+public abstract class UnifyRecyclerAdapter<T> extends RecyclerView.Adapter<UnifyRecyclerHolder> {
 
     private Context mContext;
     private HashMap<Integer, Integer> mLayoutIds;
@@ -28,7 +28,7 @@ public abstract class UnifyAdapter<T> extends RecyclerView.Adapter<UnifyHolder> 
      * 而后调用addItemLayoutId方法添加Item布局文件的ID
      * 并且需要重写getViewType方法
      */
-    public UnifyAdapter(Context context) {
+    public UnifyRecyclerAdapter(Context context) {
         mContext = context;
         mLayoutIds = new HashMap<>();
         mData = new ArrayList<>();
@@ -39,7 +39,7 @@ public abstract class UnifyAdapter<T> extends RecyclerView.Adapter<UnifyHolder> 
      * 不需要调用addItemLayoutId方法添加Item布局文件
      * 也不需要在之类中重写getViewType方法
      */
-    public UnifyAdapter(Context context, int layoutId) {
+    public UnifyRecyclerAdapter(Context context, int layoutId) {
         this(context);
         mLayoutIds.put(0, layoutId);
     }
@@ -85,7 +85,7 @@ public abstract class UnifyAdapter<T> extends RecyclerView.Adapter<UnifyHolder> 
     }
 
     @Override
-    public void onBindViewHolder(UnifyHolder holder, final int position) {
+    public void onBindViewHolder(UnifyRecyclerHolder holder, final int position) {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,9 +108,9 @@ public abstract class UnifyAdapter<T> extends RecyclerView.Adapter<UnifyHolder> 
     }
 
     @Override
-    public UnifyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UnifyRecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(mContext).inflate(mLayoutIds.get(viewType), parent, false);
-        return new UnifyHolder(itemView);
+        return new UnifyRecyclerHolder(itemView);
     }
 
     @Override
@@ -124,7 +124,7 @@ public abstract class UnifyAdapter<T> extends RecyclerView.Adapter<UnifyHolder> 
      * @param holder 含有控件的ViewHolder
      * @param item   数据项
      */
-    public abstract void bindData(UnifyHolder holder, T item);
+    public abstract void bindData(UnifyRecyclerHolder holder, T item);
 
     /**
      * 获取当前数据项应对应的布局的标识

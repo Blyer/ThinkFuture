@@ -6,12 +6,12 @@ import android.view.View;
 
 /**
  * Created by YinShengyi on 2016/12/26.
- * ViewHolder For UnifyAdapter
+ * ViewHolder For UnifyRecyclerAdapter
  */
-public class UnifyHolder extends RecyclerView.ViewHolder {
+public class UnifyRecyclerHolder extends RecyclerView.ViewHolder {
     private SparseArrayCompat<View> mViews;
 
-    public UnifyHolder(View itemView) {
+    public UnifyRecyclerHolder(View itemView) {
         super(itemView);
         mViews = new SparseArrayCompat<>();
     }

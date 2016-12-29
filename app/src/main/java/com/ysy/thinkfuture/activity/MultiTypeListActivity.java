@@ -7,11 +7,11 @@ import android.view.View;
 
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.activity.base.FutureRefreshBaseActivity;
-import com.ysy.thinkfuture.adapter.MultiTypeAdapter;
+import com.ysy.thinkfuture.adapter.MultiTypeRecyclerAdapter;
 import com.ysy.thinkfuture.constants.UrlConstants;
 import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;
 
-import org.base.platform.adapter.UnifyAdapter;
+import org.base.platform.adapter.UnifyRecyclerAdapter;
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
@@ -45,14 +45,14 @@ public class MultiTypeListActivity extends FutureRefreshBaseActivity {
     @Override
     protected void setListener() {
         super.setListener();
-        mAdapter.setOnClickListener(new UnifyAdapter.OnClickListener() {
+        mAdapter.setOnClickListener(new UnifyRecyclerAdapter.OnClickListener() {
             @Override
             public void onClickListener(View view, int position) {
                 String item = (String) mAdapter.getItem(position);
                 ToastUtils.show("Click:" + item);
             }
         });
-        mAdapter.setOnLongClickListener(new UnifyAdapter.OnLongClickListener() {
+        mAdapter.setOnLongClickListener(new UnifyRecyclerAdapter.OnLongClickListener() {
             @Override
             public void onLongClickListener(View view, int position) {
                 String item = (String) mAdapter.getItem(position);
@@ -64,9 +64,9 @@ public class MultiTypeListActivity extends FutureRefreshBaseActivity {
     @Override
     protected void initData() {
         StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
-        mAdapter = new MultiTypeAdapter(this);
-        mAdapter.addItemLayoutId(MultiTypeAdapter.TYPE_1, R.layout.item_data_1);
-        mAdapter.addItemLayoutId(MultiTypeAdapter.TYPE_2, R.layout.item_data_2);
+        mAdapter = new MultiTypeRecyclerAdapter(this);
+        mAdapter.addItemLayoutId(MultiTypeRecyclerAdapter.TYPE_1, R.layout.item_data_1);
+        mAdapter.addItemLayoutId(MultiTypeRecyclerAdapter.TYPE_2, R.layout.item_data_2);
 
         rv_data.setLayoutManager(new LinearLayoutManager(this));
         rv_data.setAdapter(mAdapter);

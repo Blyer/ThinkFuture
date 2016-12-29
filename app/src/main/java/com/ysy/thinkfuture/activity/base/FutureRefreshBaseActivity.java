@@ -2,7 +2,7 @@ package com.ysy.thinkfuture.activity.base;
 
 import com.ysy.thinkfuture.R;
 
-import org.base.platform.adapter.UnifyAdapter;
+import org.base.platform.adapter.UnifyRecyclerAdapter;
 import org.base.platform.utils.pulltorefresh.PullToRefreshContainer;
 import org.base.platform.utils.pulltorefresh.RefreshListener;
 import org.base.platform.utils.pulltorefresh.State;
@@ -17,7 +17,7 @@ public abstract class FutureRefreshBaseActivity extends FutureBaseActivity {
     protected int mPageCount = 20;
 
     protected PullToRefreshContainer refresh_container;
-    protected UnifyAdapter mAdapter;
+    protected UnifyRecyclerAdapter mAdapter;
 
     @Override
     protected void initView() {

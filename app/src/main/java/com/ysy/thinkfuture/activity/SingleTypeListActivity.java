@@ -7,11 +7,11 @@ import android.view.View;
 
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.activity.base.FutureRefreshBaseActivity;
-import com.ysy.thinkfuture.adapter.SingleTypeAdapter;
+import com.ysy.thinkfuture.adapter.SingleTypeRecyclerAdapter;
 import com.ysy.thinkfuture.constants.UrlConstants;
 import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;
 
-import org.base.platform.adapter.UnifyAdapter;
+import org.base.platform.adapter.UnifyRecyclerAdapter;
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
@@ -49,14 +49,14 @@ public class SingleTypeListActivity extends FutureRefreshBaseActivity {
     @Override
     protected void setListener() {
         super.setListener();
-        mAdapter.setOnClickListener(new UnifyAdapter.OnClickListener() {
+        mAdapter.setOnClickListener(new UnifyRecyclerAdapter.OnClickListener() {
             @Override
             public void onClickListener(View view, int position) {
                 String item = (String) mAdapter.getItem(position);
                 ToastUtils.show("Click:" + item);
             }
         });
-        mAdapter.setOnLongClickListener(new UnifyAdapter.OnLongClickListener() {
+        mAdapter.setOnLongClickListener(new UnifyRecyclerAdapter.OnLongClickListener() {
             @Override
             public void onLongClickListener(View view, int position) {
                 String item = (String) mAdapter.getItem(position);
@@ -81,7 +81,7 @@ public class SingleTypeListActivity extends FutureRefreshBaseActivity {
     @Override
     protected void initData() {
         StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
-        mAdapter = new SingleTypeAdapter(this, R.layout.item_data_1);
+        mAdapter = new SingleTypeRecyclerAdapter(this, R.layout.item_data_1);
 
         rv_data.setLayoutManager(new LinearLayoutManager(this));
         rv_data.setAdapter(mAdapter);
