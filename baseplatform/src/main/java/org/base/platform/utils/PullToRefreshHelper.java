@@ -71,6 +71,9 @@ public class PullToRefreshHelper {
 
     public void processEmptyList() {
         if (mPageIndex == 1) {
+            if (mRefreshBaseAdapter == null || mRefreshBaseAdapter.getData().size() == 0) {
+                mRefreshContainer.showEmptyView();
+            }
             mRefreshContainer.setFinish(State.REFRESH);
         } else {
             mRefreshContainer.setFinish(State.LOADMORE);
