@@ -12,21 +12,21 @@ import android.widget.ImageView;
 import org.base.platform.R;
 import org.base.platform.utils.BaseUtils;
 
-public class HeaderView extends BaseView {
+public class PullUpLoadMoreView extends BaseView {
 
     private ImageView img_progress;
     private ObjectAnimator mAnim;
     private float mLastPogress;
 
-    public HeaderView(Context context) {
+    public PullUpLoadMoreView(Context context) {
         this(context, null);
     }
 
-    public HeaderView(Context context, AttributeSet attrs) {
+    public PullUpLoadMoreView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public HeaderView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PullUpLoadMoreView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -37,11 +37,14 @@ public class HeaderView extends BaseView {
         if (!isInEditMode()) {
             setPadding(0, BaseUtils.dp2px(10), 0, BaseUtils.dp2px(10));
         }
-        setGravity(Gravity.BOTTOM);
+        setGravity(Gravity.TOP);
     }
 
     @Override
     public void begin() {
+        mAnim = ObjectAnimator.ofFloat(img_progress, "rotation", 0, 0);
+        mAnim.setInterpolator(new LinearInterpolator());
+        mAnim.setTarget(img_progress);
     }
 
     @Override
@@ -49,9 +52,13 @@ public class HeaderView extends BaseView {
         float start = mLastPogress;
         float end = progress;
         mLastPogress = end;
-        ObjectAnimator anim = ObjectAnimator.ofFloat(img_progress, "rotation", start, end);
-        anim.setDuration(100);
-        anim.start();
+        if (mAnim.isRunning()) {
+            mAnim.cancel();
+        }
+        mAnim.setFloatValues(start, end);
+        mAnim.setRepeatCount(0);
+        mAnim.setDuration(100);
+        mAnim.start();
     }
 
     @Override
@@ -63,10 +70,12 @@ public class HeaderView extends BaseView {
 
     @Override
     public void loading() {
-        mAnim = ObjectAnimator.ofFloat(img_progress, "rotation", mLastPogress, mLastPogress + 360);
+        if (mAnim.isRunning()) {
+            mAnim.cancel();
+        }
+        mAnim.setFloatValues(mLastPogress, mLastPogress + 360);
         mAnim.setDuration(1000);
         mAnim.setRepeatCount(ValueAnimator.INFINITE);
-        mAnim.setInterpolator(new LinearInterpolator());
         mAnim.start();
     }
 
@@ -76,4 +85,5 @@ public class HeaderView extends BaseView {
             mAnim.cancel();
         }
     }
+
 }

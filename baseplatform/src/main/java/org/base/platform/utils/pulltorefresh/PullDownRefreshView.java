@@ -12,21 +12,21 @@ import android.widget.ImageView;
 import org.base.platform.R;
 import org.base.platform.utils.BaseUtils;
 
-public class FooterView extends BaseView {
+public class PullDownRefreshView extends BaseView {
 
     private ImageView img_progress;
     private ObjectAnimator mAnim;
     private float mLastPogress;
 
-    public FooterView(Context context) {
+    public PullDownRefreshView(Context context) {
         this(context, null);
     }
 
-    public FooterView(Context context, AttributeSet attrs) {
+    public PullDownRefreshView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public FooterView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PullDownRefreshView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -37,23 +37,28 @@ public class FooterView extends BaseView {
         if (!isInEditMode()) {
             setPadding(0, BaseUtils.dp2px(10), 0, BaseUtils.dp2px(10));
         }
-        setGravity(Gravity.TOP);
+        setGravity(Gravity.BOTTOM);
     }
 
     @Override
     public void begin() {
+        mAnim = ObjectAnimator.ofFloat(img_progress, "rotation", 0, 0);
+        mAnim.setInterpolator(new LinearInterpolator());
+        mAnim.setTarget(img_progress);
     }
 
     @Override
     public void progress(float progress) {
         float start = mLastPogress;
         float end = progress;
-        if (start != end) {
-            mLastPogress = end;
-            ObjectAnimator anim = ObjectAnimator.ofFloat(img_progress, "rotation", start, end);
-            anim.setDuration(100);
-            anim.start();
+        mLastPogress = end;
+        if (mAnim.isRunning()) {
+            mAnim.cancel();
         }
+        mAnim.setFloatValues(start, end);
+        mAnim.setRepeatCount(0);
+        mAnim.setDuration(100);
+        mAnim.start();
     }
 
     @Override
@@ -65,10 +70,12 @@ public class FooterView extends BaseView {
 
     @Override
     public void loading() {
-        mAnim = ObjectAnimator.ofFloat(img_progress, "rotation", 0, 360);
+        if (mAnim.isRunning()) {
+            mAnim.cancel();
+        }
+        mAnim.setFloatValues(mLastPogress, mLastPogress + 360);
         mAnim.setDuration(1000);
         mAnim.setRepeatCount(ValueAnimator.INFINITE);
-        mAnim.setInterpolator(new LinearInterpolator());
         mAnim.start();
     }
 
@@ -78,5 +85,4 @@ public class FooterView extends BaseView {
             mAnim.cancel();
         }
     }
-
 }

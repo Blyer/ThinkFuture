@@ -24,8 +24,8 @@ public class PullToRefreshContainer extends FrameLayout {
     private View mEmptyView; // 没有数据时的空View
     private View mChildView; // 核心组件，为ListView或RecycleView或其他控件
     private View mCurrentView; // 当前显示的是哪个View
-    private BaseView mHeaderView; // 下拉刷新的布局
-    private BaseView mFooterView; // 上拉加载的布局
+    private BaseView mPullDownRefreshView; // 下拉刷新的布局
+    private BaseView mPullUpLoadMoreView; // 上拉加载的布局
     private float mTouchY; // 手指按下时的初始Y轴坐标
 
     private boolean isRefresh; // 是否正在刷新中
@@ -71,10 +71,13 @@ public class PullToRefreshContainer extends FrameLayout {
             }
         });
         addEmptyView();
-        addHeaderView();
-        addFooterView();
+        addPullDownRefreshView();
+        addPullUpLoadMoreView();
     }
 
+    /**
+     * 添加无数据时显示界面
+     */
     private void addEmptyView() {
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         layoutParams.gravity = Gravity.TOP;
@@ -83,79 +86,104 @@ public class PullToRefreshContainer extends FrameLayout {
         addView(mEmptyView);
     }
 
+    /**
+     * 无数据时显示无数据提示界面
+     */
     public void showEmptyView() {
         if (mEmptyView != null) {
             mEmptyView.setVisibility(VISIBLE);
             mChildView.setVisibility(GONE);
             mCurrentView = mEmptyView;
-            resetHeaderAndFooter();
+            resetPullUpAndDownView();
         }
     }
 
+    /**
+     * 有数据时显示相关数据界面
+     */
     public void showDataView() {
         if (mEmptyView != null) {
             mEmptyView.setVisibility(GONE);
             mChildView.setVisibility(VISIBLE);
             mCurrentView = mChildView;
-            resetHeaderAndFooter();
+            resetPullUpAndDownView();
         }
     }
 
-    private void addFooterView() {
-        if (mFooterView == null) {
-            mFooterView = new FooterView(getContext());
+    /**
+     * 添加上拉加载更多时的提示View
+     */
+    private void addPullUpLoadMoreView() {
+        if (mPullUpLoadMoreView == null) {
+            mPullUpLoadMoreView = new PullUpLoadMoreView(getContext());
         }
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.BOTTOM;
-        mFooterView.setLayoutParams(layoutParams);
-        if (mFooterView.getParent() != null)
-            ((ViewGroup) mFooterView.getParent()).removeAllViews();
-        mFooterView.post(new Runnable() {
+        mPullUpLoadMoreView.setLayoutParams(layoutParams);
+        if (mPullUpLoadMoreView.getParent() != null)
+            ((ViewGroup) mPullUpLoadMoreView.getParent()).removeAllViews();
+        mPullUpLoadMoreView.post(new Runnable() {
             @Override
             public void run() {
-                footer_height = mFooterView.getMeasuredHeight();
+                footer_height = mPullUpLoadMoreView.getMeasuredHeight();
             }
         });
-        mFooterView.setVisibility(INVISIBLE);
-        addView(mFooterView);
+        mPullUpLoadMoreView.setVisibility(INVISIBLE);
+        addView(mPullUpLoadMoreView);
     }
 
-    private void addHeaderView() {
-        if (mHeaderView == null) {
-            mHeaderView = new HeaderView(getContext());
+    /**
+     * 添加下拉刷新的提示View
+     */
+    private void addPullDownRefreshView() {
+        if (mPullDownRefreshView == null) {
+            mPullDownRefreshView = new PullDownRefreshView(getContext());
         }
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        mHeaderView.setLayoutParams(layoutParams);
-        if (mHeaderView.getParent() != null)
-            ((ViewGroup) mHeaderView.getParent()).removeAllViews();
-        mHeaderView.post(new Runnable() {
+        mPullDownRefreshView.setLayoutParams(layoutParams);
+        if (mPullDownRefreshView.getParent() != null)
+            ((ViewGroup) mPullDownRefreshView.getParent()).removeAllViews();
+        mPullDownRefreshView.post(new Runnable() {
             @Override
             public void run() {
-                header_height = mHeaderView.getMeasuredHeight();
+                header_height = mPullDownRefreshView.getMeasuredHeight();
             }
         });
-        mHeaderView.setVisibility(INVISIBLE);
-        addView(mHeaderView, 0);
+        mPullDownRefreshView.setVisibility(INVISIBLE);
+        addView(mPullDownRefreshView, 0);
     }
 
+    /**
+     * 设置是否可以上拉加载更多
+     *
+     * @param enable true 可以，false 禁用
+     */
     public void setLoadMore(boolean enable) {
         canLoadMore = enable;
     }
 
-    public void setRefresh(boolean enable) {
+    /**
+     * 设置是否可以下拉刷新
+     *
+     * @param enable true 可以，false 禁用
+     */
+    public void setPullDownRefresh(boolean enable) {
         canRefresh = enable;
     }
 
-    private void resetHeaderAndFooter() {
+    /**
+     * 重置上拉加载和下拉刷新的View状态
+     */
+    private void resetPullUpAndDownView() {
         boolean flag = false;
-        if (mHeaderView.getVisibility() != VISIBLE) {
-            mHeaderView.getLayoutParams().height = 0;
-            mHeaderView.setVisibility(VISIBLE);
+        if (mPullDownRefreshView.getVisibility() != VISIBLE) {
+            mPullDownRefreshView.getLayoutParams().height = 0;
+            mPullDownRefreshView.setVisibility(VISIBLE);
             flag = true;
         }
-        if (mFooterView.getVisibility() != VISIBLE) {
-            mFooterView.getLayoutParams().height = 0;
-            mFooterView.setVisibility(VISIBLE);
+        if (mPullUpLoadMoreView.getVisibility() != VISIBLE) {
+            mPullUpLoadMoreView.getLayoutParams().height = 0;
+            mPullUpLoadMoreView.setVisibility(VISIBLE);
             flag = true;
         }
         if (flag) {
@@ -165,7 +193,7 @@ public class PullToRefreshContainer extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        resetHeaderAndFooter();
+        resetPullUpAndDownView();
         if (!canLoadMore && !canRefresh) return false;
         if (isRefresh || isLoadMore) return false;
         switch (ev.getAction()) {
@@ -176,13 +204,13 @@ public class PullToRefreshContainer extends FrameLayout {
                 float dy = ev.getY() - mTouchY;
                 if (canRefresh) {
                     if (dy > 20 && !canChildScrollUp()) {
-                        mHeaderView.begin();
+                        mPullDownRefreshView.begin();
                         return true;
                     }
                 }
                 if (canLoadMore) {
                     if (dy < -20 && !canChildScrollDown()) {
-                        mFooterView.begin();
+                        mPullUpLoadMoreView.begin();
                         return true;
                     }
                 }
@@ -198,26 +226,26 @@ public class PullToRefreshContainer extends FrameLayout {
                 if (dura == 0) {
                     current_header_height = 0;
                     current_footer_height = 0;
-                    mHeaderView.getLayoutParams().height = 0;
-                    mHeaderView.progress(0);
-                    mFooterView.getLayoutParams().height = 0;
-                    mFooterView.progress(0);
+                    mPullDownRefreshView.getLayoutParams().height = 0;
+                    mPullDownRefreshView.progress(0);
+                    mPullUpLoadMoreView.getLayoutParams().height = 0;
+                    mPullUpLoadMoreView.progress(0);
                     ViewCompat.setTranslationY(mCurrentView, 0);
                     requestLayout();
                 } else if (dura > 0) {
                     if (canRefresh && !canChildScrollUp()) {
                         dura = dura * 0.5f;
-                        mHeaderView.getLayoutParams().height = (int) dura;
-                        mHeaderView.progress(dura);
+                        mPullDownRefreshView.getLayoutParams().height = (int) dura;
+                        mPullDownRefreshView.progress(dura);
                         ViewCompat.setTranslationY(mCurrentView, dura);
                         current_header_height = (int) dura;
                         current_footer_height = 0;
                         requestLayout();
                     } else {
-                        mHeaderView.getLayoutParams().height = 0;
-                        mHeaderView.progress(0);
-                        mFooterView.getLayoutParams().height = 0;
-                        mFooterView.progress(0);
+                        mPullDownRefreshView.getLayoutParams().height = 0;
+                        mPullDownRefreshView.progress(0);
+                        mPullUpLoadMoreView.getLayoutParams().height = 0;
+                        mPullUpLoadMoreView.progress(0);
                         ViewCompat.setTranslationY(mCurrentView, 0);
                         current_header_height = 0;
                         current_footer_height = 0;
@@ -226,17 +254,17 @@ public class PullToRefreshContainer extends FrameLayout {
                 } else {
                     if (canLoadMore && !canChildScrollDown()) {
                         dura = Math.abs(dura * 0.5f);
-                        mFooterView.getLayoutParams().height = (int) dura;
-                        mFooterView.progress(dura);
+                        mPullUpLoadMoreView.getLayoutParams().height = (int) dura;
+                        mPullUpLoadMoreView.progress(dura);
                         ViewCompat.setTranslationY(mCurrentView, -dura);
                         current_header_height = 0;
                         current_footer_height = (int) dura;
                         requestLayout();
                     } else {
-                        mHeaderView.getLayoutParams().height = 0;
-                        mHeaderView.progress(0);
-                        mFooterView.getLayoutParams().height = 0;
-                        mFooterView.progress(0);
+                        mPullDownRefreshView.getLayoutParams().height = 0;
+                        mPullDownRefreshView.progress(0);
+                        mPullUpLoadMoreView.getLayoutParams().height = 0;
+                        mPullUpLoadMoreView.progress(0);
                         ViewCompat.setTranslationY(mCurrentView, 0);
                         current_header_height = 0;
                         current_footer_height = 0;
@@ -257,12 +285,12 @@ public class PullToRefreshContainer extends FrameLayout {
                                     if (refreshListener != null) {
                                         refreshListener.refresh();
                                     }
-                                    mHeaderView.loading();
+                                    mPullDownRefreshView.loading();
                                 }
                             });
                         } else {
                             setFinish(current_header_height, State.REFRESH);
-                            mHeaderView.normal();
+                            mPullDownRefreshView.normal();
                         }
                     }
                 } else {
@@ -275,12 +303,12 @@ public class PullToRefreshContainer extends FrameLayout {
                                     if (refreshListener != null) {
                                         refreshListener.loadMore();
                                     }
-                                    mFooterView.loading();
+                                    mPullUpLoadMoreView.loading();
                                 }
                             });
                         } else {
                             setFinish(current_footer_height, State.LOADMORE);
-                            mFooterView.normal();
+                            mPullUpLoadMoreView.normal();
                         }
                     }
                 }
@@ -290,6 +318,11 @@ public class PullToRefreshContainer extends FrameLayout {
 
     }
 
+    /**
+     * 当前的核心View是否可以向上滑动
+     *
+     * @return false，已到顶部不可再滑动；true，仍可以滑动
+     */
     public boolean canChildScrollUp() {
         if (mCurrentView == null) {
             return false;
@@ -297,6 +330,11 @@ public class PullToRefreshContainer extends FrameLayout {
         return ViewCompat.canScrollVertically(mCurrentView, -1);
     }
 
+    /**
+     * 当前的核心View是否可以向下滑动
+     *
+     * @return false，已到底部不可再滑动；true，仍可以滑动
+     */
     public boolean canChildScrollDown() {
         if (mCurrentView == null) {
             return false;
@@ -305,7 +343,7 @@ public class PullToRefreshContainer extends FrameLayout {
     }
 
     /**
-     * 创建动画
+     * 创建上拉和下拉过程中运行的动画
      */
     public void createAnimatorTranslationY(@State.REFRESH_STATE final int state, final int start, final int purpose, final CallBack calllBack) {
         final ValueAnimator anim;
@@ -317,16 +355,16 @@ public class PullToRefreshContainer extends FrameLayout {
                 int value = (int) valueAnimator.getAnimatedValue();
 
                 if (state == State.REFRESH) {
-                    mHeaderView.getLayoutParams().height = value;
+                    mPullDownRefreshView.getLayoutParams().height = value;
                     ViewCompat.setTranslationY(mCurrentView, value);
                     if (purpose == 0) { //代表结束加载
-                        mHeaderView.finishing(value);
+                        mPullDownRefreshView.finishing(value);
                     }
                 } else {
-                    mFooterView.getLayoutParams().height = value;
+                    mPullUpLoadMoreView.getLayoutParams().height = value;
                     ViewCompat.setTranslationY(mCurrentView, -value);
                     if (purpose == 0) { //代表结束加载
-                        mFooterView.finishing(value);
+                        mPullUpLoadMoreView.finishing(value);
                     }
                 }
                 if (value == purpose) {
@@ -354,13 +392,13 @@ public class PullToRefreshContainer extends FrameLayout {
                 ViewCompat.setTranslationY(mCurrentView, value);
                 requestLayout();
                 if (value == 0) {
-                    mHeaderView.begin();
+                    mPullDownRefreshView.begin();
                 } else if (value == purpose) {
-                    mHeaderView.loading();
+                    mPullDownRefreshView.loading();
                     if (calllBack != null)
                         calllBack.onSuccess();
                 } else {
-                    mHeaderView.progress(value);
+                    mPullDownRefreshView.progress(value);
                 }
             }
         });
@@ -375,11 +413,11 @@ public class PullToRefreshContainer extends FrameLayout {
             post(new Runnable() {
                 @Override
                 public void run() {
-                    resetHeaderAndFooter();
-                    mHeaderView.post(new Runnable() {
+                    resetPullUpAndDownView();
+                    mPullDownRefreshView.post(new Runnable() {
                         @Override
                         public void run() {
-                            createAutoAnimatorTranslationY(mHeaderView, 0, header_height, new CallBack() {
+                            createAutoAnimatorTranslationY(mPullDownRefreshView, 0, header_height, new CallBack() {
                                 @Override
                                 public void onSuccess() {
                                     isRefresh = true;
@@ -395,9 +433,6 @@ public class PullToRefreshContainer extends FrameLayout {
         }
     }
 
-    /**
-     * 结束下拉刷新
-     */
     private void setFinish(int height, @State.REFRESH_STATE final int state) {
         createAnimatorTranslationY(state, height, 0, new CallBack() {
             @Override
@@ -417,13 +452,16 @@ public class PullToRefreshContainer extends FrameLayout {
         });
     }
 
+    /**
+     * 结束下拉刷新
+     */
     public void setFinish(@State.REFRESH_STATE int state) {
         if (state == State.REFRESH) {
-            if (mHeaderView != null && mHeaderView.getLayoutParams().height > 0 && isRefresh) {
+            if (mPullDownRefreshView != null && mPullDownRefreshView.getLayoutParams().height > 0 && isRefresh) {
                 setFinish(header_height, state);
             }
         } else {
-            if (mFooterView != null && mFooterView.getLayoutParams().height > 0 && isLoadMore) {
+            if (mPullUpLoadMoreView != null && mPullUpLoadMoreView.getLayoutParams().height > 0 && isLoadMore) {
                 setFinish(footer_height, state);
             }
         }
@@ -439,24 +477,43 @@ public class PullToRefreshContainer extends FrameLayout {
         });
     }
 
+    /**
+     * 获取空数据时展示的空界面
+     */
     public View getEmptyView() {
         return mEmptyView;
     }
 
+    /**
+     * 设置空数据时展示空数据提示的View
+     *
+     * @param view
+     */
     public void setEmptyView(View view) {
         mEmptyView = view;
     }
 
+    /**
+     * 设置刷新监听
+     *
+     * @param refreshListener
+     */
     public void setRefreshListener(BaseRefreshListener refreshListener) {
         this.refreshListener = refreshListener;
     }
 
-    public void setHeaderView(BaseView view) {
-        mHeaderView = view;
+    /**
+     * 设置下拉刷新时显示的提示View
+     */
+    public void setPullDownRefreshView(BaseView view) {
+        mPullDownRefreshView = view;
     }
 
-    public void setFooterView(BaseView view) {
-        mFooterView = view;
+    /**
+     * 设置上拉加载时显示的提示View
+     */
+    public void setPullUpLoadMoreView(BaseView view) {
+        mPullUpLoadMoreView = view;
     }
 
     public interface CallBack {
