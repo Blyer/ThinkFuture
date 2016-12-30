@@ -3,6 +3,7 @@ package org.base.platform.utils;
 import android.view.View;
 
 import org.base.platform.callback.BaseAdapterCallback;
+import org.base.platform.utils.pulltorefresh.PullToRefreshChildContainer;
 import org.base.platform.utils.pulltorefresh.PullToRefreshContainer;
 import org.base.platform.utils.pulltorefresh.RefreshListener;
 import org.base.platform.utils.pulltorefresh.State;
@@ -21,8 +22,10 @@ public class PullToRefreshHelper {
     private OnRequestDataListener mOnRequestDataListener;
 
     public PullToRefreshHelper(View refreshContainerChild, BaseAdapterCallback refreshBaseAdapter) {
-        this.mRefreshContainer = (PullToRefreshContainer) refreshContainerChild.getParent();
-        this.mRefreshBaseAdapter = refreshBaseAdapter;
+        PullToRefreshChildContainer refreshChildContainer = (PullToRefreshChildContainer) refreshContainerChild.getParent();
+        refreshChildContainer.setScrollView(refreshContainerChild);
+        mRefreshContainer = (PullToRefreshContainer) refreshChildContainer.getParent();
+        mRefreshBaseAdapter = refreshBaseAdapter;
         init();
     }
 

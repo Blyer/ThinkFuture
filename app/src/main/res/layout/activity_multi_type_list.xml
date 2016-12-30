@@ -19,12 +19,18 @@
         android:layout_height="match_parent"
         android:layout_marginTop="10dp">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_data"
+        <org.base.platform.utils.pulltorefresh.PullToRefreshChildContainer
+            android:id="@+id/ll_data"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:clipToPadding="false" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:clipToPadding="false" />
+        </org.base.platform.utils.pulltorefresh.PullToRefreshChildContainer>
     </org.base.platform.utils.pulltorefresh.PullToRefreshContainer>
 
 </LinearLayout>

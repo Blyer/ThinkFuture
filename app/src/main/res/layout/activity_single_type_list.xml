@@ -15,14 +15,80 @@
 
     <org.base.platform.utils.pulltorefresh.PullToRefreshContainer
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_data"
+        android:layout_height="match_parent">
+
+        <org.base.platform.utils.pulltorefresh.PullToRefreshChildContainer
+            android:id="@+id/ll_data"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:clipToPadding="false" />
+            android:layout_height="match_parent">
+
+            <org.base.platform.view.BaseHorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="300px">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:text="Hello header" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/red_1"
+                        android:gravity="center"
+                        android:text="Hello world" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:text="Hello header" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/red_1"
+                        android:gravity="center"
+                        android:text="Hello world" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:text="Hello header" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/red_1"
+                        android:gravity="center"
+                        android:text="Hello world" />
+                </LinearLayout>
+            </org.base.platform.view.BaseHorizontalScrollView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:clipToPadding="false" />
+
+        </org.base.platform.utils.pulltorefresh.PullToRefreshChildContainer>
     </org.base.platform.utils.pulltorefresh.PullToRefreshContainer>
 
 </LinearLayout>
