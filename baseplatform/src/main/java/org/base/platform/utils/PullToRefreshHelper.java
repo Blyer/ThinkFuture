@@ -84,6 +84,10 @@ public class PullToRefreshHelper {
         mRefreshContainer.autoRefresh();
     }
 
+    public void autoLoadMore() {
+        mRefreshContainer.autoLoadMore();
+    }
+
     public PullToRefreshContainer getRefreshContainer() {
         return mRefreshContainer;
     }

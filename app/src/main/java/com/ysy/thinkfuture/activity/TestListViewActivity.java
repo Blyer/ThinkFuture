@@ -1,6 +1,7 @@
 package com.ysy.thinkfuture.activity;
 
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.ysy.thinkfuture.R;
@@ -69,6 +70,19 @@ public class TestListViewActivity extends FutureBaseActivity {
             @Override
             public void onItemLongClick(View view, int position) {
                 ToastUtils.show("Long Click: " + mAdapter.getItem(position));
+            }
+        });
+
+        lv_data.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState == SCROLL_STATE_IDLE && !lv_data.canScrollVertically(1)) {
+                    mPullToRefreshHelper.autoLoadMore();
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             }
         });
     }

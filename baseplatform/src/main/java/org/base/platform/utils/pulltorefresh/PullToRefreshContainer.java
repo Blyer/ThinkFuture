@@ -1,9 +1,11 @@
 package org.base.platform.utils.pulltorefresh;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +14,8 @@ import android.widget.FrameLayout;
 
 import org.base.platform.utils.ViewUtils;
 import org.base.platform.view.EmptyView;
+
+import static android.R.attr.value;
 
 public class PullToRefreshContainer extends FrameLayout {
 
@@ -30,7 +34,7 @@ public class PullToRefreshContainer extends FrameLayout {
 
     private boolean isRefresh; // 是否正在刷新中
     private boolean isLoadMore; // 是否正在加载更多中
-    private boolean canLoadMore = true; // 是否开启了加载更多
+    private boolean canLoadMore = false; // 是否开启了加载更多
     private boolean canRefresh = true; // 是否开启了下拉刷新
 
     private BaseRefreshListener refreshListener;
@@ -339,31 +343,43 @@ public class PullToRefreshContainer extends FrameLayout {
     /**
      * 创建上拉和下拉过程中运行的动画
      */
-    public void createAnimatorTranslationY(@State.REFRESH_STATE final int state, final int start, final int purpose, final CallBack calllBack) {
+    public void createAnimatorTranslationY(@State.REFRESH_STATE final int state, final int start, final int purpose, final CallBack callBack) {
         final ValueAnimator anim;
         anim = ValueAnimator.ofInt(start, purpose);
         anim.setDuration(ANIM_TIME);
+        anim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (callBack != null) {
+                    callBack.onSuccess();
+                }
+                if (purpose == 0) { //代表结束加载
+                    mPullDownRefreshView.finishing(value);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int value = (int) valueAnimator.getAnimatedValue();
-
                 if (state == State.REFRESH) {
                     mPullDownRefreshView.getLayoutParams().height = value;
                     ViewCompat.setTranslationY(mCurrentView, value);
-                    if (purpose == 0) { //代表结束加载
-                        mPullDownRefreshView.finishing(value);
-                    }
                 } else {
                     mPullUpLoadMoreView.getLayoutParams().height = value;
                     ViewCompat.setTranslationY(mCurrentView, -value);
-                    if (purpose == 0) { //代表结束加载
-                        mPullUpLoadMoreView.finishing(value);
-                    }
-                }
-                if (value == purpose) {
-                    if (calllBack != null)
-                        calllBack.onSuccess();
                 }
                 requestLayout();
             }
@@ -375,26 +391,47 @@ public class PullToRefreshContainer extends FrameLayout {
     /**
      * 用于自动刷新的动画
      */
-    public void createAutoAnimatorTranslationY(final View v, final int start, final int purpose, final CallBack calllBack) {
+    public void createAutoAnimatorTranslationY(final BaseView v, final int start, final int purpose, final CallBack calllBack) {
         final ValueAnimator anim = ValueAnimator.ofInt(start, purpose);
         anim.setDuration(ANIM_TIME);
+        anim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                v.begin();
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                v.loading();
+                if (calllBack != null)
+                    calllBack.onSuccess();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int value = (int) valueAnimator.getAnimatedValue();
+                Log.e("mytag", value + "");
                 v.getLayoutParams().height = value;
-                ViewCompat.setTranslationY(mCurrentView, value);
-                requestLayout();
-                if (value == 0) {
-                    mPullDownRefreshView.begin();
-                } else if (value == purpose) {
-                    mPullDownRefreshView.loading();
-                    if (calllBack != null)
-                        calllBack.onSuccess();
-                } else {
-                    mPullDownRefreshView.progress(value);
+                if (v == mPullDownRefreshView) {
+                    ViewCompat.setTranslationY(mCurrentView, value);
+                } else if (v == mPullUpLoadMoreView) {
+                    ViewCompat.setTranslationY(mCurrentView, -value);
                 }
+                requestLayout();
+                v.progress(value);
             }
+
         });
         anim.start();
     }
@@ -417,6 +454,34 @@ public class PullToRefreshContainer extends FrameLayout {
                                     isRefresh = true;
                                     if (refreshListener != null) {
                                         refreshListener.refresh();
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    /**
+     * 自动加载更多
+     */
+    public void autoLoadMore() {
+        if (canLoadMore) {
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    resetPullUpAndDownView();
+                    mPullUpLoadMoreView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            createAutoAnimatorTranslationY(mPullUpLoadMoreView, 0, footer_height, new CallBack() {
+                                @Override
+                                public void onSuccess() {
+                                    isLoadMore = true;
+                                    if (refreshListener != null) {
+                                        refreshListener.loadMore();
                                     }
                                 }
                             });
