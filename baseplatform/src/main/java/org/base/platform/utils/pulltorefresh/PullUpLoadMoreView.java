@@ -49,6 +49,9 @@ public class PullUpLoadMoreView extends BaseView {
 
     @Override
     public void progress(float progress) {
+        if (mAnim == null) {
+            return;
+        }
         float start = mLastPogress;
         float end = progress;
         mLastPogress = end;
@@ -70,6 +73,9 @@ public class PullUpLoadMoreView extends BaseView {
 
     @Override
     public void loading() {
+        if (mAnim == null) {
+            return;
+        }
         if (mAnim.isRunning()) {
             mAnim.cancel();
         }

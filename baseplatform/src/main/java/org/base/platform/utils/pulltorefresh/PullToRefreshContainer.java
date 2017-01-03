@@ -227,9 +227,7 @@ public class PullToRefreshContainer extends FrameLayout {
                     current_header_height = 0;
                     current_footer_height = 0;
                     mPullDownRefreshView.getLayoutParams().height = 0;
-                    mPullDownRefreshView.progress(0);
                     mPullUpLoadMoreView.getLayoutParams().height = 0;
-                    mPullUpLoadMoreView.progress(0);
                     ViewCompat.setTranslationY(mCurrentView, 0);
                     requestLayout();
                 } else if (dura > 0) {
@@ -243,9 +241,7 @@ public class PullToRefreshContainer extends FrameLayout {
                         requestLayout();
                     } else {
                         mPullDownRefreshView.getLayoutParams().height = 0;
-                        mPullDownRefreshView.progress(0);
                         mPullUpLoadMoreView.getLayoutParams().height = 0;
-                        mPullUpLoadMoreView.progress(0);
                         ViewCompat.setTranslationY(mCurrentView, 0);
                         current_header_height = 0;
                         current_footer_height = 0;
@@ -262,9 +258,7 @@ public class PullToRefreshContainer extends FrameLayout {
                         requestLayout();
                     } else {
                         mPullDownRefreshView.getLayoutParams().height = 0;
-                        mPullDownRefreshView.progress(0);
                         mPullUpLoadMoreView.getLayoutParams().height = 0;
-                        mPullUpLoadMoreView.progress(0);
                         ViewCompat.setTranslationY(mCurrentView, 0);
                         current_header_height = 0;
                         current_footer_height = 0;
