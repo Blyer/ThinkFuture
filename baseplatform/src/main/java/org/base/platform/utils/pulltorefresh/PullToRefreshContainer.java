@@ -5,7 +5,6 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -421,7 +420,6 @@ public class PullToRefreshContainer extends FrameLayout {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int value = (int) valueAnimator.getAnimatedValue();
-                Log.e("mytag", value + "");
                 v.getLayoutParams().height = value;
                 if (v == mPullDownRefreshView) {
                     ViewCompat.setTranslationY(mCurrentView, value);
@@ -468,7 +466,7 @@ public class PullToRefreshContainer extends FrameLayout {
      * 自动加载更多
      */
     public void autoLoadMore() {
-        if (canLoadMore) {
+        if (canLoadMore && !isLoadMore && !isRefresh) {
             post(new Runnable() {
                 @Override
                 public void run() {
