@@ -1,6 +1,6 @@
-package com.ysy.thinkfuture.core;
+package com.ysy.thinkfuture.core.helper;
 
-import com.ysy.thinkfuture.activity.LoginActivity;
+import com.ysy.thinkfuture.core.activity.LoginActivity;
 
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.ResponseResult;

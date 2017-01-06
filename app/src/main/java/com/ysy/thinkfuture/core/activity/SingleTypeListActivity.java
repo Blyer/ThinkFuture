@@ -1,15 +1,16 @@
-package com.ysy.thinkfuture.activity;
+package com.ysy.thinkfuture.core.activity;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.ListView;
 
 import com.ysy.thinkfuture.R;
-import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
-import com.ysy.thinkfuture.adapter.ListViewTestAdapter;
+import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
+import com.ysy.thinkfuture.adapter.SingleTypeRecyclerAdapter;
 import com.ysy.thinkfuture.constants.UrlConstants;
+import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;
 
-import org.base.platform.adapter.UnifyListAdapter;
+import org.base.platform.adapter.UnifyRecyclerAdapter;
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
@@ -21,32 +22,35 @@ import org.base.platform.utils.ToastUtils;
 
 import java.util.List;
 
-public class TestListViewActivity extends FutureBaseActivity {
 
-    private ListView lv_data;
+public class SingleTypeListActivity extends FutureBaseActivity {
 
-    private ListViewTestAdapter mAdapter;
+    private RecyclerView rv_data;
+
+    private SingleTypeRecyclerAdapter mAdapter;
 
     private PullToRefreshHelper mPullToRefreshHelper;
 
     @Override
     protected int getContentViewId() {
-        return R.layout.activity_test_list_view;
+        return R.layout.activity_single_type_list;
     }
 
     @Override
     protected void initView() {
-        lv_data = (ListView) findViewById(R.id.lv_data);
+        rv_data = (RecyclerView) findViewById(R.id.rv_data);
     }
 
     @Override
     protected void initData() {
         StatusBarUtils.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
+        mAdapter = new SingleTypeRecyclerAdapter(this, R.layout.item_data_1);
+        mPullToRefreshHelper = new PullToRefreshHelper(rv_data, mAdapter);
 
-        mAdapter = new ListViewTestAdapter(mActivity, R.layout.item_data_1);
-        mPullToRefreshHelper = new PullToRefreshHelper(lv_data, mAdapter);
+        rv_data.setLayoutManager(new LinearLayoutManager(this));
+        rv_data.setAdapter(mAdapter);
+        rv_data.addItemDecoration(new HorizontalLineItemDivider(this, R.color.red_1, 1));
 
-        lv_data.setAdapter(mAdapter);
     }
 
     @Override
@@ -57,29 +61,34 @@ public class TestListViewActivity extends FutureBaseActivity {
                 generateListRequest();
             }
         });
-        mAdapter.setOnItemClickListener(new UnifyListAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new UnifyRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ToastUtils.show("Click: " + mAdapter.getItem(position));
+                String item = mAdapter.getItem(position);
+                ToastUtils.show("Click:" + item);
             }
         });
-        mAdapter.setOnItemLongClickListener(new UnifyListAdapter.OnItemLongClickListener() {
+        mAdapter.setOnItemLongClickListener(new UnifyRecyclerAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(View view, int position) {
-                ToastUtils.show("Long Click: " + mAdapter.getItem(position));
+                String item = mAdapter.getItem(position);
+                ToastUtils.show("Long Click:" + item);
             }
         });
-
-        lv_data.setOnScrollListener(new AbsListView.OnScrollListener() {
+        rv_data.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState == SCROLL_STATE_IDLE && !lv_data.canScrollVertically(1)) {
-                    mPullToRefreshHelper.autoLoadMore();
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (!rv_data.canScrollVertically(1)) {
+                        mPullToRefreshHelper.autoLoadMore();
+                    }
                 }
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
             }
         });
     }
@@ -124,5 +133,4 @@ public class TestListViewActivity extends FutureBaseActivity {
         request.params.put("time", System.currentTimeMillis());
         return request;
     }
-
 }

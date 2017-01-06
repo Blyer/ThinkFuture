@@ -1,10 +1,10 @@
-package com.ysy.thinkfuture.activity;
+package com.ysy.thinkfuture.core.activity;
 
 import android.support.v4.app.FragmentTransaction;
 
 import com.apkfuns.logutils.LogUtils;
 import com.ysy.thinkfuture.R;
-import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
+import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.fragment.FirstFragment;
 
 import org.base.platform.bean.MessageEvent;

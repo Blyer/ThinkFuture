@@ -1,11 +1,11 @@
-package com.ysy.thinkfuture.activity;
+package com.ysy.thinkfuture.core.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ysy.thinkfuture.R;
-import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
+import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.adapter.MultiTypeRecyclerAdapter;
 import com.ysy.thinkfuture.constants.UrlConstants;
 import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;

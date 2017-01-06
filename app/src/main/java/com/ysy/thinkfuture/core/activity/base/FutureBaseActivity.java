@@ -1,4 +1,4 @@
-package com.ysy.thinkfuture.activity.base;
+package com.ysy.thinkfuture.core.activity.base;
 
 import com.ysy.thinkfuture.utils.HandleHttpRequestResult;
 

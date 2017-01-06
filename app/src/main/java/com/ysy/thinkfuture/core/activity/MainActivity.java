@@ -1,11 +1,11 @@
-package com.ysy.thinkfuture.activity;
+package com.ysy.thinkfuture.core.activity;
 
 import android.Manifest;
 import android.content.Intent;
 import android.view.View;
 
 import com.ysy.thinkfuture.R;
-import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
+import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
 
 import org.base.platform.bean.MessageEvent;
 import org.base.platform.callback.PermissionsResultListener;

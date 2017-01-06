@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".core.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivityTheme">
             <intent-filter>
@@ -20,23 +20,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".core.activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivityTheme" />
         <activity
-            android:name=".activity.SecondActivity"
+            android:name=".core.activity.SecondActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ThirdActivity"
+            android:name=".core.activity.ThirdActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SingleTypeListActivity"
+            android:name=".core.activity.SingleTypeListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MultiTypeListActivity"
+            android:name=".core.activity.MultiTypeListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.TestListViewActivity"
+            android:name=".core.activity.TestListViewActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 
