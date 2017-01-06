@@ -22,6 +22,7 @@ import java.net.ConnectException;
 public class HttpUtils {
 
     public Callback.Cancelable request(HttpRequestPackage httpRequestPackage, final OnRequestListener listener) {
+        LogUtils.d(httpRequestPackage);
         RequestParams requestParams = parseParams(httpRequestPackage);
         org.xutils.http.HttpMethod method;
         if (httpRequestPackage.method == HttpMethod.GET) {
