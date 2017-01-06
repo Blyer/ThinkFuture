@@ -11,40 +11,14 @@
         android:layout_height="45dp"
         android:layout_centerInParent="true"
         android:layout_margin="10dp"
-        android:text="测试单个网络请求"
+        android:text="测试并行网络请求"
         android:textColor="@color/white"
         app:bgNormalColor="@color/orange_1"
         app:bgPressedColor="@color/orange_2"
-        app:bgUnEnableColor="@color/grey_2"
-        app:normalTextColor="@color/white"
-        app:unEnableTextColor="@color/white" />
+        app:bgUnEnableColor="@color/black_2" />
 
     <org.base.platform.view.UnifyButton
         android:id="@+id/btn_2"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_centerInParent="true"
-        android:layout_margin="10dp"
-        android:text="测试多个网络请求"
-        android:textColor="@color/white"
-        app:bgNormalColor="@color/orange_1"
-        app:bgPressedColor="@color/orange_2"
-        app:bgUnEnableColor="@color/black_2" />
-
-    <org.base.platform.view.UnifyButton
-        android:id="@+id/btn_3"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_centerInParent="true"
-        android:layout_margin="10dp"
-        android:text="测试串联网络请求"
-        android:textColor="@color/white"
-        app:bgNormalColor="@color/orange_1"
-        app:bgPressedColor="@color/orange_2"
-        app:bgUnEnableColor="@color/black_2" />
-
-    <org.base.platform.view.UnifyButton
-        android:id="@+id/btn_4"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_centerInParent="true"
@@ -56,7 +30,7 @@
         app:bgUnEnableColor="@color/black_2" />
 
     <org.base.platform.view.UnifyButton
-        android:id="@+id/btn_5"
+        android:id="@+id/btn_3"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_centerInParent="true"
@@ -68,7 +42,7 @@
         app:bgUnEnableColor="@color/black_2" />
 
     <org.base.platform.view.UnifyButton
-        android:id="@+id/btn_6"
+        android:id="@+id/btn_4"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_centerInParent="true"
@@ -80,7 +54,7 @@
         app:bgUnEnableColor="@color/black_2" />
 
     <org.base.platform.view.UnifyButton
-        android:id="@+id/btn_7"
+        android:id="@+id/btn_5"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_centerInParent="true"

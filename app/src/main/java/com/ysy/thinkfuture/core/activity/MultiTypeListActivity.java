@@ -8,14 +8,12 @@ import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.adapter.MultiTypeRecyclerAdapter;
 import com.ysy.thinkfuture.constants.UrlConstants;
+import com.ysy.thinkfuture.core.activity.helper.MultiTypeListHelper;
 import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;
 
 import org.base.platform.adapter.UnifyRecyclerAdapter;
 import org.base.platform.bean.HttpRequestPackage;
-import org.base.platform.bean.MessageEvent;
-import org.base.platform.bean.ResponseResult;
 import org.base.platform.enums.HttpMethod;
-import org.base.platform.utils.JsonUtils;
 import org.base.platform.utils.PullToRefreshHelper;
 import org.base.platform.utils.StatusBarUtils;
 import org.base.platform.utils.ToastUtils;
@@ -29,6 +27,7 @@ public class MultiTypeListActivity extends FutureBaseActivity {
     private MultiTypeRecyclerAdapter mAdapter;
 
     private PullToRefreshHelper mPullToRefreshHelper;
+    private MultiTypeListHelper mActivityHelper;
 
     @Override
     protected int getContentViewId() {
@@ -48,6 +47,7 @@ public class MultiTypeListActivity extends FutureBaseActivity {
         mAdapter.addItemLayoutId(MultiTypeRecyclerAdapter.TYPE_2, R.layout.item_data_2);
 
         mPullToRefreshHelper = new PullToRefreshHelper(rv_data, mAdapter);
+        mActivityHelper = new MultiTypeListHelper(this);
 
         rv_data.setLayoutManager(new LinearLayoutManager(this));
         rv_data.setAdapter(mAdapter);
@@ -59,7 +59,7 @@ public class MultiTypeListActivity extends FutureBaseActivity {
         mPullToRefreshHelper.setOnRequestDataListener(new PullToRefreshHelper.OnRequestDataListener() {
             @Override
             public void onRequestData() {
-                generateListRequest();
+                mActivityHelper.getList(generateListRequest());
             }
         });
         mAdapter.setOnItemClickListener(new UnifyRecyclerAdapter.OnItemClickListener() {
@@ -83,29 +83,12 @@ public class MultiTypeListActivity extends FutureBaseActivity {
         mPullToRefreshHelper.autoRefresh();
     }
 
-    public void processNetRequest(int id, ResponseResult result, boolean isCache) {
-        switch (id) {
-            case 111:
-                if (result.getCode() == 0) {
-                    List<String> list = JsonUtils.jsonToList(result.getData(), String.class);
-                    mPullToRefreshHelper.processListData(list, isCache);
-                } else {
-                    mPullToRefreshHelper.processEmptyList();
-                }
-                break;
-        }
+    public void getListSuccess(List<String> list) {
+        mPullToRefreshHelper.processListData(list);
     }
 
-    @Override
-    protected void processMessageEvent(MessageEvent event) {
-        super.processMessageEvent(event);
-        switch (event.id) {
-            case 1:
-                if ((int) event.extraData == 111) {
-                    mPullToRefreshHelper.processEmptyList();
-                }
-                break;
-        }
+    public void getListFailed() {
+        mPullToRefreshHelper.processEmptyList();
     }
 
     private HttpRequestPackage generateListRequest() {

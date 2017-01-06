@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.apkfuns.logutils.LogUtils;
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
-import com.ysy.thinkfuture.fragment.FirstFragment;
+import com.ysy.thinkfuture.core.fragment.FirstFragment;
 
 import org.base.platform.bean.MessageEvent;
 import org.base.platform.utils.StatusBarUtils;

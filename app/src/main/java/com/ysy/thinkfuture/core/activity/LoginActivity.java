@@ -7,7 +7,7 @@ import android.widget.EditText;
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.constants.UrlConstants;
-import com.ysy.thinkfuture.core.helper.LoginActivityHelper;
+import com.ysy.thinkfuture.core.activity.helper.LoginActivityHelper;
 
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.enums.HttpMethod;

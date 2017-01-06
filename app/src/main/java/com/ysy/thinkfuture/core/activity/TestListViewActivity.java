@@ -8,13 +8,11 @@ import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.adapter.ListViewTestAdapter;
 import com.ysy.thinkfuture.constants.UrlConstants;
+import com.ysy.thinkfuture.core.activity.helper.TestListViewHelper;
 
 import org.base.platform.adapter.UnifyListAdapter;
 import org.base.platform.bean.HttpRequestPackage;
-import org.base.platform.bean.MessageEvent;
-import org.base.platform.bean.ResponseResult;
 import org.base.platform.enums.HttpMethod;
-import org.base.platform.utils.JsonUtils;
 import org.base.platform.utils.PullToRefreshHelper;
 import org.base.platform.utils.StatusBarUtils;
 import org.base.platform.utils.ToastUtils;
@@ -28,6 +26,7 @@ public class TestListViewActivity extends FutureBaseActivity {
     private ListViewTestAdapter mAdapter;
 
     private PullToRefreshHelper mPullToRefreshHelper;
+    private TestListViewHelper mActivityHelper;
 
     @Override
     protected int getContentViewId() {
@@ -45,6 +44,7 @@ public class TestListViewActivity extends FutureBaseActivity {
 
         mAdapter = new ListViewTestAdapter(mActivity, R.layout.item_data_1);
         mPullToRefreshHelper = new PullToRefreshHelper(lv_data, mAdapter);
+        mActivityHelper = new TestListViewHelper(this);
 
         lv_data.setAdapter(mAdapter);
     }
@@ -54,7 +54,7 @@ public class TestListViewActivity extends FutureBaseActivity {
         mPullToRefreshHelper.setOnRequestDataListener(new PullToRefreshHelper.OnRequestDataListener() {
             @Override
             public void onRequestData() {
-                generateListRequest();
+                mActivityHelper.getList(generateListRequest());
             }
         });
         mAdapter.setOnItemClickListener(new UnifyListAdapter.OnItemClickListener() {
@@ -89,29 +89,12 @@ public class TestListViewActivity extends FutureBaseActivity {
         mPullToRefreshHelper.autoRefresh();
     }
 
-    public void processNetRequest(int id, ResponseResult result, boolean isCache) {
-        switch (id) {
-            case 111:
-                if (result.getCode() == 0) {
-                    List<String> list = JsonUtils.jsonToList(result.getData(), String.class);
-                    mPullToRefreshHelper.processListData(list, isCache);
-                } else {
-                    mPullToRefreshHelper.processEmptyList();
-                }
-                break;
-        }
+    public void getListSuccess(List<String> list) {
+        mPullToRefreshHelper.processListData(list);
     }
 
-    @Override
-    protected void processMessageEvent(MessageEvent event) {
-        super.processMessageEvent(event);
-        switch (event.id) {
-            case 1:
-                if ((int) event.extraData == 111) {
-                    mPullToRefreshHelper.processEmptyList();
-                }
-                break;
-        }
+    public void getListFailed() {
+        mPullToRefreshHelper.processEmptyList();
     }
 
     private HttpRequestPackage generateListRequest() {

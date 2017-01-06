@@ -49,7 +49,7 @@ public class PullToRefreshHelper {
         });
     }
 
-    public void processListData(List data, boolean isCache) {
+    public void processListData(List data) {
         if (mRefreshBaseAdapter != null) {
             if (mPageIndex == 1) {
                 if (data != null && data.size() > 0) {
@@ -61,7 +61,7 @@ public class PullToRefreshHelper {
                 }
                 mRefreshContainer.setFinish(State.REFRESH);
             } else {
-                if (data != null && data.size() > 0 && !isCache) {
+                if (data != null && data.size() > 0) {
                     mRefreshBaseAdapter.append(data);
                 }
                 mRefreshContainer.setFinish(State.LOADMORE);

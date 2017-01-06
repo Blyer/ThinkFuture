@@ -1,39 +1,40 @@
-package com.ysy.thinkfuture.core.helper;
+package com.ysy.thinkfuture.core.activity.helper;
 
-import com.ysy.thinkfuture.core.activity.LoginActivity;
+import com.ysy.thinkfuture.core.activity.TestListViewActivity;
 
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.utils.HttpUtils;
+import org.base.platform.utils.JsonUtils;
 
 /**
- * Created by YinShengyi on 2017/1/6.
+ * Created by Blyer on 2017-01-06.
  */
-public class LoginActivityHelper {
-
-    private LoginActivity mActivity;
+public class TestListViewHelper {
     private HttpUtils mHttpUtils;
+    private TestListViewActivity mActivity;
 
-    public LoginActivityHelper(LoginActivity activity) {
+    public TestListViewHelper(TestListViewActivity activity) {
         mActivity = activity;
         mHttpUtils = new HttpUtils();
     }
 
-    public void login(HttpRequestPackage httpRequestPackage) {
+    public void getList(HttpRequestPackage httpRequestPackage) {
         mHttpUtils.request(httpRequestPackage, new HttpUtils.OnRequestListener() {
             @Override
             public void success(ResponseResult result) {
                 if (result.getCode() == 0) {
-                    mActivity.loginSucess();
+                    mActivity.getListSuccess(JsonUtils.jsonToList(result.getData(), String.class));
                 } else {
-                    mActivity.loginFailed(result.getMessage());
+                    mActivity.getListFailed();
                 }
             }
 
             @Override
             public void failed(String reason) {
-                mActivity.loginFailed(reason);
+                mActivity.getListFailed();
             }
         });
     }
+
 }
