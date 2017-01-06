@@ -171,7 +171,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 总线消息处理
      */
     protected void processMessageEvent(MessageEvent event) {
-
     }
 
     /**
@@ -227,6 +226,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
     }
 
+    /**
+     * 显示加载中对话框
+     */
     public void showLoadingDialog() {
         if (mLoadingDialog == null) {
             mLoadingDialog = new LoadingDialog(mActivity, "");
@@ -234,6 +236,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         mLoadingDialog.show();
     }
 
+    /**
+     * 关闭加载中对话框
+     */
     public void closeLoadingDialog() {
         if (mLoadingDialog != null) {
             mLoadingDialog.close();

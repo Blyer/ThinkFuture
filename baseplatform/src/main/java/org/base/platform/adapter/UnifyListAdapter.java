@@ -15,11 +15,11 @@ import java.util.List;
  */
 public abstract class UnifyListAdapter<T> extends BaseAdapter implements BaseAdapterCallback<T> {
     private Context mContext;
-    private int mLayoutId;
-    private List<T> mData;
+    private int mLayoutId; // 每一项的布局文件资源ID
+    private List<T> mData; // 数据源
 
-    private OnItemClickListener mOnItemClickListener;
-    private OnItemLongClickListener mOnItemLongClickListener;
+    private OnItemClickListener mOnItemClickListener; // 单击Item
+    private OnItemLongClickListener mOnItemLongClickListener; // 长按Item
 
     public UnifyListAdapter(Context context, int layoutId) {
         mContext = context;
