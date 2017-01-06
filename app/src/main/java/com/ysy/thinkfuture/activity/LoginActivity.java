@@ -42,6 +42,7 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
     @Override
     protected void initData() {
         StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
+        forbidSwipeFinishActivity();
     }
 
     @Override
@@ -85,5 +86,6 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
     private void loginSucess() {
         Intent intent = new Intent(mActivity, MainActivity.class);
         JumpUtils.jump(mActivity, intent);
+        finish();
     }
 }
