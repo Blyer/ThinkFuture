@@ -15,7 +15,6 @@ import android.widget.TextView;
 import org.base.platform.R;
 import org.base.platform.activity.BaseActivity;
 import org.base.platform.bean.MessageEvent;
-import org.base.platform.bean.ResponseResult;
 import org.base.platform.constants.MsgEventConstants;
 import org.base.platform.utils.BaseUtils;
 import org.base.platform.utils.ImageUtils;
@@ -104,11 +103,6 @@ public class PhotoSingleSelectActivity extends BaseActivity implements View.OnCl
 
     @Override
     protected void begin() {
-
-    }
-
-    @Override
-    public void processNetRequest(int id, ResponseResult result, boolean isCache) {
 
     }
 

@@ -7,9 +7,9 @@ import android.widget.EditText;
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.constants.UrlConstants;
+import com.ysy.thinkfuture.core.LoginActivityHelper;
 
 import org.base.platform.bean.HttpRequestPackage;
-import org.base.platform.bean.ResponseResult;
 import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.JumpUtils;
 import org.base.platform.utils.StatusBarUtils;
@@ -21,6 +21,8 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
     private EditText et_user_name;
     private EditText et_password;
     private UnifyButton btn_login;
+
+    private LoginActivityHelper mActivityHelper;
 
     @Override
     protected int getContentViewId() {
@@ -43,6 +45,7 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
     protected void initData() {
         StatusBarUtils.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
         forbidSwipeFinishActivity();
+        mActivityHelper = new LoginActivityHelper(this);
     }
 
     @Override
@@ -51,41 +54,33 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
     }
 
     @Override
-    public void processNetRequest(int id, ResponseResult result, boolean isCache) {
-        super.processNetRequest(id, result, isCache);
-        switch (id) {
-            case R.id.btn_login:
-                if (result.getCode() == 0) {
-                    ToastUtils.show("登录成功");
-                    loginSucess();
-                }
-                break;
-        }
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-                generateLoginRequest();
-                mHttpUtils.request();
+                showLoadingDialog();
+                mActivityHelper.login(generateLoginRequest());
                 break;
         }
     }
 
-    private void generateLoginRequest() {
+    private HttpRequestPackage generateLoginRequest() {
         HttpRequestPackage httpRequestPackage = new HttpRequestPackage();
-        httpRequestPackage.id = R.id.btn_login;
         httpRequestPackage.url = UrlConstants.host + "/login.txt";
         httpRequestPackage.method = HttpMethod.GET;
         httpRequestPackage.params.put("username", et_user_name.getText().toString().trim());
         httpRequestPackage.params.put("password", et_password.getText().toString().trim());
-        mHttpUtils.addRequest(httpRequestPackage);
+        return httpRequestPackage;
     }
 
-    private void loginSucess() {
+    public void loginSucess() {
+        closeLoadingDialog();
         Intent intent = new Intent(mActivity, MainActivity.class);
         JumpUtils.jump(mActivity, intent);
         finish();
+    }
+
+    public void loginFailed(String reason) {
+        closeLoadingDialog();
+        ToastUtils.show(reason);
     }
 }

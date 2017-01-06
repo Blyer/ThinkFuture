@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import org.base.platform.R;
 import org.base.platform.activity.BaseActivity;
-import org.base.platform.bean.ResponseResult;
 import org.base.platform.utils.ImageUtils;
 import org.base.platform.utils.JumpUtils;
 import org.base.platform.utils.StatusBarUtils;
@@ -101,11 +100,6 @@ public class BrowserBigPhotoActivity extends BaseActivity {
 
     @Override
     protected void begin() {
-
-    }
-
-    @Override
-    public void processNetRequest(int id, ResponseResult result, boolean isCache) {
 
     }
 

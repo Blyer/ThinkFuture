@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import org.base.platform.R;
 import org.base.platform.activity.BaseActivity;
+import org.base.platform.callback.IDialog;
 import org.base.platform.utils.StringUtils;
 import org.base.platform.view.UnifyTextView;
 
@@ -18,9 +19,7 @@ import org.base.platform.view.UnifyTextView;
  * Created by YinShengyi on 2016/5/20.
  * 提示对话框
  */
-public class UnifyDialog {
-
-    private static int sCount = 0; // 当前已显示的对话框数量，最多只能显示一个
+public class UnifyDialog implements IDialog {
 
     private BaseActivity mActivity;
     private Dialog mDialog;
@@ -57,7 +56,6 @@ public class UnifyDialog {
      */
     public UnifyDialog(BaseActivity activity, String title, String content, String btnTxt) {
         this(activity, title, content, "", btnTxt);
-        mHasLeftBtn = false;
     }
 
     /**
@@ -77,6 +75,12 @@ public class UnifyDialog {
         if (StringUtils.isNull(title)) {
             mHasTitle = false;
         }
+
+        if (StringUtils.isNull(leftBtnTxt)) {
+            mHasLeftBtn = false;
+        }
+
+        createDialog();
     }
 
     /**
@@ -108,57 +112,9 @@ public class UnifyDialog {
     /**
      * 显示对话框
      */
+    @Override
     public void show() {
-        if (!mActivity.isDestroyed() && sCount == 0) {
-            sCount = 1;
-
-            View view = LayoutInflater.from(mActivity).inflate(R.layout.unify_dialog, null);// 得到加载view
-
-            LinearLayout linear_title = (LinearLayout) view.findViewById(R.id.linear_title);
-            TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
-            RelativeLayout relative_content = (RelativeLayout) view.findViewById(R.id.relative_content);
-            UnifyTextView tv_content = (UnifyTextView) view.findViewById(R.id.tv_content);
-            TextView tv_left = (TextView) view.findViewById(R.id.tv_left);
-            View view_divider_line = view.findViewById(R.id.view_divider_line);
-            TextView tv_right = (TextView) view.findViewById(R.id.tv_right);
-
-            if (!mHasTitle) {
-                linear_title.setVisibility(View.GONE);
-                relative_content.setGravity(Gravity.CENTER);
-            }
-
-            tv_title.setText(mTitle);
-            tv_content.setText(mContent);
-
-            tv_right.setText(mRightBtnTxt);
-            tv_right.setOnClickListener(new Button.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    close();
-                    if (mRightBtnClickListener != null) {
-                        mRightBtnClickListener.onRightBtnClick();
-                    }
-                }
-            });
-
-            if (!mHasLeftBtn) {
-                tv_left.setVisibility(View.GONE);
-                view_divider_line.setVisibility(View.GONE);
-            }
-            tv_left.setText(mLeftBtnTxt);
-            tv_left.setOnClickListener(new Button.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    close();
-                    if (mLeftBtnClickListener != null) {
-                        mLeftBtnClickListener.onLeftBtnClick();
-                    }
-                }
-            });
-
-            mDialog = createDialogByView(view);
-            mDialog.setCancelable(mIsCancelable);
-            mDialog.setCanceledOnTouchOutside(mIsCancelableOutside);
+        if (!mActivity.isDestroyed() && mDialog != null && !mDialog.isShowing()) {
             mDialog.show();
         }
     }
@@ -166,17 +122,64 @@ public class UnifyDialog {
     /**
      * 隐藏对话框
      */
-    private void close() {
+    @Override
+    public void close() {
         if (!mActivity.isDestroyed() && mDialog != null && mDialog.isShowing()) {
-            sCount = 0;
             mDialog.dismiss();
         }
     }
 
-    private Dialog createDialogByView(View view) {
-        Dialog dialog = new Dialog(mActivity, R.style.UnifyDialog);// 创建自定义样式dialog
-        dialog.setContentView(view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));// 设置布局
-        return dialog;
+    private void createDialog() {
+        mDialog = new Dialog(mActivity, R.style.UnifyDialog);// 创建自定义样式dialog
+        mDialog.setCancelable(mIsCancelable);
+        mDialog.setCanceledOnTouchOutside(mIsCancelableOutside);
+        mActivity.attachDialog(this);
+
+        View view = LayoutInflater.from(mActivity).inflate(R.layout.unify_dialog, null);// 得到加载view
+
+        LinearLayout linear_title = (LinearLayout) view.findViewById(R.id.linear_title);
+        TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
+        RelativeLayout relative_content = (RelativeLayout) view.findViewById(R.id.relative_content);
+        UnifyTextView tv_content = (UnifyTextView) view.findViewById(R.id.tv_content);
+        TextView tv_left = (TextView) view.findViewById(R.id.tv_left);
+        View view_divider_line = view.findViewById(R.id.view_divider_line);
+        TextView tv_right = (TextView) view.findViewById(R.id.tv_right);
+
+        if (!mHasTitle) {
+            linear_title.setVisibility(View.GONE);
+            relative_content.setGravity(Gravity.CENTER);
+        }
+
+        tv_title.setText(mTitle);
+        tv_content.setText(mContent);
+
+        tv_right.setText(mRightBtnTxt);
+        tv_right.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                close();
+                if (mRightBtnClickListener != null) {
+                    mRightBtnClickListener.onRightBtnClick();
+                }
+            }
+        });
+
+        if (!mHasLeftBtn) {
+            tv_left.setVisibility(View.GONE);
+            view_divider_line.setVisibility(View.GONE);
+        }
+        tv_left.setText(mLeftBtnTxt);
+        tv_left.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                close();
+                if (mLeftBtnClickListener != null) {
+                    mLeftBtnClickListener.onLeftBtnClick();
+                }
+            }
+        });
+
+        mDialog.setContentView(view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));// 设置布局
     }
 
     public void setOnRightBtnClickListener(OnRightBtnClickListener rightBtnClickListener) {

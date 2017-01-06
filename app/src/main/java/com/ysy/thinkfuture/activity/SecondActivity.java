@@ -60,9 +60,7 @@ public class SecondActivity extends FutureBaseActivity implements View.OnClickLi
         LogUtils.e(event.data.toString());
     }
 
-    @Override
     public void processNetRequest(int id, ResponseResult result, boolean isCache) {
-        super.processNetRequest(id, result, isCache);
         switch (id) {
             case 111:
                 if (result.getCode() == 0) {
@@ -72,7 +70,6 @@ public class SecondActivity extends FutureBaseActivity implements View.OnClickLi
             case 133:
                 if (result.getCode() == 0 && !isCache) {
                     net1();
-                    mHttpUtils.request();
                 }
                 break;
         }
@@ -80,41 +77,30 @@ public class SecondActivity extends FutureBaseActivity implements View.OnClickLi
 
     private HttpRequestPackage net1() {
         HttpRequestPackage request = new HttpRequestPackage();
-        request.id = 111;
-        request.isSilentRequest = false;
         request.method = HttpMethod.GET;
         request.url = UrlConstants.host + "/r.txt";
         request.params.put("id", "111");
-        mHttpUtils.addRequest(request);
         return request;
     }
 
     private void net2() {
         HttpRequestPackage request = new HttpRequestPackage();
-        request.id = 122;
-        request.isSilentRequest = false;
         request.method = HttpMethod.GET;
         request.url = UrlConstants.host + "/r.txt";
         request.params.put("id", "122");
-        mHttpUtils.addRequest(request);
     }
 
     private void net3() {
         HttpRequestPackage request = new HttpRequestPackage();
-        request.id = 133;
-        request.isSilentRequest = false;
         request.method = HttpMethod.GET;
         request.url = UrlConstants.host + "/r.txt";
         request.params.put("id", "133");
-        mHttpUtils.addRequest(request);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_1:
-                net1().isSilentRequest = true;
-                mHttpUtils.request();
                 break;
             case R.id.btn_2:
                 net1();
@@ -122,11 +108,9 @@ public class SecondActivity extends FutureBaseActivity implements View.OnClickLi
                 net1();
                 net2();
                 net2();
-                mHttpUtils.request();
                 break;
             case R.id.btn_3:
                 net3();
-                mHttpUtils.request();
                 break;
             case R.id.btn_4:
                 Intent intent = new Intent(mActivity, ThirdActivity.class);

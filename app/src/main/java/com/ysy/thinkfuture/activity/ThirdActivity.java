@@ -8,7 +8,6 @@ import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.fragment.FirstFragment;
 
 import org.base.platform.bean.MessageEvent;
-import org.base.platform.bean.ResponseResult;
 import org.base.platform.utils.StatusBarUtils;
 
 public class ThirdActivity extends FutureBaseActivity {
@@ -46,11 +45,6 @@ public class ThirdActivity extends FutureBaseActivity {
     @Override
     protected void processMessageEvent(MessageEvent event) {
         LogUtils.e(event.data.toString());
-    }
-
-    @Override
-    public void processNetRequest(int id, ResponseResult result, boolean isCache) {
-        super.processNetRequest(id, result, isCache);
     }
 
 }

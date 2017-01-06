@@ -19,13 +19,9 @@ public class ExampleUnitTest {
     @Test
     public void testObjectToJson() {
         HttpRequestPackage httpRequestPackage = new HttpRequestPackage();
-        httpRequestPackage.cacheTime = 3000;
         httpRequestPackage.filePaths.add("file://sd/dd");
         httpRequestPackage.filePaths.add("file://sd/dc");
-        httpRequestPackage.id = 124332;
-        httpRequestPackage.isSilentRequest = true;
         httpRequestPackage.method = HttpMethod.GET;
-        httpRequestPackage.uniKey = 12312;
         httpRequestPackage.url = "http://www.baidu.com";
         httpRequestPackage.params.put("p1", "hello");
         httpRequestPackage.params.put("p2", "world");
@@ -42,13 +38,9 @@ public class ExampleUnitTest {
     @Test
     public void testListToJson() {
         HttpRequestPackage httpRequestPackage = new HttpRequestPackage();
-        httpRequestPackage.cacheTime = 3000;
         httpRequestPackage.filePaths.add("file://sd/dd");
         httpRequestPackage.filePaths.add("file://sd/dc");
-        httpRequestPackage.id = 124332;
-        httpRequestPackage.isSilentRequest = true;
         httpRequestPackage.method = HttpMethod.GET;
-        httpRequestPackage.uniKey = 12312;
         httpRequestPackage.url = "http://www.baidu.com";
         httpRequestPackage.params.put("p1", "hello");
         httpRequestPackage.params.put("p2", "world");
@@ -69,13 +61,9 @@ public class ExampleUnitTest {
     @Test
     public void testDeepCopy() {
         HttpRequestPackage httpRequestPackage = new HttpRequestPackage();
-        httpRequestPackage.cacheTime = 3000;
         httpRequestPackage.filePaths.add("file://sd/dd");
         httpRequestPackage.filePaths.add("file://sd/dc");
-        httpRequestPackage.id = 124332;
-        httpRequestPackage.isSilentRequest = true;
         httpRequestPackage.method = HttpMethod.GET;
-        httpRequestPackage.uniKey = 12312;
         httpRequestPackage.url = "http://www.baidu.com";
         httpRequestPackage.params.put("p1", "hello");
         httpRequestPackage.params.put("p2", "world");

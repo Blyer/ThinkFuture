@@ -20,7 +20,6 @@ public class HandleHttpRequestResult {
                 }
             });
             dialog.show();
-            return;
         } else if (result.getCode() == 2) {
             ToastUtils.show(result.getMessage());
         }

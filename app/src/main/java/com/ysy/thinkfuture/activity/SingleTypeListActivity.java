@@ -22,8 +22,6 @@ import org.base.platform.utils.ToastUtils;
 
 import java.util.List;
 
-import static org.base.platform.constants.MsgEventConstants.NET_REQUEST_ERROR;
-
 
 public class SingleTypeListActivity extends FutureBaseActivity {
 
@@ -61,7 +59,6 @@ public class SingleTypeListActivity extends FutureBaseActivity {
             @Override
             public void onRequestData() {
                 generateListRequest();
-                mHttpUtils.request();
             }
         });
         mAdapter.setOnItemClickListener(new UnifyRecyclerAdapter.OnItemClickListener() {
@@ -101,9 +98,7 @@ public class SingleTypeListActivity extends FutureBaseActivity {
         mPullToRefreshHelper.autoRefresh();
     }
 
-    @Override
     public void processNetRequest(int id, ResponseResult result, boolean isCache) {
-        super.processNetRequest(id, result, isCache);
         switch (id) {
             case 111:
                 if (result.getCode() == 0) {
@@ -120,7 +115,7 @@ public class SingleTypeListActivity extends FutureBaseActivity {
     protected void processMessageEvent(MessageEvent event) {
         super.processMessageEvent(event);
         switch (event.id) {
-            case NET_REQUEST_ERROR:
+            case 1:
                 if ((int) event.extraData == 111) {
                     mPullToRefreshHelper.processEmptyList();
                 }
@@ -130,15 +125,12 @@ public class SingleTypeListActivity extends FutureBaseActivity {
 
     private HttpRequestPackage generateListRequest() {
         HttpRequestPackage request = new HttpRequestPackage();
-        request.id = 111;
-        request.isSilentRequest = true;
         request.method = HttpMethod.GET;
         request.url = UrlConstants.host + "/list.txt";
         request.params.put("id", "111");
         request.params.put("page", mPullToRefreshHelper.mPageIndex);
         request.params.put("pageCount", mPullToRefreshHelper.mPageCount);
         request.params.put("time", System.currentTimeMillis());
-        mHttpUtils.addRequest(request);
         return request;
     }
 }

@@ -8,7 +8,6 @@ import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.activity.base.FutureBaseActivity;
 
 import org.base.platform.bean.MessageEvent;
-import org.base.platform.bean.ResponseResult;
 import org.base.platform.callback.PermissionsResultListener;
 import org.base.platform.utils.ActivityCollector;
 import org.base.platform.utils.BaseUtils;
@@ -94,11 +93,6 @@ public class MainActivity extends FutureBaseActivity implements View.OnClickList
 //                ToastUtils.show(data.getStringExtra(PhotoSingleSelectActivity.SELECT_RESULT));
                     break;
         }
-    }
-
-    @Override
-    public void processNetRequest(int id, ResponseResult result, boolean isCache) {
-        super.processNetRequest(id, result, isCache);
     }
 
     @Override
