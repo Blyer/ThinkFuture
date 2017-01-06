@@ -2,7 +2,6 @@ package com.ysy.thinkfuture.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.View;
 
 import com.ysy.thinkfuture.R;
@@ -12,6 +11,7 @@ import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.callback.PermissionsResultListener;
 import org.base.platform.utils.ActivityCollector;
+import org.base.platform.utils.BaseUtils;
 import org.base.platform.utils.JumpUtils;
 import org.base.platform.utils.StatusBarUtils;
 import org.base.platform.utils.ToastUtils;
@@ -74,13 +74,6 @@ public class MainActivity extends FutureBaseActivity implements View.OnClickList
         }
     }
 
-    public void callPhone() {
-        Intent intent = new Intent(Intent.ACTION_CALL);
-        Uri data = Uri.parse("tel:" + "10086");
-        intent.setData(data);
-        startActivity(intent);
-    }
-
     @Override
     protected void initData() {
         StatusBarUtils.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
@@ -135,7 +128,7 @@ public class MainActivity extends FutureBaseActivity implements View.OnClickList
                 requestPermissions("没这个权限没法拨打电话哦~", new String[]{Manifest.permission.CALL_PHONE}, new PermissionsResultListener() {
                     @Override
                     public void onPermissionGranted() {
-                        callPhone();
+                        BaseUtils.callPhone(mActivity, "10086");
                     }
 
                     @Override
