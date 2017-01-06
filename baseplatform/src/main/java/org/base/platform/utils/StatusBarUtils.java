@@ -7,7 +7,7 @@ import android.os.Build;
 /**
  * Created by YinShengyi on 15/9/21.
  */
-public class StatusBarCompat {
+public class StatusBarUtils {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void compat(Activity activity, int statusColor) {

@@ -9,7 +9,7 @@ import com.ysy.thinkfuture.fragment.FirstFragment;
 
 import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
-import org.base.platform.utils.StatusBarCompat;
+import org.base.platform.utils.StatusBarUtils;
 
 public class ThirdActivity extends FutureBaseActivity {
 
@@ -30,7 +30,7 @@ public class ThirdActivity extends FutureBaseActivity {
 
     @Override
     protected void initData() {
-        StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
+        StatusBarUtils.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
         initFileCacheUtils();
         FirstFragment fragment = (FirstFragment) FirstFragment.get();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

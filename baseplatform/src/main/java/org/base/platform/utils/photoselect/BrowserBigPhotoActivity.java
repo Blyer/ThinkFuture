@@ -17,7 +17,7 @@ import org.base.platform.activity.BaseActivity;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.utils.ImageUtils;
 import org.base.platform.utils.JumpUtils;
-import org.base.platform.utils.StatusBarCompat;
+import org.base.platform.utils.StatusBarUtils;
 import org.xutils.common.Callback;
 
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class BrowserBigPhotoActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        StatusBarCompat.compat(this, getResources().getColor(R.color.black));
+        StatusBarUtils.compat(this, getResources().getColor(R.color.black));
         mPosition = getIntent().getIntExtra("currentPosition", 0);
         mData = getIntent().getStringArrayListExtra("picUrls");
         setFinishAnim(R.anim.empty_anim, R.anim.anim_for_close_big_pic);

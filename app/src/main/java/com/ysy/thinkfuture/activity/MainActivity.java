@@ -13,7 +13,7 @@ import org.base.platform.bean.ResponseResult;
 import org.base.platform.callback.PermissionsResultListener;
 import org.base.platform.utils.ActivityCollector;
 import org.base.platform.utils.JumpUtils;
-import org.base.platform.utils.StatusBarCompat;
+import org.base.platform.utils.StatusBarUtils;
 import org.base.platform.utils.ToastUtils;
 import org.base.platform.utils.photoselect.PhotoMultiSelectActivity;
 import org.base.platform.view.UnifyButton;
@@ -83,7 +83,7 @@ public class MainActivity extends FutureBaseActivity implements View.OnClickList
 
     @Override
     protected void initData() {
-        StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
+        StatusBarUtils.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
         forbidSwipeFinishActivity();
         setFinishAnim(0, 0);
     }

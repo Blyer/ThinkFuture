@@ -12,7 +12,7 @@ import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.JumpUtils;
-import org.base.platform.utils.StatusBarCompat;
+import org.base.platform.utils.StatusBarUtils;
 import org.base.platform.utils.ToastUtils;
 import org.base.platform.view.UnifyButton;
 
@@ -41,7 +41,7 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
-        StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
+        StatusBarUtils.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
         forbidSwipeFinishActivity();
     }
 

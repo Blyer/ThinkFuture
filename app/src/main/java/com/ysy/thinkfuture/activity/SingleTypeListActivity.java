@@ -17,7 +17,7 @@ import org.base.platform.bean.ResponseResult;
 import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.JsonUtils;
 import org.base.platform.utils.PullToRefreshHelper;
-import org.base.platform.utils.StatusBarCompat;
+import org.base.platform.utils.StatusBarUtils;
 import org.base.platform.utils.ToastUtils;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class SingleTypeListActivity extends FutureBaseActivity {
 
     @Override
     protected void initData() {
-        StatusBarCompat.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
+        StatusBarUtils.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
         mAdapter = new SingleTypeRecyclerAdapter(this, R.layout.item_data_1);
         mPullToRefreshHelper = new PullToRefreshHelper(rv_data, mAdapter);
 

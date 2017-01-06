@@ -1,7 +1,10 @@
 package org.base.platform.utils;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Environment;
 
 import com.apkfuns.logutils.LogUtils;
@@ -130,5 +133,15 @@ public class BaseUtils {
             LogUtils.e(e);
         }
         return null;
+    }
+
+    /**
+     * 拨打电话
+     */
+    public static void callPhone(Context context, String phone) {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + phone);
+        intent.setData(data);
+        context.startActivity(intent);
     }
 }
