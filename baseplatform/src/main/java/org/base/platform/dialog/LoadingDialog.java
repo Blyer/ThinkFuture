@@ -47,7 +47,7 @@ public class LoadingDialog {
         ImageView img_loading = (ImageView) view.findViewById(R.id.img_loading);
         TextView tv_loading_text = (TextView) view.findViewById(R.id.tv_loading_text);// 提示文字
 
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(img_loading, "rotation", 360);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(img_loading, "rotation", 0, 360);
         objectAnimator.setInterpolator(new LinearInterpolator());
         objectAnimator.setDuration(2000);
         objectAnimator.setRepeatCount(ValueAnimator.INFINITE);

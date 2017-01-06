@@ -24,6 +24,9 @@ public class ToastUtils {
     }
 
     public static void show(String text) {
+        if (StringUtils.isNull(text)) {
+            return;
+        }
         toast.setText(text);
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.show();
@@ -36,6 +39,9 @@ public class ToastUtils {
     }
 
     public static void showLongToast(String text) {
+        if (StringUtils.isNull(text)) {
+            return;
+        }
         toast.setText(text);
         toast.setDuration(Toast.LENGTH_LONG);
         toast.show();
