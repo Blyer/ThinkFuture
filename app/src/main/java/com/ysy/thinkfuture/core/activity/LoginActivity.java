@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.ysy.thinkfuture.R;
-import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.constants.UrlConstants;
+import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.core.activity.helper.LoginActivityHelper;
 
 import org.base.platform.bean.HttpRequestPackage;
@@ -37,11 +37,6 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
     }
 
     @Override
-    protected void setListener() {
-        btn_login.setOnClickListener(this);
-    }
-
-    @Override
     protected void initData() {
         StatusBarUtils.compat(this, getResources().getColor(org.base.platform.R.color.blue_1));
         forbidSwipeFinishActivity();
@@ -49,8 +44,12 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
     }
 
     @Override
-    protected void begin() {
+    protected void setListener() {
+        btn_login.setOnClickListener(this);
+    }
 
+    @Override
+    protected void begin() {
     }
 
     @Override
@@ -73,14 +72,32 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
     }
 
     public void loginSucess() {
-        closeLoadingDialog();
-        Intent intent = new Intent(mActivity, MainActivity.class);
-        JumpUtils.jump(mActivity, intent);
-        finish();
+        mActivityHelper.getUserInfo(genUserInfoRequest());
     }
 
     public void loginFailed(String reason) {
         closeLoadingDialog();
         ToastUtils.show(reason);
     }
+
+    private HttpRequestPackage genUserInfoRequest() {
+        HttpRequestPackage httpRequestPackage = new HttpRequestPackage();
+        httpRequestPackage.url = UrlConstants.host + "/user.txt";
+        httpRequestPackage.method = HttpMethod.GET;
+        httpRequestPackage.params.put("token", "1s25dfg1adf2524e");
+        return httpRequestPackage;
+    }
+
+    public void getUserInfoSuccess(String info) {
+        closeLoadingDialog();
+        Intent intent = new Intent(mActivity, MainActivity.class);
+        JumpUtils.jump(mActivity, intent);
+        finish();
+    }
+
+    public void getUserInfoFailed(String reason) {
+        closeLoadingDialog();
+        ToastUtils.show(reason);
+    }
+
 }

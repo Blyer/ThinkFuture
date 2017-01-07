@@ -36,4 +36,22 @@ public class LoginActivityHelper {
             }
         });
     }
+
+    public void getUserInfo(HttpRequestPackage httpRequestPackage) {
+        mHttpUtils.request(httpRequestPackage, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(ResponseResult result) {
+                if (result.getCode() == 0) {
+                    mActivity.getUserInfoSuccess(result.getData());
+                } else {
+                    mActivity.getUserInfoFailed(result.getMessage());
+                }
+            }
+
+            @Override
+            public void failed(String reason) {
+                mActivity.getUserInfoFailed(reason);
+            }
+        });
+    }
 }

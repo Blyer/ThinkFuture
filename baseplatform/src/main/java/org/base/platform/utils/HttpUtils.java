@@ -21,6 +21,8 @@ import java.net.ConnectException;
  */
 public class HttpUtils {
 
+    private static int[] sUnifyProcessCodes = new int[]{1, 2, 3}; // 统一处理的返回码
+
     public Callback.Cancelable request(HttpRequestPackage httpRequestPackage, final OnRequestListener listener) {
         LogUtils.d(httpRequestPackage);
         RequestParams requestParams = parseParams(httpRequestPackage);
@@ -65,18 +67,27 @@ public class HttpUtils {
 
             }
 
+            private boolean isCodeUnifyProcess(int code) {
+                for (int i = 0; i < sUnifyProcessCodes.length; ++i) {
+                    if (sUnifyProcessCodes[i] == code) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
             private void handleResult(String result) {
                 if (!StringUtils.isNull(result)) {
                     LogUtils.json(result);
                     ResponseResult bean = JSONObject.parseObject(result, ResponseResult.class);
                     if (bean != null) {
                         if (listener != null) {
-                            if (bean.getCode() == 1) {
+                            if (isCodeUnifyProcess(bean.getCode())) {
                                 MessageEvent event = new MessageEvent();
                                 event.id = MsgEventConstants.NET_REQUEST_RESULT;
                                 event.data = bean;
                                 MessageEventUtils.post(event);
-                                listener.failed("");
+                                listener.failed(bean.getMessage());
                             } else {
                                 listener.success(bean);
                             }
