@@ -33,7 +33,7 @@ public class ActivityCollector {
     /**
      * 获取最后一个activity
      */
-    public static BaseActivity getLastActivity() {
+    public static BaseActivity getCurrentActivity() {
         if (!activities.isEmpty()) {
             return activities.get(activities.size() - 1);
         } else {
