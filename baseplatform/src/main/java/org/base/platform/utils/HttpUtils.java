@@ -1,5 +1,7 @@
 package org.base.platform.utils;
 
+import android.util.SparseArray;
+
 import com.alibaba.fastjson.JSONObject;
 import com.apkfuns.logutils.LogUtils;
 
@@ -23,7 +25,10 @@ public class HttpUtils {
 
     private static int[] sUnifyProcessCodes = new int[]{1, 2, 3}; // 统一处理的返回码
 
-    public Callback.Cancelable request(HttpRequestPackage httpRequestPackage, final OnRequestListener listener) {
+    private SparseArray<Callback.Cancelable> mRequests = new SparseArray<>();
+
+    public Callback.Cancelable request(final HttpRequestPackage httpRequestPackage, final OnRequestListener listener) {
+        cancelSameRequest(httpRequestPackage);
         LogUtils.d(httpRequestPackage);
         RequestParams requestParams = parseParams(httpRequestPackage);
         org.xutils.http.HttpMethod method;
@@ -64,7 +69,7 @@ public class HttpUtils {
 
             @Override
             public void onFinished() {
-
+                mRequests.remove(httpRequestPackage.hashCode());
             }
 
             private boolean isCodeUnifyProcess(int code) {
@@ -100,7 +105,17 @@ public class HttpUtils {
                 }
             }
         });
+        mRequests.put(httpRequestPackage.hashCode(), cancelable);
         return cancelable;
+    }
+
+    private void cancelSameRequest(HttpRequestPackage httpRequestPackage) {
+        Callback.Cancelable cancelable = mRequests.get(httpRequestPackage.hashCode());
+        if (cancelable != null) {
+            if (!cancelable.isCancelled()) {
+                cancelable.cancel();
+            }
+        }
     }
 
     private RequestParams parseParams(HttpRequestPackage httpRequestPackage) {

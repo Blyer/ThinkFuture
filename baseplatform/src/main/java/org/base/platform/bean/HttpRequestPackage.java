@@ -27,4 +27,11 @@ public class HttpRequestPackage implements Serializable {
      */
     public ArrayList<String> filePaths = new ArrayList<>();
 
+    @Override
+    public int hashCode() {
+        int result = url != null ? url.hashCode() : 0;
+        result = 31 * result + (params != null ? params.hashCode() : 0);
+        result = 31 * result + (filePaths != null ? filePaths.hashCode() : 0);
+        return result;
+    }
 }
