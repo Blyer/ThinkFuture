@@ -4,6 +4,7 @@ import com.ysy.thinkfuture.core.activity.LoginActivity;
 
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.ResponseResult;
+import org.base.platform.callback.OnRequestCallback;
 import org.base.platform.utils.HttpUtils;
 
 /**
@@ -20,7 +21,7 @@ public class LoginActivityHelper {
     }
 
     public void login(HttpRequestPackage httpRequestPackage) {
-        mHttpUtils.request(httpRequestPackage, new HttpUtils.OnRequestListener() {
+        mHttpUtils.request(httpRequestPackage, new OnRequestCallback() {
             @Override
             public void success(ResponseResult result) {
                 if (result.getCode() == 0) {
@@ -38,7 +39,7 @@ public class LoginActivityHelper {
     }
 
     public void getUserInfo(HttpRequestPackage httpRequestPackage) {
-        mHttpUtils.request(httpRequestPackage, new HttpUtils.OnRequestListener() {
+        mHttpUtils.request(httpRequestPackage, new OnRequestCallback() {
             @Override
             public void success(ResponseResult result) {
                 if (result.getCode() == 0) {

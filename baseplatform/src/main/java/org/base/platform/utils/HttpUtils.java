@@ -25,7 +25,7 @@ public class HttpUtils {
 
     private static int[] sUnifyProcessCodes = new int[]{1, 2, 3}; // 统一处理的返回码
 
-    private SparseArray<Callback.Cancelable> mRequests = new SparseArray<>();
+    private SparseArray<Callback.Cancelable> mRequests = new SparseArray<>(); // 正在进行中的请求
 
     public Callback.Cancelable request(final HttpRequestPackage httpRequestPackage, final OnRequestListener listener) {
         cancelSameRequest(httpRequestPackage);
@@ -70,6 +70,9 @@ public class HttpUtils {
             @Override
             public void onFinished() {
                 mRequests.remove(httpRequestPackage.hashCode());
+                if (listener != null) {
+                    listener.finish();
+                }
             }
 
             private boolean isCodeUnifyProcess(int code) {
@@ -109,6 +112,9 @@ public class HttpUtils {
         return cancelable;
     }
 
+    /**
+     * 取消已存在的相同的正在进行中的请求
+     */
     private void cancelSameRequest(HttpRequestPackage httpRequestPackage) {
         Callback.Cancelable cancelable = mRequests.get(httpRequestPackage.hashCode());
         if (cancelable != null) {
@@ -139,5 +145,7 @@ public class HttpUtils {
         void success(ResponseResult result);
 
         void failed(String reason);
+
+        void finish();
     }
 }

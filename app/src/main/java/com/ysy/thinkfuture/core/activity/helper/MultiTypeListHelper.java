@@ -4,6 +4,7 @@ import com.ysy.thinkfuture.core.activity.MultiTypeListActivity;
 
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.ResponseResult;
+import org.base.platform.callback.OnRequestCallback;
 import org.base.platform.utils.HttpUtils;
 import org.base.platform.utils.JsonUtils;
 
@@ -20,7 +21,7 @@ public class MultiTypeListHelper {
     }
 
     public void getList(HttpRequestPackage httpRequestPackage) {
-        mHttpUtils.request(httpRequestPackage, new HttpUtils.OnRequestListener() {
+        mHttpUtils.request(httpRequestPackage, new OnRequestCallback() {
             @Override
             public void success(ResponseResult result) {
                 if (result.getCode() == 0) {

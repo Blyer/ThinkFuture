@@ -3,18 +3,14 @@ package com.ysy.thinkfuture.core.fragment;
 import android.os.Bundle;
 import android.view.View;
 
-import com.apkfuns.logutils.LogUtils;
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.constants.UrlConstants;
 import com.ysy.thinkfuture.core.fragment.base.FutureBaseFragment;
 import com.ysy.thinkfuture.core.fragment.helper.FirstFragmentHelper;
 
 import org.base.platform.bean.HttpRequestPackage;
-import org.base.platform.bean.MessageEvent;
-import org.base.platform.bean.ResponseResult;
 import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.DbCacheUtils;
-import org.base.platform.utils.MessageEventUtils;
 import org.base.platform.utils.ToastUtils;
 import org.base.platform.view.UnifyButton;
 
@@ -124,12 +120,10 @@ public class FirstFragment extends FutureBaseFragment implements View.OnClickLis
     }
 
     public void getCustomerDetailSuccess(String info) {
-        closeLoadingDialog();
         ToastUtils.show(info);
     }
 
     public void getCustomerDetailFailed(String reason) {
-        closeLoadingDialog();
         ToastUtils.show(reason);
     }
 
