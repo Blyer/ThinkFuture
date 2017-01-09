@@ -10,6 +10,7 @@ import com.jude.swipbackhelper.SwipeBackHelper;
 import org.base.platform.bean.MessageEvent;
 import org.base.platform.callback.IDialog;
 import org.base.platform.callback.PermissionsResultListener;
+import org.base.platform.constants.MsgEventConstants;
 import org.base.platform.dialog.LoadingDialog;
 import org.base.platform.enums.CacheType;
 import org.base.platform.utils.ActivityCollector;
@@ -171,6 +172,18 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 总线消息处理
      */
     protected void processMessageEvent(MessageEvent event) {
+        switch (event.id) {
+            case MsgEventConstants.NET_REQUEST_SHOW_DIALOG:
+                if (ActivityCollector.getCurrentActivity() == this) {
+                    showLoadingDialog();
+                }
+                break;
+            case MsgEventConstants.NET_REQUEST_CLOSE_DIALOG:
+                if (ActivityCollector.getCurrentActivity() == this) {
+                    closeLoadingDialog();
+                }
+                break;
+        }
     }
 
     /**

@@ -7,11 +7,18 @@ import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.constants.MsgEventConstants;
 import org.base.platform.utils.ActivityCollector;
+import org.base.platform.utils.ToastUtils;
 
 /**
  * Created by YinShengyi on 2016/12/4.
  */
 public abstract class FutureBaseActivity extends BaseActivity {
+
+    @Override
+    protected void backgroundToFront() {
+        ToastUtils.show("切入前台");
+        super.backgroundToFront();
+    }
 
     @Override
     protected void processMessageEvent(MessageEvent event) {
@@ -21,16 +28,6 @@ public abstract class FutureBaseActivity extends BaseActivity {
                 if (ActivityCollector.getCurrentActivity() == this) {
                     ResponseResult result = (ResponseResult) event.data;
                     HandleHttpRequestResult.handleResult(mActivity, result);
-                }
-                break;
-            case MsgEventConstants.NET_REQUEST_SHOW_DIALOG:
-                if (ActivityCollector.getCurrentActivity() == this) {
-                    showLoadingDialog();
-                }
-                break;
-            case MsgEventConstants.NET_REQUEST_CLOSE_DIALOG:
-                if (ActivityCollector.getCurrentActivity() == this) {
-                    closeLoadingDialog();
                 }
                 break;
         }
