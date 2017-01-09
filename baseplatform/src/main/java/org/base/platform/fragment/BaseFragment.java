@@ -32,7 +32,7 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mFragmentView = inflater.inflate(getViewId(), null);
+        mFragmentView = inflater.inflate(getViewId(), container, false);
         return mFragmentView;
     }
 
@@ -51,9 +51,6 @@ public abstract class BaseFragment extends Fragment {
         mMessageEventUtils.register();
 
         mFileCacheUtils = mActivity.getFileCacheUtils();
-        if (mFileCacheUtils == null) {
-            throw new RuntimeException("请在Fragment所属Activity中初始化文件工具类");
-        }
 
         initView();
         initData();

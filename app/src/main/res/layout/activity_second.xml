@@ -1,52 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <org.base.platform.view.UnifyButton
-        android:id="@+id/btn_1"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_centerInParent="true"
-        android:layout_margin="10dp"
-        android:text="测试单个网络请求"
-        app:bgNormalColor="@color/orange_1"
-        app:bgPressedColor="@color/orange_2"
-        app:bgUnEnableColor="@color/black_2" />
+        android:background="@color/blue_1">
 
-    <org.base.platform.view.UnifyButton
-        android:id="@+id/btn_2"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_centerInParent="true"
-        android:layout_margin="10dp"
-        android:text="测试多个网络请求"
-        app:bgNormalColor="@color/orange_1"
-        app:bgPressedColor="@color/orange_2"
-        app:bgUnEnableColor="@color/black_2" />
+        <TextView
+            style="@style/LargeFontLabel"
+            android:layout_centerInParent="true"
+            android:text="测试Fragment"
+            android:textColor="@color/white" />
+    </RelativeLayout>
 
-    <org.base.platform.view.UnifyButton
-        android:id="@+id/btn_3"
+    <FrameLayout
+        android:id="@+id/fl_container"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_centerInParent="true"
-        android:layout_margin="10dp"
-        android:text="测试串联网络请求"
-        app:bgNormalColor="@color/orange_1"
-        app:bgPressedColor="@color/orange_2"
-        app:bgUnEnableColor="@color/black_2" />
-
-    <org.base.platform.view.UnifyButton
-        android:id="@+id/btn_4"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_centerInParent="true"
-        android:layout_margin="10dp"
-        android:text="测试总线消息"
-        app:bgNormalColor="@color/orange_1"
-        app:bgPressedColor="@color/orange_2"
-        app:bgUnEnableColor="@color/black_2" />
+        android:layout_height="match_parent"></FrameLayout>
 
 </LinearLayout>

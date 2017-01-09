@@ -5,12 +5,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/blue_1">
+
+        <TextView
+            style="@style/LargeFontLabel"
+            android:layout_centerInParent="true"
+            android:text="首页"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
     <org.base.platform.view.UnifyButton
         android:id="@+id/btn_1"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_margin="5dp"
-        android:text="测试网络请求"
+        android:text="测试带下拉刷新的Fragment"
         android:textColor="@color/white"
         app:bgNormalColor="@color/orange_1"
         app:bgPressedColor="@color/orange_2"

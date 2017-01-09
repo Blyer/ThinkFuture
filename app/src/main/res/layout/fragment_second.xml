@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <org.base.platform.utils.pulltorefresh.PullToRefreshContainer
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <org.base.platform.utils.pulltorefresh.PullToRefreshChildContainer
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:gravity="center"
+                android:background="@color/orange_1"
+                android:layout_marginBottom="10dp"
+                android:text="这是一个头" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        </org.base.platform.utils.pulltorefresh.PullToRefreshChildContainer>
+    </org.base.platform.utils.pulltorefresh.PullToRefreshContainer>
+
+
+</RelativeLayout>
