@@ -167,6 +167,9 @@ public class HttpUtils {
         return cancelable;
     }
 
+    /**
+     * 取消已存在的相同的正在进行中的请求
+     */
     private void cancelSameRequest(HttpRequestPackage httpRequestPackage) {
         Callback.Cancelable cancelable = mRequests.get(httpRequestPackage.hashCode());
         if (cancelable != null) {
