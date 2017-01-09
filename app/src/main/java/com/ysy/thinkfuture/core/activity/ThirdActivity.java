@@ -2,12 +2,10 @@ package com.ysy.thinkfuture.core.activity;
 
 import android.support.v4.app.FragmentTransaction;
 
-import com.apkfuns.logutils.LogUtils;
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.core.fragment.FirstFragment;
 
-import org.base.platform.bean.MessageEvent;
 import org.base.platform.utils.StatusBarUtils;
 
 public class ThirdActivity extends FutureBaseActivity {
@@ -40,11 +38,6 @@ public class ThirdActivity extends FutureBaseActivity {
     @Override
     protected void begin() {
 
-    }
-
-    @Override
-    protected void processMessageEvent(MessageEvent event) {
-        LogUtils.e(event.data.toString());
     }
 
 }

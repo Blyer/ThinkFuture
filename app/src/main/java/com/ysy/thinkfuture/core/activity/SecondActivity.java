@@ -3,13 +3,11 @@ package com.ysy.thinkfuture.core.activity;
 import android.content.Intent;
 import android.view.View;
 
-import com.apkfuns.logutils.LogUtils;
 import com.ysy.thinkfuture.R;
-import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.constants.UrlConstants;
+import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
 
 import org.base.platform.bean.HttpRequestPackage;
-import org.base.platform.bean.MessageEvent;
 import org.base.platform.bean.ResponseResult;
 import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.JumpUtils;
@@ -53,11 +51,6 @@ public class SecondActivity extends FutureBaseActivity implements View.OnClickLi
     @Override
     protected void begin() {
 
-    }
-
-    @Override
-    protected void processMessageEvent(MessageEvent event) {
-        LogUtils.e(event.data.toString());
     }
 
     public void processNetRequest(int id, ResponseResult result, boolean isCache) {

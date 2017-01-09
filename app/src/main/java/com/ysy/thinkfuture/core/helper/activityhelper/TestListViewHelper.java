@@ -1,6 +1,7 @@
-package com.ysy.thinkfuture.core.activity.helper;
+package com.ysy.thinkfuture.core.helper.activityhelper;
 
 import com.ysy.thinkfuture.core.activity.TestListViewActivity;
+import com.ysy.thinkfuture.core.helper.base.BaseHelper;
 
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.ResponseResult;
@@ -10,17 +11,16 @@ import org.base.platform.utils.JsonUtils;
 /**
  * Created by Blyer on 2017-01-06.
  */
-public class TestListViewHelper {
-    private HttpUtils mHttpUtils;
+public class TestListViewHelper extends BaseHelper {
     private TestListViewActivity mActivity;
 
     public TestListViewHelper(TestListViewActivity activity) {
+        super();
         mActivity = activity;
-        mHttpUtils = new HttpUtils();
     }
 
-    public void getList(HttpRequestPackage httpRequestPackage) {
-        mHttpUtils.request(httpRequestPackage, new HttpUtils.OnRequestListener() {
+    public void getList(HttpRequestPackage httpRequestPackage, boolean showLoadingDialog) {
+        mHttpUtils.addRequest(httpRequestPackage, new HttpUtils.OnRequestListener() {
             @Override
             public void success(ResponseResult result) {
                 if (result.getCode() == 0) {
@@ -34,7 +34,7 @@ public class TestListViewHelper {
             public void failed(String reason) {
                 mActivity.getListFailed();
             }
-        });
+        }, showLoadingDialog);
     }
 
 }

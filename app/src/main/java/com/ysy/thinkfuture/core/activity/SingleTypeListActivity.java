@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ysy.thinkfuture.R;
-import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.adapter.SingleTypeRecyclerAdapter;
 import com.ysy.thinkfuture.constants.UrlConstants;
-import com.ysy.thinkfuture.core.activity.helper.SingleTypeListHelper;
+import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
+import com.ysy.thinkfuture.core.helper.activityhelper.SingleTypeListHelper;
 import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;
 
 import org.base.platform.adapter.UnifyRecyclerAdapter;
@@ -58,7 +58,7 @@ public class SingleTypeListActivity extends FutureBaseActivity {
         mPullToRefreshHelper.setOnRequestDataListener(new PullToRefreshHelper.OnRequestDataListener() {
             @Override
             public void onRequestData() {
-                mActivityHelper.getList(generateListRequest());
+                mActivityHelper.getList(generateListRequest(), false);
             }
         });
         mAdapter.setOnItemClickListener(new UnifyRecyclerAdapter.OnItemClickListener() {

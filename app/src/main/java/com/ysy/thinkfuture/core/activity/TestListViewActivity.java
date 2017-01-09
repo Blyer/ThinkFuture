@@ -5,10 +5,10 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.ysy.thinkfuture.R;
-import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.adapter.ListViewTestAdapter;
 import com.ysy.thinkfuture.constants.UrlConstants;
-import com.ysy.thinkfuture.core.activity.helper.TestListViewHelper;
+import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
+import com.ysy.thinkfuture.core.helper.activityhelper.TestListViewHelper;
 
 import org.base.platform.adapter.UnifyListAdapter;
 import org.base.platform.bean.HttpRequestPackage;
@@ -54,7 +54,7 @@ public class TestListViewActivity extends FutureBaseActivity {
         mPullToRefreshHelper.setOnRequestDataListener(new PullToRefreshHelper.OnRequestDataListener() {
             @Override
             public void onRequestData() {
-                mActivityHelper.getList(generateListRequest());
+                mActivityHelper.getList(generateListRequest(), false);
             }
         });
         mAdapter.setOnItemClickListener(new UnifyListAdapter.OnItemClickListener() {

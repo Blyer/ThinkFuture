@@ -1,6 +1,7 @@
-package com.ysy.thinkfuture.core.activity.helper;
+package com.ysy.thinkfuture.core.helper.activityhelper;
 
-import com.ysy.thinkfuture.core.activity.MultiTypeListActivity;
+import com.ysy.thinkfuture.core.activity.SingleTypeListActivity;
+import com.ysy.thinkfuture.core.helper.base.BaseHelper;
 
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.ResponseResult;
@@ -10,17 +11,16 @@ import org.base.platform.utils.JsonUtils;
 /**
  * Created by Blyer on 2017-01-06.
  */
-public class MultiTypeListHelper {
-    private HttpUtils mHttpUtils;
-    private MultiTypeListActivity mActivity;
+public class SingleTypeListHelper extends BaseHelper {
+    private SingleTypeListActivity mActivity;
 
-    public MultiTypeListHelper(MultiTypeListActivity activity) {
+    public SingleTypeListHelper(SingleTypeListActivity activity) {
+        super();
         mActivity = activity;
-        mHttpUtils = new HttpUtils();
     }
 
-    public void getList(HttpRequestPackage httpRequestPackage) {
-        mHttpUtils.request(httpRequestPackage, new HttpUtils.OnRequestListener() {
+    public void getList(HttpRequestPackage httpRequestPackage, boolean showLoadingDialog) {
+        mHttpUtils.addRequest(httpRequestPackage, new HttpUtils.OnRequestListener() {
             @Override
             public void success(ResponseResult result) {
                 if (result.getCode() == 0) {
@@ -34,7 +34,7 @@ public class MultiTypeListHelper {
             public void failed(String reason) {
                 mActivity.getListFailed();
             }
-        });
+        }, showLoadingDialog);
     }
 
 }

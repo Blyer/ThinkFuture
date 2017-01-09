@@ -7,7 +7,7 @@ import android.widget.EditText;
 import com.ysy.thinkfuture.R;
 import com.ysy.thinkfuture.constants.UrlConstants;
 import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
-import com.ysy.thinkfuture.core.activity.helper.LoginActivityHelper;
+import com.ysy.thinkfuture.core.helper.activityhelper.LoginActivityHelper;
 
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.enums.HttpMethod;
@@ -57,7 +57,7 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.btn_login:
                 showLoadingDialog();
-                mActivityHelper.login(generateLoginRequest());
+                mActivityHelper.login(generateLoginRequest(), false);
                 break;
         }
     }
@@ -72,7 +72,7 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
     }
 
     public void loginSucess() {
-        mActivityHelper.getUserInfo(genUserInfoRequest());
+        mActivityHelper.getUserInfo(genUserInfoRequest(), false);
     }
 
     public void loginFailed(String reason) {

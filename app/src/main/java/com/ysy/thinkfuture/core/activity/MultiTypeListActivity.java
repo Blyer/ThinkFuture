@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ysy.thinkfuture.R;
-import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
 import com.ysy.thinkfuture.adapter.MultiTypeRecyclerAdapter;
 import com.ysy.thinkfuture.constants.UrlConstants;
-import com.ysy.thinkfuture.core.activity.helper.MultiTypeListHelper;
+import com.ysy.thinkfuture.core.activity.base.FutureBaseActivity;
+import com.ysy.thinkfuture.core.helper.activityhelper.MultiTypeListHelper;
 import com.ysy.thinkfuture.divider.HorizontalLineItemDivider;
 
 import org.base.platform.adapter.UnifyRecyclerAdapter;
@@ -59,7 +59,7 @@ public class MultiTypeListActivity extends FutureBaseActivity {
         mPullToRefreshHelper.setOnRequestDataListener(new PullToRefreshHelper.OnRequestDataListener() {
             @Override
             public void onRequestData() {
-                mActivityHelper.getList(generateListRequest());
+                mActivityHelper.getList(generateListRequest(), false);
             }
         });
         mAdapter.setOnItemClickListener(new UnifyRecyclerAdapter.OnItemClickListener() {

@@ -23,6 +23,16 @@ public abstract class FutureBaseActivity extends BaseActivity {
                     HandleHttpRequestResult.handleResult(mActivity, result);
                 }
                 break;
+            case MsgEventConstants.NET_REQUEST_SHOW_DIALOG:
+                if (ActivityCollector.getCurrentActivity() == this) {
+                    showLoadingDialog();
+                }
+                break;
+            case MsgEventConstants.NET_REQUEST_CLOSE_DIALOG:
+                if (ActivityCollector.getCurrentActivity() == this) {
+                    closeLoadingDialog();
+                }
+                break;
         }
     }
 

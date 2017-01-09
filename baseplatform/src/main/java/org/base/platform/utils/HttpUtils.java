@@ -1,5 +1,7 @@
 package org.base.platform.utils;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.SparseArray;
 
 import com.alibaba.fastjson.JSONObject;
@@ -17,17 +19,70 @@ import org.xutils.x;
 
 import java.io.File;
 import java.net.ConnectException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by YinShengyi on 2017/1/6.
  */
 public class HttpUtils {
 
+    private static final int MSG_REQUEST_OK = 1000;
     private static int[] sUnifyProcessCodes = new int[]{1, 2, 3}; // 统一处理的返回码
 
+    private List<RequestPackage> mPackages = new ArrayList<>();
     private SparseArray<Callback.Cancelable> mRequests = new SparseArray<>();
 
-    public Callback.Cancelable request(final HttpRequestPackage httpRequestPackage, final OnRequestListener listener) {
+    private int mRequestNum = 0;
+    private Handler mHandler;
+
+    public HttpUtils() {
+        mHandler = new Handler() {
+            int requestNum = 0;
+
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case MSG_REQUEST_OK:
+                        ++requestNum;
+                        if (requestNum == mRequestNum) {
+                            MessageEvent event = new MessageEvent();
+                            event.id = MsgEventConstants.NET_REQUEST_CLOSE_DIALOG;
+                            MessageEventUtils.post(event);
+                            requestNum = 0;
+                            mRequestNum = 0;
+                        }
+                        break;
+                }
+            }
+        };
+    }
+
+    public void addRequest(HttpRequestPackage httpRequestPackage, OnRequestListener listener, boolean showLoadingDialog) {
+        if (showLoadingDialog) {
+            RequestPackage requestPackage = new RequestPackage();
+            requestPackage.httpRequestPackage = httpRequestPackage;
+            requestPackage.requestListener = listener;
+            mPackages.add(requestPackage);
+        } else {
+            request(httpRequestPackage, listener, showLoadingDialog);
+        }
+    }
+
+    public void request() {
+        mRequestNum = mPackages.size();
+        if (mRequestNum > 0) {
+            MessageEvent event = new MessageEvent();
+            event.id = MsgEventConstants.NET_REQUEST_SHOW_DIALOG;
+            MessageEventUtils.post(event);
+            for (RequestPackage requestPackage : mPackages) {
+                request(requestPackage.httpRequestPackage, requestPackage.requestListener, false);
+            }
+            mPackages.clear();
+        }
+    }
+
+    public Callback.Cancelable request(final HttpRequestPackage httpRequestPackage, final OnRequestListener listener, final boolean isSilent) {
         cancelSameRequest(httpRequestPackage);
         LogUtils.d(httpRequestPackage);
         RequestParams requestParams = parseParams(httpRequestPackage);
@@ -70,6 +125,9 @@ public class HttpUtils {
             @Override
             public void onFinished() {
                 mRequests.remove(httpRequestPackage.hashCode());
+                if (!isSilent) {
+                    mHandler.sendEmptyMessage(MSG_REQUEST_OK);
+                }
             }
 
             private boolean isCodeUnifyProcess(int code) {
@@ -139,5 +197,10 @@ public class HttpUtils {
         void success(ResponseResult result);
 
         void failed(String reason);
+    }
+
+    class RequestPackage {
+        HttpRequestPackage httpRequestPackage;
+        OnRequestListener requestListener;
     }
 }

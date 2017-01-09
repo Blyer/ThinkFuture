@@ -1,6 +1,7 @@
-package com.ysy.thinkfuture.core.activity.helper;
+package com.ysy.thinkfuture.core.helper.activityhelper;
 
 import com.ysy.thinkfuture.core.activity.LoginActivity;
+import com.ysy.thinkfuture.core.helper.base.BaseHelper;
 
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.ResponseResult;
@@ -9,18 +10,17 @@ import org.base.platform.utils.HttpUtils;
 /**
  * Created by YinShengyi on 2017/1/6.
  */
-public class LoginActivityHelper {
+public class LoginActivityHelper extends BaseHelper {
 
     private LoginActivity mActivity;
-    private HttpUtils mHttpUtils;
 
     public LoginActivityHelper(LoginActivity activity) {
+        super();
         mActivity = activity;
-        mHttpUtils = new HttpUtils();
     }
 
-    public void login(HttpRequestPackage httpRequestPackage) {
-        mHttpUtils.request(httpRequestPackage, new HttpUtils.OnRequestListener() {
+    public void login(HttpRequestPackage httpRequestPackage, boolean showLoadingDialog) {
+        mHttpUtils.addRequest(httpRequestPackage, new HttpUtils.OnRequestListener() {
             @Override
             public void success(ResponseResult result) {
                 if (result.getCode() == 0) {
@@ -34,11 +34,11 @@ public class LoginActivityHelper {
             public void failed(String reason) {
                 mActivity.loginFailed(reason);
             }
-        });
+        }, showLoadingDialog);
     }
 
-    public void getUserInfo(HttpRequestPackage httpRequestPackage) {
-        mHttpUtils.request(httpRequestPackage, new HttpUtils.OnRequestListener() {
+    public void getUserInfo(HttpRequestPackage httpRequestPackage, boolean showLoadingDialog) {
+        mHttpUtils.addRequest(httpRequestPackage, new HttpUtils.OnRequestListener() {
             @Override
             public void success(ResponseResult result) {
                 if (result.getCode() == 0) {
@@ -52,6 +52,7 @@ public class LoginActivityHelper {
             public void failed(String reason) {
                 mActivity.getUserInfoFailed(reason);
             }
-        });
+        }, showLoadingDialog);
     }
+
 }

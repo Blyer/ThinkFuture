@@ -1,7 +1,7 @@
-package com.ysy.thinkfuture.core.fragment.helper;
+package com.ysy.thinkfuture.core.helper.fragmenthelper;
 
-import com.ysy.thinkfuture.constants.HttpRequestCode;
 import com.ysy.thinkfuture.core.fragment.FirstFragment;
+import com.ysy.thinkfuture.core.helper.base.BaseHelper;
 
 import org.base.platform.bean.HttpRequestPackage;
 import org.base.platform.bean.ResponseResult;
@@ -10,17 +10,16 @@ import org.base.platform.utils.HttpUtils;
 /**
  * Created by Blyer on 2017-01-06.
  */
-public class FirstFragmentHelper {
-    private HttpUtils mHttpUtils;
+public class FirstFragmentHelper extends BaseHelper {
     private FirstFragment mFragment;
 
     public FirstFragmentHelper(FirstFragment fragment) {
+        super();
         mFragment = fragment;
-        mHttpUtils = new HttpUtils();
     }
 
-    public void getCustomerDetail(HttpRequestPackage httpRequestPackage) {
-        mHttpUtils.request(httpRequestPackage, new HttpUtils.OnRequestListener() {
+    public void getCustomerDetail(HttpRequestPackage httpRequestPackage, boolean showLoadingDialog) {
+        mHttpUtils.addRequest(httpRequestPackage, new HttpUtils.OnRequestListener() {
             @Override
             public void success(ResponseResult result) {
                 if (result.getCode() == 0) {
@@ -34,11 +33,11 @@ public class FirstFragmentHelper {
             public void failed(String reason) {
                 mFragment.getCustomerDetailFailed(reason);
             }
-        });
+        }, showLoadingDialog);
     }
 
-    public void getCustomerSource(HttpRequestPackage httpRequestPackage) {
-        mHttpUtils.request(httpRequestPackage, new HttpUtils.OnRequestListener() {
+    public void getCustomerSource(HttpRequestPackage httpRequestPackage, boolean showLoadingDialog) {
+        mHttpUtils.addRequest(httpRequestPackage, new HttpUtils.OnRequestListener() {
             @Override
             public void success(ResponseResult result) {
                 if (result.getCode() == 0) {
@@ -50,11 +49,11 @@ public class FirstFragmentHelper {
             public void failed(String reason) {
 
             }
-        });
+        }, showLoadingDialog);
     }
 
-    public void getCustomerGrade(HttpRequestPackage httpRequestPackage) {
-        mHttpUtils.request(httpRequestPackage, new HttpUtils.OnRequestListener() {
+    public void getCustomerGrade(HttpRequestPackage httpRequestPackage, boolean showLoadingDialog) {
+        mHttpUtils.addRequest(httpRequestPackage, new HttpUtils.OnRequestListener() {
             @Override
             public void success(ResponseResult result) {
                 if (result.getCode() == 0) {
@@ -66,6 +65,7 @@ public class FirstFragmentHelper {
             public void failed(String reason) {
 
             }
-        });
+        }, showLoadingDialog);
     }
+
 }
