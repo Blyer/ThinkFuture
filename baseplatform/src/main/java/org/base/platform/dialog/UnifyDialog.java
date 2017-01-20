@@ -1,6 +1,7 @@
 package org.base.platform.dialog;
 
 import android.app.Dialog;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -141,6 +142,7 @@ public class UnifyDialog implements IDialog {
         TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
         RelativeLayout relative_content = (RelativeLayout) view.findViewById(R.id.relative_content);
         UnifyTextView tv_content = (UnifyTextView) view.findViewById(R.id.tv_content);
+        tv_content.setMovementMethod(ScrollingMovementMethod.getInstance());
         TextView tv_left = (TextView) view.findViewById(R.id.tv_left);
         View view_divider_line = view.findViewById(R.id.view_divider_line);
         TextView tv_right = (TextView) view.findViewById(R.id.tv_right);
