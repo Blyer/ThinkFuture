@@ -32,14 +32,22 @@ public class LoadingDialog implements IDialog {
     @Override
     public void show() {
         if (!mActivity.isDestroyed() && mLoadingDialog != null && !mLoadingDialog.isShowing()) {
-            mLoadingDialog.show();
+            try {
+                mLoadingDialog.show();
+            } catch (Exception e) {
+
+            }
         }
     }
 
     @Override
     public void close() {
         if (!mActivity.isDestroyed() && mLoadingDialog != null && mLoadingDialog.isShowing()) {
-            mLoadingDialog.dismiss();
+            try {
+                mLoadingDialog.dismiss();
+            } catch (Exception e) {
+
+            }
         }
     }
 
@@ -67,7 +75,6 @@ public class LoadingDialog implements IDialog {
         mLoadingDialog = new Dialog(mActivity, R.style.LoadingDialog);
         mLoadingDialog.setCanceledOnTouchOutside(false);
         mLoadingDialog.setCancelable(true);
-        mActivity.attachDialog(this);
         mLoadingDialog.addContentView(ll_loading, new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mLoadingDialog.setContentView(ll_loading);

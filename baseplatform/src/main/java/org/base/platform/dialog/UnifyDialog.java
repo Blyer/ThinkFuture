@@ -116,7 +116,11 @@ public class UnifyDialog implements IDialog {
     @Override
     public void show() {
         if (!mActivity.isDestroyed() && mDialog != null && !mDialog.isShowing()) {
-            mDialog.show();
+            try {
+                mDialog.show();
+            } catch (Exception e) {
+
+            }
         }
     }
 
@@ -126,7 +130,11 @@ public class UnifyDialog implements IDialog {
     @Override
     public void close() {
         if (!mActivity.isDestroyed() && mDialog != null && mDialog.isShowing()) {
-            mDialog.dismiss();
+            try {
+                mDialog.dismiss();
+            } catch (Exception e) {
+
+            }
         }
     }
 
@@ -134,7 +142,6 @@ public class UnifyDialog implements IDialog {
         mDialog = new Dialog(mActivity, R.style.UnifyDialog);// 创建自定义样式dialog
         mDialog.setCancelable(mIsCancelable);
         mDialog.setCanceledOnTouchOutside(mIsCancelableOutside);
-        mActivity.attachDialog(this);
 
         View view = LayoutInflater.from(mActivity).inflate(R.layout.unify_dialog, null);// 得到加载view
 

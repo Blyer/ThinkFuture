@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.jude.swipbackhelper.SwipeBackHelper;
 
 import org.base.platform.bean.MessageEvent;
-import org.base.platform.callback.IDialog;
 import org.base.platform.callback.PermissionsResultListener;
 import org.base.platform.constants.MsgEventConstants;
 import org.base.platform.dialog.LoadingDialog;
@@ -18,9 +17,6 @@ import org.base.platform.utils.FileCacheUtils;
 import org.base.platform.utils.MessageEventUtils;
 import org.base.platform.utils.PermissionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by YinShengyi on 2016/11/18.
  * 基础Activity，所有Activity必须继承此Activity
@@ -29,7 +25,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected BaseActivity mActivity; // 标识自己
     private LoadingDialog mLoadingDialog; // 显示加载中弹框
-    private List<IDialog> mDialogs = new ArrayList<>(); // 所有依附于本activity的dialog
     protected FileCacheUtils mFileCacheUtils; // 文件存储工具
     private MessageEventUtils mMessageEventUtils; // 总线消息工具
     private boolean mIsDestroyed = false; // 当前activity是否被销毁
@@ -101,8 +96,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        for (IDialog dialog : mDialogs) {
-            dialog.close();
+        if (mLoadingDialog != null) {
+            mLoadingDialog.close();
         }
         if (mFileCacheUtils != null) {
             mFileCacheUtils.close();
@@ -278,13 +273,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public FileCacheUtils getFileCacheUtils() {
         return mFileCacheUtils;
-    }
-
-    /**
-     * 当前对话框依附于当前Activity中，每个Dialog必须使用此方法
-     */
-    public void attachDialog(IDialog dialog) {
-        mDialogs.add(dialog);
     }
 
 }
