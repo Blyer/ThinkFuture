@@ -11,4 +11,11 @@ public class StringUtils {
     public static boolean isNull(String content) {
         return content == null || "".equals(content);
     }
+
+    public static String getString(String src) {
+        if (src == null) {
+            return "";
+        }
+        return src;
+    }
 }

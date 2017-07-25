@@ -57,7 +57,7 @@ public class LoginActivity extends FutureBaseActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.btn_login:
                 showLoadingDialog();
-                mActivityHelper.login(generateLoginRequest(), false);
+                getUserInfoSuccess("");
                 break;
         }
     }

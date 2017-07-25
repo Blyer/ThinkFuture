@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
  */
 public class PullToRefreshChildContainer extends LinearLayout {
     private View scrollView;
+    private View headerView;
 
     public PullToRefreshChildContainer(Context context) {
         this(context, null);
@@ -30,6 +31,21 @@ public class PullToRefreshChildContainer extends LinearLayout {
 
     public void setScrollView(View view) {
         scrollView = view;
+    }
+
+    public void addHeader(View view) {
+        if (headerView != null) {
+            removeHeader();
+        }
+        headerView = view;
+        addView(view, 0);
+    }
+
+    public void removeHeader() {
+        if (headerView != null) {
+            removeView(headerView);
+            headerView = null;
+        }
     }
 
     @Override

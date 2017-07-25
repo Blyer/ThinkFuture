@@ -12,4 +12,5 @@
     <dimen name="normal_corner_size">6dp</dimen><!--普通圆角-->
     <dimen name="small_corner_size">4dp</dimen><!--小圆角-->
 
+    <dimen name="toggle_radio_view_radius">2dp</dimen>
 </resources>

@@ -17,6 +17,8 @@ import org.base.platform.enums.HttpMethod;
 import org.base.platform.utils.PullToRefreshHelper;
 import org.base.platform.utils.StatusBarUtils;
 import org.base.platform.utils.ToastUtils;
+import org.base.platform.utils.pulltorefresh.PullToRefreshChildContainer;
+import org.base.platform.view.BaseHorizontalScrollView;
 
 import java.util.List;
 
@@ -24,6 +26,8 @@ import java.util.List;
 public class SingleTypeListActivity extends FutureBaseActivity {
 
     private RecyclerView rv_data;
+    private BaseHorizontalScrollView header;
+    private PullToRefreshChildContainer ll_data;
 
     private SingleTypeRecyclerAdapter mAdapter;
 
@@ -38,6 +42,9 @@ public class SingleTypeListActivity extends FutureBaseActivity {
     @Override
     protected void initView() {
         rv_data = (RecyclerView) findViewById(R.id.rv_data);
+        header = (BaseHorizontalScrollView) findViewById(R.id.header);
+        ll_data = (PullToRefreshChildContainer) findViewById(R.id.ll_data);
+        ll_data.removeView(header);
     }
 
     @Override
@@ -66,6 +73,7 @@ public class SingleTypeListActivity extends FutureBaseActivity {
             public void onItemClick(View view, int position) {
                 String item = mAdapter.getItem(position);
                 ToastUtils.show("Click:" + item);
+                ll_data.addHeader(header);
             }
         });
         mAdapter.setOnItemLongClickListener(new UnifyRecyclerAdapter.OnItemLongClickListener() {

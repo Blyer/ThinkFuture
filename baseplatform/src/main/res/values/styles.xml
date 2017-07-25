@@ -166,4 +166,18 @@
     </style>
     <!--内容样式结束-->
 
+    <declare-styleable name="ToggleRadioView">
+        <attr name="left_text" format="reference|string" />
+        <attr name="middle_text" format="reference|string" />
+        <attr name="right_text" format="reference|string" />
+        <attr name="select_color" format="reference|color" />
+        <attr name="unselect_color" format="reference|color" />
+        <attr name="text_size" format="reference|dimension" />
+        <attr name="default_select" format="enum">
+            <enum name="left" value="0" />
+            <enum name="middle" value="1" />
+            <enum name="right" value="2" />
+        </attr>
+    </declare-styleable>
+
 </resources>
